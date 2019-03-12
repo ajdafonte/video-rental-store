@@ -8,7 +8,7 @@ import com.casumo.hometest.videorentalstore.films.domain.Film;
 
 
 /**
- * FilmService class.
+ * FilmService interface.
  */
 @Service
 public interface FilmService

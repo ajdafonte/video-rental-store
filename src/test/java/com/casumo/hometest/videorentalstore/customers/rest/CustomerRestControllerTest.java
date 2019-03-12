@@ -1,4 +1,4 @@
-package com.casumo.hometest.videorentalstore.films.rest;
+package com.casumo.hometest.videorentalstore.customers.rest;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -30,276 +30,262 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.casumo.hometest.videorentalstore.common.error.VideoRentalStoreApiError;
 import com.casumo.hometest.videorentalstore.common.error.VideoRentalStoreApiException;
 import com.casumo.hometest.videorentalstore.customers.CustomerTestHelper;
-import com.casumo.hometest.videorentalstore.films.FilmTestHelper;
-import com.casumo.hometest.videorentalstore.films.bizz.FilmService;
-import com.casumo.hometest.videorentalstore.films.domain.Film;
+import com.casumo.hometest.videorentalstore.customers.bizz.CustomerService;
+import com.casumo.hometest.videorentalstore.customers.domain.Customer;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 
 /**
- * FilmRestControllerTest class - FilmRestController test class.
+ * CustomerRestControllerTest class - CustomerRestController test class.
  */
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(FilmRestController.class)
-class FilmRestControllerTest
+@WebMvcTest(CustomerRestController.class)
+class CustomerRestControllerTest
 {
-    private static final String FILMS_URI = "/films";
-    private static final String FILM_BY_ID_URI = "/films/{id}";
+    private static final String CUSTOMERS_URI = "/customers";
+    private static final String CUSTOMER_BY_ID_URI = "/customers/{id}";
 
     private static final String INVALID_REQUEST = "Invalid request";
     private static final String INVALID_REQUEST_PARAMETER = "Invalid request parameter";
     private static final String RESOURCE_NOT_FOUND = "Resource not found";
     private static final String RESOURCE_ALREADY_EXISTS = "Resource already exists";
 
-//    private static final long MOCK_NEW_FILM_ID;
-//    private static final String MOCK_NEW_FILM_NAME;
-//    private static final FilmType MOCK_NEW_FILM_TYPE;
-//    private static final Film MOCK_NEW_FILM;
-//
-//    static
-//    {
-//        MOCK_NEW_FILM_ID = 4L;
-//        MOCK_NEW_FILM_NAME = "Toy Story";
-//        MOCK_NEW_FILM_TYPE = FilmType.REGULAR;
-//        MOCK_NEW_FILM = FilmTestHelper.generateFilm(MOCK_NEW_FILM_ID, MOCK_NEW_FILM_NAME, MOCK_NEW_FILM_TYPE);
-//    }
-
     @Autowired
     private MockMvc mvc;
 
     @MockBean
-    private FilmService filmService;
+    private CustomerService customerService;
 
-    // get all films - ok
+    // get all customers - ok
     @Test
-    void givenInventoryOfFilms_whenGetAllFilms_thenReturnAllFilms() throws Exception
+    void givenExistentCustomers_whenGetAllCustomers_thenReturnAllCustomers() throws Exception
     {
         // given
-        final List<Film> allFilms = Arrays.asList(FilmTestHelper.MOCK_FILM1, FilmTestHelper.MOCK_FILM2);
-        final List<FilmRest> expectedResult = Arrays.asList(FilmTestHelper.MOCK_FILM_REST1, FilmTestHelper.MOCK_FILM_REST2);
-        doReturn(allFilms).when(filmService).findAll();
+        final List<Customer> allCustomers = Arrays.asList(CustomerTestHelper.MOCK_CUSTOMER1, CustomerTestHelper.MOCK_CUSTOMER2);
+        final List<CustomerRest> expectedResult = Arrays.asList(CustomerTestHelper.MOCK_CUSTOMER_REST1, CustomerTestHelper.MOCK_CUSTOMER_REST2);
+        doReturn(allCustomers).when(customerService).findAll();
         final String expectedContent = generateSuccessBody(expectedResult);
 
         // when
-        final ResultActions result = mvc.perform(get(FILMS_URI)
+        final ResultActions result = mvc.perform(get(CUSTOMERS_URI)
             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 
         // then
         result.andExpect(MockMvcResultMatchers.status().isOk());
         result.andExpect(MockMvcResultMatchers.content().string(expectedContent));
-        verify(filmService, times(1)).findAll();
-        verifyNoMoreInteractions(filmService);
+        verify(customerService, times(1)).findAll();
+        verifyNoMoreInteractions(customerService);
     }
 
-    // get all films - empty data
+    // get all customers - empty data
     @Test
-    void givenEmptyInventoryOfFilms_whenGetAllFilms_thenReturnEmptyResult() throws Exception
+    void givenEmptyCustomers_whenGetAllCustomers_thenReturnEmptyResult() throws Exception
     {
         // given
         final List emptyList = Collections.emptyList();
-        doReturn(emptyList).when(filmService).findAll();
+        doReturn(emptyList).when(customerService).findAll();
         final String expectedContent = generateSuccessBody(emptyList);
 
         // when
-        final ResultActions result = mvc.perform(get(FILMS_URI)
+        final ResultActions result = mvc.perform(get(CUSTOMERS_URI)
             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 
         // then
         result.andExpect(MockMvcResultMatchers.status().isOk());
         result.andExpect(MockMvcResultMatchers.content().string(expectedContent));
-        verify(filmService, times(1)).findAll();
-        verifyNoMoreInteractions(filmService);
+        verify(customerService, times(1)).findAll();
+        verifyNoMoreInteractions(customerService);
     }
 
-    // get film by id - ok
+    // get customer by id - ok
     @Test
-    void givenExistentId_whenGetFilmById_thenReturnExistentFilm() throws Exception
+    void givenExistentId_whenGetCustomerById_thenReturnExistentCustomer() throws Exception
     {
         // given
-        final Film mockFilm = FilmTestHelper.MOCK_FILM1;
-        final FilmRest expectedFilm = FilmTestHelper.MOCK_FILM_REST1;
-        doReturn(mockFilm).when(filmService).findBy(anyLong());
-        final String expectedContent = generateSuccessBody(expectedFilm);
+        final Customer mockCustomer = CustomerTestHelper.MOCK_CUSTOMER1;
+        final CustomerRest expectedCustomer = CustomerTestHelper.MOCK_CUSTOMER_REST1;
+        doReturn(mockCustomer).when(customerService).findBy(anyLong());
+        final String expectedContent = generateSuccessBody(expectedCustomer);
 
         // when
-        final ResultActions result = mvc.perform(get(FILM_BY_ID_URI, expectedFilm.getId())
+        final ResultActions result = mvc.perform(get(CUSTOMER_BY_ID_URI, expectedCustomer.getId())
             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 
         // then
         result.andExpect(MockMvcResultMatchers.status().isOk());
         result.andExpect(MockMvcResultMatchers.content().string(expectedContent));
-        verify(filmService, times(1)).findBy(mockFilm.getId());
-        verifyNoMoreInteractions(filmService);
+        verify(customerService, times(1)).findBy(mockCustomer.getId());
+        verifyNoMoreInteractions(customerService);
     }
 
-    // get film by id - invalid id (not a number)
+    // get customer by id - invalid id (not a number)
     @Test
-    void givenInvalidId_whenGetFilmById_thenReturnBadRequest() throws Exception
+    void givenInvalidId_whenGetCustomerById_thenReturnBadRequest() throws Exception
     {
         // given
-        final String unknownFilmId = "lol";
+        final String unknownCustomerId = "lol";
 
         // then
-        final ResultActions result = mvc.perform(get(FILM_BY_ID_URI, unknownFilmId)
+        final ResultActions result = mvc.perform(get(CUSTOMER_BY_ID_URI, unknownCustomerId)
             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 
         // then
         result.andExpect(MockMvcResultMatchers.status().isBadRequest());
         result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST_PARAMETER)));
-        verifyZeroInteractions(filmService);
+        verifyZeroInteractions(customerService);
     }
 
-    // get film by id - not found in db
+    // get customer by id - not found in db
     @Test
-    void givenNonExistentId_whenGetFilmById_thenReturnNotFound() throws Exception
+    void givenNonExistentId_whenGetCustomerById_thenReturnNotFound() throws Exception
     {
         // given
-        final long unknownFilmId = FilmTestHelper.MOCK_UNKNOWN_ID;
+        final long unknownCustomerId = CustomerTestHelper.MOCK_UNKNOWN_ID;
         doThrow(new VideoRentalStoreApiException(VideoRentalStoreApiError.UNKNOWN_RESOURCE, "Entity was not found."))
-            .when(filmService)
-            .findBy(unknownFilmId);
+            .when(customerService)
+            .findBy(unknownCustomerId);
 
         // when
-        final ResultActions result = mvc.perform(get(FILM_BY_ID_URI, unknownFilmId)
+        final ResultActions result = mvc.perform(get(CUSTOMER_BY_ID_URI, unknownCustomerId)
             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 
         // then
         result.andExpect(MockMvcResultMatchers.status().isNotFound());
         result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(RESOURCE_NOT_FOUND)));
-        verify(filmService, times(1)).findBy(unknownFilmId);
-        verifyNoMoreInteractions(filmService);
+        verify(customerService, times(1)).findBy(unknownCustomerId);
+        verifyNoMoreInteractions(customerService);
     }
 
-    // save film - ok
+    // save customer - ok
     @Test
-    void givenValidRequest_whenInsertNewFilm_thenReturnNewFilm() throws Exception
+    void givenValidRequest_whenInsertNewCustomer_thenReturnNewCustomer() throws Exception
     {
         // given
-        final Film newFilm = FilmTestHelper.MOCK_NEW_FILM;
-        doReturn(newFilm).when(filmService).insert(any(Film.class));
-        final InsertFilmRequestBody mockRequestBody = FilmTestHelper.MOCK_INSERT_REQ_BODY1;
+        final Customer newCustomer = CustomerTestHelper.MOCK_NEW_CUSTOMER;
+        doReturn(newCustomer).when(customerService).insert(any(Customer.class));
+        final InsertCustomerRequestBody mockRequestBody = CustomerTestHelper.MOCK_INSERT_REQ_BODY1;
         final String requestBody = generateRequestBody(mockRequestBody);
-        final FilmRest expectedResult = FilmTestHelper.MOCK_NEW_FILM_REST;
+        final CustomerRest expectedResult = CustomerTestHelper.MOCK_NEW_CUSTOMER_REST;
         final String expectedContent = generateSuccessBody(expectedResult);
 
         // when
-        final ResultActions result = mvc.perform(post(FILMS_URI)
+        final ResultActions result = mvc.perform(post(CUSTOMERS_URI)
             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
             .content(requestBody));
 
         // then
         result.andExpect(MockMvcResultMatchers.status().isCreated());
         result.andExpect(MockMvcResultMatchers.content().string(expectedContent));
-        verify(filmService, times(1)).insert(any(Film.class));
-        verifyNoMoreInteractions(filmService);
+        verify(customerService, times(1)).insert(any(Customer.class));
+        verifyNoMoreInteractions(customerService);
     }
 
-    // save film - invalid body (null body)
+    // save customer - invalid body (null body)
     @Test
-    void givenNullRequestBody_whenInsertNewFilm_thenReturnBadRequest() throws Exception
+    void givenNullRequestBody_whenInsertNewCustomer_thenReturnBadRequest() throws Exception
     {
         // given
         final String requestBody = "{}";
 
         // when
-        final ResultActions result = mvc.perform(post(FILMS_URI)
+        final ResultActions result = mvc.perform(post(CUSTOMERS_URI)
             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
             .content(requestBody));
 
         // then
         result.andExpect(MockMvcResultMatchers.status().isBadRequest());
         result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST)));
-        verifyZeroInteractions(filmService);
+        verifyZeroInteractions(customerService);
     }
 
-    // save film - invalid body (body with missing values)
+    // save customer - invalid body (body with missing values)
     @Test
-    void givenIncompleteRequestBody_whenInsertNewFilm_thenReturnBadRequest() throws Exception
+    void givenIncompleteRequestBody_whenInsertNewCustomer_thenReturnBadRequest() throws Exception
     {
         // given
-        final InsertFilmRequestBody parameter = FilmTestHelper.generateInsertFilmRequestBody(CustomerTestHelper.MOCK_USERNAME1);
+        final InsertCustomerRequestBody parameter = CustomerTestHelper.generateInsertCustomerRequestBody(CustomerTestHelper.MOCK_USERNAME1);
         final String requestBody = generateRequestBody(parameter);
 
         // when
-        final ResultActions result = mvc.perform(post(FILMS_URI)
+        final ResultActions result = mvc.perform(post(CUSTOMERS_URI)
             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
             .content(requestBody));
 
         // then
         result.andExpect(MockMvcResultMatchers.status().isBadRequest());
         result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST)));
-        verifyZeroInteractions(filmService);
+        verifyZeroInteractions(customerService);
     }
 
-    // save film - invalid body (body with invalid values)
+    // save customer - invalid body (body with invalid values)
     @Test
-    void givenRequestBodyWithInvalidValues_whenInsertNewFilm_thenReturnBadRequest() throws Exception
+    void givenRequestBodyWithInvalidValues_whenInsertNewCustomer_thenReturnBadRequest() throws Exception
     {
         // given
-        final InsertFilmRequestBody parameter = FilmTestHelper.generateInsertFilmRequestBody("", FilmTestHelper.MOCK_FILM_TYPE2);
+        final InsertCustomerRequestBody parameter = CustomerTestHelper.generateInsertCustomerRequestBody("", "");
         final String requestBody = generateRequestBody(parameter);
 
         // when
-        final ResultActions result = mvc.perform(post(FILMS_URI)
+        final ResultActions result = mvc.perform(post(CUSTOMERS_URI)
             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
             .content(requestBody));
 
         // then
         result.andExpect(MockMvcResultMatchers.status().isBadRequest());
         result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST)));
-        verifyZeroInteractions(filmService);
+        verifyZeroInteractions(customerService);
     }
 
-    // save film - nok (film already existent)
+    // save customer - nok (customer already existent)
     @Test
-    void givenRequestBodyWithExistentFilm_whenInsertNewFilm_thenReturnConflict() throws Exception
+    void givenRequestBodyWithExistentCustomer_whenInsertNewCustomer_thenReturnConflict() throws Exception
     {
         // given
-        final InsertFilmRequestBody parameter = FilmTestHelper.MOCK_INSERT_REQ_BODY1;
+        final InsertCustomerRequestBody parameter = CustomerTestHelper.MOCK_INSERT_REQ_BODY1;
         final String requestBody = generateRequestBody(parameter);
         doThrow(new VideoRentalStoreApiException(VideoRentalStoreApiError.RESOURCE_ALREADY_EXISTS,
             "Violation of primary key or unique constraint."))
-            .when(filmService)
-            .insert(any(Film.class));
+            .when(customerService)
+            .insert(any(Customer.class));
 
         // when
-        final ResultActions result = mvc.perform(post(FILMS_URI)
+        final ResultActions result = mvc.perform(post(CUSTOMERS_URI)
             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
             .content(requestBody));
 
         // then
         result.andExpect(MockMvcResultMatchers.status().isConflict());
         result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(RESOURCE_ALREADY_EXISTS)));
-        verify(filmService, times(1)).insert(any(Film.class));
-        verify(filmService, times(0)).findBy(anyLong());
-        verifyNoMoreInteractions(filmService);
+        verify(customerService, times(1)).insert(any(Customer.class));
+        verify(customerService, times(0)).findBy(anyLong());
+        verifyNoMoreInteractions(customerService);
     }
 
-    private JsonElement generateJsonObject(final FilmRest filmRest)
+    private JsonElement generateJsonObject(final CustomerRest customerRest)
     {
-        return new Gson().toJsonTree(filmRest);
+        return new Gson().toJsonTree(customerRest);
     }
 
-    private JsonElement generateJsonObject(final InsertFilmRequestBody requestBody)
+    private JsonElement generateJsonObject(final InsertCustomerRequestBody requestBody)
     {
         return new Gson().toJsonTree(requestBody);
     }
 
-    private String generateSuccessBody(final List<FilmRest> films)
+    private String generateSuccessBody(final List<CustomerRest> customers)
     {
         final JsonArray jsonArray = new JsonArray();
-        films.forEach(filmRest -> jsonArray.add(generateJsonObject(filmRest)));
+        customers.forEach(customerRest -> jsonArray.add(generateJsonObject(customerRest)));
         return jsonArray.toString();
     }
 
-    private String generateSuccessBody(final FilmRest film)
+    private String generateSuccessBody(final CustomerRest customer)
     {
-        return generateJsonObject(film).toString();
+        return generateJsonObject(customer).toString();
     }
 
-    private String generateRequestBody(final InsertFilmRequestBody parameter)
+    private String generateRequestBody(final InsertCustomerRequestBody parameter)
     {
         return generateJsonObject(parameter).toString();
     }

@@ -49,6 +49,7 @@ class FilmJdbcRepositoryTest
         final List<Film> result = filmRepository.findAll();
 
         // then
+        assertNotNull(result);
         assertFalse(result.isEmpty());
         assertThat(result.size(), is(INIT_NUM_FILMS));
         assertThat(result, Matchers.hasItem(FilmTestHelper.MOCK_FILM1));

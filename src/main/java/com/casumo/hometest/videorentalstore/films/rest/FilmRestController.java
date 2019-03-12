@@ -68,17 +68,16 @@ public class FilmRestController
         @ApiResponse(code = 400, message = "Bad Request."),
         @ApiResponse(code = 404, message = "The film specified by the ID was not found.")})
     FilmRest getFilm(@PathVariable
-                     @ApiParam(value = "The ID of the film.", required = true) final Long id)
+                     @ApiParam(value = "The ID of the film.", required = true) final long id)
     {
         return FilmRestMapper.map(filmService.findBy(id));
     }
 
     @PostMapping
-    @ApiOperation(value = "Insert a film int.")
+    @ApiOperation(value = "Insert a new film in the system.")
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "A film entry was created with success."),
+        @ApiResponse(code = 201, message = "A new film was created with success."),
         @ApiResponse(code = 400, message = "Bad Request."),
-
     })
     @ResponseStatus(HttpStatus.CREATED)
     FilmRest insertFilm(@RequestBody

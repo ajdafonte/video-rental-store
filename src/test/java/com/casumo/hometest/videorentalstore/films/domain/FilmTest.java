@@ -9,7 +9,7 @@ import com.casumo.hometest.videorentalstore.films.FilmTestHelper;
 
 
 /**
- * FilmTest class - Test FilmTest class.
+ * FilmTest class - Test Film class.
  */
 class FilmTest
 {

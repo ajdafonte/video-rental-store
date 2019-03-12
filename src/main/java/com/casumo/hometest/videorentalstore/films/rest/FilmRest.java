@@ -11,13 +11,15 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * FilmRest class.
  */
-@ApiModel(value = "Film",
-    description = "A Film on the Video Rental Store system.")
+@ApiModel(
+    value = "Film",
+    description = "A Film on the Video Rental Store system."
+)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FilmRest
 {
     @ApiModelProperty(value = "The ID of the film.")
-    private Long id;
+    private long id;
 
     @ApiModelProperty(value = "The name of the film.")
     private String name;
@@ -29,7 +31,7 @@ public class FilmRest
     {
     }
 
-    public Long getId()
+    public long getId()
     {
         return id;
     }
@@ -44,7 +46,7 @@ public class FilmRest
         return type;
     }
 
-    public void setId(final Long id)
+    public void setId(final long id)
     {
         this.id = id;
     }
@@ -71,7 +73,7 @@ public class FilmRest
             return false;
         }
         final FilmRest filmRest = (FilmRest) o;
-        return Objects.equals(id, filmRest.id) &&
+        return id == filmRest.id &&
             Objects.equals(name, filmRest.name) &&
             type == filmRest.type;
     }

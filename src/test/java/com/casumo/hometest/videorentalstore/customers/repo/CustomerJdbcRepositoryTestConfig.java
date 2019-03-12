@@ -1,4 +1,4 @@
-package com.casumo.hometest.videorentalstore.films.repo;
+package com.casumo.hometest.videorentalstore.customers.repo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -11,24 +11,24 @@ import com.casumo.hometest.videorentalstore.config.DataSourceTestConfig;
 
 
 /**
- * FilmJdbcRepositoryTestConfig class.
+ * CustomerJdbcRepositoryConfig class.
  */
 @TestConfiguration
 @Profile("repotest")
 @Import({DataSourceTestConfig.class})
-public class FilmJdbcRepositoryTestConfig
+public class CustomerJdbcRepositoryTestConfig
 {
     private final NamedParameterJdbcOperations jdbcTemplate;
 
     @Autowired
-    FilmJdbcRepositoryTestConfig(final NamedParameterJdbcOperations jdbcTemplate)
+    CustomerJdbcRepositoryTestConfig(final NamedParameterJdbcOperations jdbcTemplate)
     {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Bean
-    FilmRepository filmRepository()
+    CustomerRepository customerRepository()
     {
-        return new FilmJdbcRepository(jdbcTemplate);
+        return new CustomerJdbcRepository(jdbcTemplate);
     }
 }

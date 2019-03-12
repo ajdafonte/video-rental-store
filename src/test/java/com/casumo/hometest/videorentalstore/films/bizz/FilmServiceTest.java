@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -31,7 +32,7 @@ import com.casumo.hometest.videorentalstore.films.repo.FilmRepository;
 
 
 /**
- * FilmService class - Test FilmService class.
+ * FilmServiceTest class - Test FilmService class.
  */
 @ExtendWith(MockitoExtension.class)
 class FilmServiceTest
@@ -82,6 +83,8 @@ class FilmServiceTest
         final List<Film> result = filmService.findAll();
 
         // then
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
         assertThat(result.size(), is(expected.size()));
         assertThat(result, containsInAnyOrder(FilmTestHelper.MOCK_FILM1, FilmTestHelper.MOCK_FILM2));
         verify(filmRepository, times(1)).findAll();
@@ -99,6 +102,7 @@ class FilmServiceTest
         final List<Film> result = filmService.findAll();
 
         // then
+        assertNotNull(result);
         assertTrue(result.isEmpty());
         verify(filmRepository, times(1)).findAll();
         verifyNoMoreInteractions(filmRepository);
@@ -129,7 +133,7 @@ class FilmServiceTest
 
     // getFilmById - id not existent
     @Test
-    void givenFilmsInInventoryAndNotExistentId_whenFindById_thenThrowSpecificException()
+    void givenFilmsInInventoryAndNonexistentId_whenFindById_thenThrowSpecificException()
     {
         // given
         when(filmRepository.findBy(anyLong())).thenThrow(VideoRentalStoreApiException.class);
@@ -147,8 +151,8 @@ class FilmServiceTest
     void givenValidFilm_whenInsertFilm_thenReturnFilmInserted()
     {
         // given
-        final Film expected = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_FILM_TYPE1);
-        when(filmRepository.save(any(Film.class))).thenReturn(FilmTestHelper.MOCK_ID1);
+        final Film expected = FilmTestHelper.MOCK_FILM1;
+        when(filmRepository.save(any(Film.class))).thenReturn(expected.getId());
         when(filmRepository.findBy(anyLong())).thenReturn(expected);
 
         // when
@@ -161,7 +165,7 @@ class FilmServiceTest
         assertThat(result.getName(), is(expected.getName()));
         assertThat(result.getType(), is(expected.getType()));
         verify(filmRepository, times(1)).save(expected);
-        verify(filmRepository, times(1)).findBy(FilmTestHelper.MOCK_ID1);
+        verify(filmRepository, times(1)).findBy(expected.getId());
         verifyNoMoreInteractions(filmRepository);
     }
 
@@ -170,7 +174,7 @@ class FilmServiceTest
     void givenExistentFilmName_whenInsertFilm_thenThrowSpecificException()
     {
         // given
-        final Film mockFilm = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_ID2, FilmTestHelper.MOCK_NAME2, FilmTestHelper.MOCK_FILM_TYPE2);
+        final Film mockFilm = FilmTestHelper.MOCK_FILM2;
         when(filmRepository.save(any(Film.class))).thenThrow(VideoRentalStoreApiException.class);
 
         // when + then

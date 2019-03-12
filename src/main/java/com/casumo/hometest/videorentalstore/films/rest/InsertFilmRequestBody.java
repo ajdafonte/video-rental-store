@@ -15,7 +15,10 @@ import io.swagger.annotations.ApiModelProperty;
  * InsertFilmRequestBody class.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@ApiModel(value = "InsertFilmRequestBody", description = "Request body parameter to insert a new film.")
+@ApiModel(
+    value = "InsertFilmRequestBody",
+    description = "Request body parameter to insert a new film."
+)
 public class InsertFilmRequestBody
 {
     @ApiModelProperty(value = "The name of the film.", required = true)

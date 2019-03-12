@@ -10,9 +10,20 @@ import com.casumo.hometest.videorentalstore.films.domain.Film;
  */
 public interface FilmRepository
 {
+    /**
+     * @return
+     */
     List<Film> findAll();
 
+    /**
+     * @param id
+     * @return
+     */
     Film findBy(long id);
 
+    /**
+     * @param film
+     * @return
+     */
     long save(Film film);
 }

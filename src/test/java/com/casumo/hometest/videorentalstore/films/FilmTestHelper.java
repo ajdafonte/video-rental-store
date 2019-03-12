@@ -8,7 +8,7 @@ import com.casumo.hometest.videorentalstore.films.rest.mapper.FilmTypeRestMapper
 
 
 /**
- *
+ * FilmTestHelper class.
  */
 public class FilmTestHelper
 {

@@ -8,7 +8,7 @@ import java.util.Objects;
  */
 public class Film
 {
-    private Long id;
+    private long id;
     private String name;
     private FilmType type;
 
@@ -27,7 +27,7 @@ public class Film
         return type;
     }
 
-    public void setId(final Long id)
+    public void setId(final long id)
     {
         this.id = id;
     }
@@ -54,8 +54,8 @@ public class Film
             return false;
         }
         final Film film = (Film) o;
-        return Objects.equals(id, film.id) &&
-            name.equals(film.name) &&
+        return id == film.id &&
+            Objects.equals(name, film.name) &&
             type == film.type;
     }
 
