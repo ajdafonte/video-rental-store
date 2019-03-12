@@ -1,1 +1,25 @@
+# ports
+server:
+  port: 8080
 
+# jdbc settings
+#spring:
+#  session:
+#    store-type: JDBC
+
+# datasource settings
+#spring:
+#  datasource:
+#    url: jdbc:h2:mem:videorentalstoredb
+#    driverClassName: org.h2.Driver
+
+
+spring:
+  h2:
+    console:
+      enabled: true
+
+# logging settings
+logging:
+  level:
+    com.casumo: DEBUG
