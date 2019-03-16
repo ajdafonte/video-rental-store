@@ -37,14 +37,8 @@ class CustomerTest
     void givenTwoDifferentCustomers_whenCheckIfEquals_thenBothCustomersMustNotBeEquals()
     {
         // given
-        final Customer mockCustomer1 = CustomerTestHelper.generateCustomer(CustomerTestHelper.MOCK_ID1,
-            CustomerTestHelper.MOCK_USERNAME1,
-            CustomerTestHelper.MOCK_EMAIL1,
-            CustomerTestHelper.MOCK_BONUSPOINTS1);
-        final Customer mockCustomer2 = CustomerTestHelper.generateCustomer(CustomerTestHelper.MOCK_ID1,
-            CustomerTestHelper.MOCK_USERNAME2,
-            CustomerTestHelper.MOCK_EMAIL2,
-            CustomerTestHelper.MOCK_BONUSPOINTS1);
+        final Customer mockCustomer1 = CustomerTestHelper.MOCK_CUSTOMER1;
+        final Customer mockCustomer2 = CustomerTestHelper.MOCK_CUSTOMER2;
 
         // when + then
         assertNotEquals(mockCustomer1.hashCode(), mockCustomer2.hashCode());
@@ -56,15 +50,12 @@ class CustomerTest
     void givenCustomer_whenCallToString_thenReturnExpectedValue()
     {
         // given
-        final Customer mockCustomer = CustomerTestHelper.generateCustomer(CustomerTestHelper.MOCK_ID2,
-            CustomerTestHelper.MOCK_USERNAME2,
-            CustomerTestHelper.MOCK_EMAIL2,
-            CustomerTestHelper.MOCK_BONUSPOINTS2);
+        final Customer mockCustomer = CustomerTestHelper.MOCK_CUSTOMER2;
         final String expected = "Customer{" +
-            "id=" + CustomerTestHelper.MOCK_ID2 +
-            ", username='" + CustomerTestHelper.MOCK_USERNAME2 + '\'' +
-            ", email='" + CustomerTestHelper.MOCK_EMAIL2 + '\'' +
-            ", bonuspoints=" + CustomerTestHelper.MOCK_BONUSPOINTS2 +
+            "id=" + mockCustomer.getId() +
+            ", username='" + mockCustomer.getUsername() + '\'' +
+            ", email='" + mockCustomer.getEmail() + '\'' +
+            ", bonuspoints=" + mockCustomer.getBonuspoints() +
             '}';
 
         // when

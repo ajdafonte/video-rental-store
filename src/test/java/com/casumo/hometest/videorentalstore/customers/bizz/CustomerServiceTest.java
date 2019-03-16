@@ -18,6 +18,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,7 @@ class CustomerServiceTest
 
     // getCustomers - with data
     @Test
-    void givenCustomersInInventory_whenFindAll_thenReturnAllCustomers()
+    void givenExistentCustomers_whenFindAll_thenReturnAllCustomers()
     {
         // given
         final List<Customer> expected = Arrays.asList(CustomerTestHelper.MOCK_CUSTOMER1, CustomerTestHelper.MOCK_CUSTOMER2);
@@ -70,7 +71,7 @@ class CustomerServiceTest
 
     // getCustomers - without data
     @Test
-    void givenNoCustomersInInventory_whenFindAll_thenReturnEmptyCollection()
+    void givenNoCustomers_whenFindAll_thenReturnEmptyCollection()
     {
         // given
         when(customerRepository.findAll()).thenReturn(Collections.emptyList());
@@ -93,7 +94,7 @@ class CustomerServiceTest
     {
         // given
         final Customer expected = CustomerTestHelper.MOCK_CUSTOMER1;
-        when(customerRepository.findBy(anyLong())).thenReturn(expected);
+        when(customerRepository.findById(anyLong())).thenReturn(Optional.of(expected));
 
         // when
         final Customer result = customerService.findBy(CustomerTestHelper.MOCK_ID1);
@@ -105,7 +106,7 @@ class CustomerServiceTest
         assertThat(result.getUsername(), is(expected.getUsername()));
         assertThat(result.getEmail(), is(expected.getEmail()));
         assertThat(result.getBonuspoints(), is(expected.getBonuspoints()));
-        verify(customerRepository, times(1)).findBy(CustomerTestHelper.MOCK_ID1);
+        verify(customerRepository, times(1)).findById(CustomerTestHelper.MOCK_ID1);
         verifyNoMoreInteractions(customerRepository);
     }
 
@@ -114,11 +115,11 @@ class CustomerServiceTest
     void givenCustomersAndNonexistentId_whenFindById_thenThrowSpecificException()
     {
         // given
-        when(customerRepository.findBy(anyLong())).thenThrow(VideoRentalStoreApiException.class);
+        when(customerRepository.findById(anyLong())).thenThrow(VideoRentalStoreApiException.class);
 
         // when + then
         assertThrows(VideoRentalStoreApiException.class, () -> customerService.findBy(CustomerTestHelper.MOCK_UNKNOWN_ID));
-        verify(customerRepository, times(1)).findBy(CustomerTestHelper.MOCK_UNKNOWN_ID);
+        verify(customerRepository, times(1)).findById(CustomerTestHelper.MOCK_UNKNOWN_ID);
         verifyNoMoreInteractions(customerRepository);
     }
 
@@ -126,12 +127,11 @@ class CustomerServiceTest
 
     // insertCustomer - ok
     @Test
-    void givenValidCustomer_whenInsertCustomer_thenReturnCustomerInserted()
+    void givenValidParameter_whenInsertCustomer_thenReturnCustomerInserted()
     {
         // given
         final Customer expected = CustomerTestHelper.MOCK_CUSTOMER1;
-        when(customerRepository.save(any(Customer.class))).thenReturn(expected.getId());
-        when(customerRepository.findBy(anyLong())).thenReturn(expected);
+        when(customerRepository.save(any(Customer.class))).thenReturn(expected);
 
         // when
         final Customer result = customerService.insert(expected);
@@ -144,13 +144,12 @@ class CustomerServiceTest
         assertThat(result.getEmail(), is(expected.getEmail()));
         assertThat(result.getBonuspoints(), is(expected.getBonuspoints()));
         verify(customerRepository, times(1)).save(expected);
-        verify(customerRepository, times(1)).findBy(expected.getId());
         verifyNoMoreInteractions(customerRepository);
     }
 
     // insertCustomer - already exist in db
     @Test
-    void givenExistentCustomerName_whenInsertCustomer_thenThrowSpecificException()
+    void givenParameterWithExistentCustomerName_whenInsertCustomer_thenThrowSpecificException()
     {
         // given
         final Customer mockCustomer = CustomerTestHelper.MOCK_CUSTOMER2;
@@ -159,7 +158,7 @@ class CustomerServiceTest
         // when + then
         assertThrows(VideoRentalStoreApiException.class, () -> customerService.insert(mockCustomer));
         verify(customerRepository, times(1)).save(mockCustomer);
-        verify(customerRepository, times(0)).findBy(anyLong());
+        verify(customerRepository, times(0)).findById(anyLong());
         verifyNoMoreInteractions(customerRepository);
     }
 }

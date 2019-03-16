@@ -29,7 +29,9 @@ ext {
 
 dependencies {
     implementation("org.springframework.boot", "spring-boot-starter-web")
-    implementation("org.springframework.boot", "spring-boot-starter-jdbc")
+//    implementation("org.springframework.boot", "spring-boot-starter-jdbc")
+    implementation("org.springframework.boot", "spring-boot-starter-data-jpa")
+
 
     // metrics and monitoring
 //    implementation("org.springframework.boot", "spring-boot-starter-parent", "2.0.1.RELEASE")

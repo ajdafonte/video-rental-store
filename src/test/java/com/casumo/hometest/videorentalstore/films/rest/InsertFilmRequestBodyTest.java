@@ -19,9 +19,9 @@ class InsertFilmRequestBodyTest
     {
         // given
         final InsertFilmRequestBody mockRequestBody1 =
-            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_FILM_TYPE1);
+            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_ID1);
         final InsertFilmRequestBody mockRequestBody2 =
-            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_FILM_TYPE1);
+            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_ID1);
 
         // when + then
         assertEquals(mockRequestBody1.hashCode(), mockRequestBody2.hashCode());
@@ -34,9 +34,9 @@ class InsertFilmRequestBodyTest
     {
         // given
         final InsertFilmRequestBody mockRequestBody1 =
-            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_FILM_TYPE1);
+            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_ID1);
         final InsertFilmRequestBody mockRequestBody2 =
-            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_NAME2, FilmTestHelper.MOCK_FILM_TYPE1);
+            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_NAME2, FilmTestHelper.MOCK_ID1);
 
         // when + then
         assertNotEquals(mockRequestBody1.hashCode(), mockRequestBody2.hashCode());
@@ -48,11 +48,10 @@ class InsertFilmRequestBodyTest
     void givenInsertFilmRequestBody_whenCallToString_thenReturnExpectedValue()
     {
         // given
-        final InsertFilmRequestBody mockRequestBody =
-            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_NAME2, FilmTestHelper.MOCK_FILM_TYPE2);
+        final InsertFilmRequestBody mockRequestBody = FilmTestHelper.MOCK_INSERT_REQ_BODY1;
         final String expected = "InsertFilmRequestBody{" +
-            "name='" + FilmTestHelper.MOCK_NAME2 + '\'' +
-            ", filmType=" + FilmTestHelper.MOCK_FILM_TYPE2 +
+            "name='" + mockRequestBody.getName() + '\'' +
+            ", filmTypeId=" + mockRequestBody.getFilmTypeId() +
             '}';
 
         // when

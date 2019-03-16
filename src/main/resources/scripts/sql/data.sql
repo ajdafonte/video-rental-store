@@ -1,10 +1,17 @@
 DELETE FROM film;
 DELETE FROM filmtype;
+DELETE FROM price;
+
+DELETE FROM customer;
+
+-- prices
+INSERT INTO price VALUES (1, 'Premium', 40);
+INSERT INTO price VALUES (2, 'Basic', 30);
 
 -- film types
-INSERT INTO filmtype VALUES (1, 'New Release');
-INSERT INTO filmtype VALUES (2, 'Regular');
-INSERT INTO filmtype VALUES (3, 'Old');
+INSERT INTO filmtype VALUES (1, 'New Release', 1);
+INSERT INTO filmtype VALUES (2, 'Regular', 2);
+INSERT INTO filmtype VALUES (3, 'Old', 2);
 
 -- films
 INSERT INTO film (name, typeid) VALUES ('Matrix 11', 1);

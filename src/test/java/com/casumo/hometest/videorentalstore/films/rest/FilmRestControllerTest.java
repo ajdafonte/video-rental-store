@@ -32,6 +32,7 @@ import com.casumo.hometest.videorentalstore.common.error.VideoRentalStoreApiExce
 import com.casumo.hometest.videorentalstore.customers.CustomerTestHelper;
 import com.casumo.hometest.videorentalstore.films.FilmTestHelper;
 import com.casumo.hometest.videorentalstore.films.bizz.FilmService;
+import com.casumo.hometest.videorentalstore.films.bizz.InsertFilmParameter;
 import com.casumo.hometest.videorentalstore.films.domain.Film;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -52,19 +53,7 @@ class FilmRestControllerTest
     private static final String INVALID_REQUEST_PARAMETER = "Invalid request parameter";
     private static final String RESOURCE_NOT_FOUND = "Resource not found";
     private static final String RESOURCE_ALREADY_EXISTS = "Resource already exists";
-
-//    private static final long MOCK_NEW_FILM_ID;
-//    private static final String MOCK_NEW_FILM_NAME;
-//    private static final FilmType MOCK_NEW_FILM_TYPE;
-//    private static final Film MOCK_NEW_FILM;
-//
-//    static
-//    {
-//        MOCK_NEW_FILM_ID = 4L;
-//        MOCK_NEW_FILM_NAME = "Toy Story";
-//        MOCK_NEW_FILM_TYPE = FilmType.REGULAR;
-//        MOCK_NEW_FILM = FilmTestHelper.generateFilm(MOCK_NEW_FILM_ID, MOCK_NEW_FILM_NAME, MOCK_NEW_FILM_TYPE);
-//    }
+    private static final String UNKNOWN_RESOURCE = "Resource not found";
 
     @Autowired
     private MockMvc mvc;
@@ -178,7 +167,7 @@ class FilmRestControllerTest
     {
         // given
         final Film newFilm = FilmTestHelper.MOCK_NEW_FILM;
-        doReturn(newFilm).when(filmService).insert(any(Film.class));
+        doReturn(newFilm).when(filmService).insert(any(InsertFilmParameter.class));
         final InsertFilmRequestBody mockRequestBody = FilmTestHelper.MOCK_INSERT_REQ_BODY1;
         final String requestBody = generateRequestBody(mockRequestBody);
         final FilmRest expectedResult = FilmTestHelper.MOCK_NEW_FILM_REST;
@@ -192,7 +181,7 @@ class FilmRestControllerTest
         // then
         result.andExpect(MockMvcResultMatchers.status().isCreated());
         result.andExpect(MockMvcResultMatchers.content().string(expectedContent));
-        verify(filmService, times(1)).insert(any(Film.class));
+        verify(filmService, times(1)).insert(any(InsertFilmParameter.class));
         verifyNoMoreInteractions(filmService);
     }
 
@@ -238,7 +227,7 @@ class FilmRestControllerTest
     void givenRequestBodyWithInvalidValues_whenInsertNewFilm_thenReturnBadRequest() throws Exception
     {
         // given
-        final InsertFilmRequestBody parameter = FilmTestHelper.generateInsertFilmRequestBody("", FilmTestHelper.MOCK_FILM_TYPE2);
+        final InsertFilmRequestBody parameter = FilmTestHelper.generateInsertFilmRequestBody("", FilmTestHelper.MOCK_ID1);
         final String requestBody = generateRequestBody(parameter);
 
         // when
@@ -262,7 +251,7 @@ class FilmRestControllerTest
         doThrow(new VideoRentalStoreApiException(VideoRentalStoreApiError.RESOURCE_ALREADY_EXISTS,
             "Violation of primary key or unique constraint."))
             .when(filmService)
-            .insert(any(Film.class));
+            .insert(any(InsertFilmParameter.class));
 
         // when
         final ResultActions result = mvc.perform(post(FILMS_URI)
@@ -272,8 +261,31 @@ class FilmRestControllerTest
         // then
         result.andExpect(MockMvcResultMatchers.status().isConflict());
         result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(RESOURCE_ALREADY_EXISTS)));
-        verify(filmService, times(1)).insert(any(Film.class));
-        verify(filmService, times(0)).findBy(anyLong());
+        verify(filmService, times(1)).insert(any(InsertFilmParameter.class));
+        verifyNoMoreInteractions(filmService);
+    }
+
+    // save film - nok (film type id unknown)
+    @Test
+    void givenRequestBodyWithUnknownFilmType_whenInsertNewFilm_thenReturnConflict() throws Exception
+    {
+        // given
+        final InsertFilmRequestBody parameter = FilmTestHelper.MOCK_INSERT_REQ_BODY1;
+        final String requestBody = generateRequestBody(parameter);
+        doThrow(new VideoRentalStoreApiException(VideoRentalStoreApiError.UNKNOWN_RESOURCE,
+            "Violation of primary key or unique constraint."))
+            .when(filmService)
+            .insert(any(InsertFilmParameter.class));
+
+        // when
+        final ResultActions result = mvc.perform(post(FILMS_URI)
+            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+            .content(requestBody));
+
+        // then
+        result.andExpect(MockMvcResultMatchers.status().isNotFound());
+        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(UNKNOWN_RESOURCE)));
+        verify(filmService, times(1)).insert(any(InsertFilmParameter.class));
         verifyNoMoreInteractions(filmService);
     }
 

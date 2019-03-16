@@ -26,9 +26,9 @@ public class InsertFilmRequestBody
     @Size(min = 1, max = 100)
     private String name;
 
-    @ApiModelProperty(value = "The type of the film.", required = true)
+    @ApiModelProperty(value = "The type ID of the film.", required = true)
     @NotNull
-    private FilmTypeRest filmType;
+    private Long filmTypeId;
 
     public InsertFilmRequestBody()
     {
@@ -39,9 +39,9 @@ public class InsertFilmRequestBody
         this.name = name;
     }
 
-    public void setFilmType(final FilmTypeRest filmType)
+    public void setFilmTypeId(final Long filmTypeId)
     {
-        this.filmType = filmType;
+        this.filmTypeId = filmTypeId;
     }
 
     public String getName()
@@ -49,9 +49,9 @@ public class InsertFilmRequestBody
         return name;
     }
 
-    public FilmTypeRest getFilmType()
+    public Long getFilmTypeId()
     {
-        return filmType;
+        return filmTypeId;
     }
 
     @Override
@@ -67,13 +67,13 @@ public class InsertFilmRequestBody
         }
         final InsertFilmRequestBody that = (InsertFilmRequestBody) o;
         return Objects.equals(name, that.name) &&
-            filmType == that.filmType;
+            Objects.equals(filmTypeId, that.filmTypeId);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(name, filmType);
+        return Objects.hash(name, filmTypeId);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class InsertFilmRequestBody
     {
         return "InsertFilmRequestBody{" +
             "name='" + name + '\'' +
-            ", filmType=" + filmType +
+            ", filmTypeId=" + filmTypeId +
             '}';
     }
 }

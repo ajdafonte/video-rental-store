@@ -3,8 +3,11 @@ package com.casumo.hometest.videorentalstore.customers.bizz;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.casumo.hometest.videorentalstore.common.error.VideoRentalStoreApiError;
+import com.casumo.hometest.videorentalstore.common.error.VideoRentalStoreApiException;
 import com.casumo.hometest.videorentalstore.customers.domain.Customer;
 import com.casumo.hometest.videorentalstore.customers.repo.CustomerRepository;
 
@@ -32,14 +35,24 @@ public class CustomerServiceImpl implements CustomerService
     @Override
     public Customer findBy(final long id)
     {
-        return customerRepository.findBy(id);
+        return customerRepository.findById(id)
+            .orElseThrow(() -> new VideoRentalStoreApiException(VideoRentalStoreApiError.UNKNOWN_RESOURCE, "Customer was not found."));
     }
 
     @Override
+    // TODO - Replace customer for InsertCustomerParameter
     public Customer insert(final Customer customer)
     {
-        final long customerId = customerRepository.save(customer);
-
-        return customerRepository.findBy(customerId);
+        final Customer insertedCustomer;
+        try
+        {
+            insertedCustomer = customerRepository.save(customer);
+        }
+        catch (final DataAccessException e)
+        {
+            throw new VideoRentalStoreApiException(VideoRentalStoreApiError.RESOURCE_ALREADY_EXISTS,
+                "Already exists a customer with name: " + customer.getUsername());
+        }
+        return insertedCustomer;
     }
 }

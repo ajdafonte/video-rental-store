@@ -25,8 +25,8 @@ public interface FilmService
     Film findBy(long id);
 
     /**
-     * @param film
+     * @param parameter
      * @return
      */
-    Film insert(Film film);
+    Film insert(InsertFilmParameter parameter);
 }

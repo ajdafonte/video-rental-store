@@ -13,22 +13,27 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 
+import com.casumo.hometest.videorentalstore.common.error.VideoRentalStoreApiError;
 import com.casumo.hometest.videorentalstore.common.error.VideoRentalStoreApiException;
 import com.casumo.hometest.videorentalstore.films.FilmTestHelper;
 import com.casumo.hometest.videorentalstore.films.domain.Film;
 import com.casumo.hometest.videorentalstore.films.repo.FilmRepository;
+import com.casumo.hometest.videorentalstore.films.repo.FilmTypeRepository;
 
 
 /**
@@ -37,43 +42,24 @@ import com.casumo.hometest.videorentalstore.films.repo.FilmRepository;
 @ExtendWith(MockitoExtension.class)
 class FilmServiceTest
 {
-//    private static final long MOCK_ID1;
-//    private static final long MOCK_ID2;
-//    private static final long MOCK_UNKNOWN_ID;
-//    private static final String MOCK_NAME1;
-//    private static final String MOCK_NAME2;
-//    private static final FilmType MOCK_FILM_TYPE1;
-//    private static final FilmType MOCK_FILM_TYPE2;
-//    private static final Film MOCK_FILM1;
-//    private static final Film MOCK_FILM2;
-//
-//    static
-//    {
-//        MOCK_ID1 = 1L;
-//        MOCK_ID2 = 2L;
-//        MOCK_UNKNOWN_ID = 0L;
-//        MOCK_NAME1 = "Saving Private Ryan";
-//        MOCK_NAME2 = "Green Book";
-//        MOCK_FILM_TYPE1 = FilmType.OLD;
-//        MOCK_FILM_TYPE2 = FilmType.NEW_RELEASE;
-//        MOCK_FILM1 = FilmTestHelper.generateFilm(MOCK_ID1, MOCK_NAME1, MOCK_FILM_TYPE1);
-//        MOCK_FILM2 = FilmTestHelper.generateFilm(MOCK_ID2, MOCK_NAME2, MOCK_FILM_TYPE2);
-//    }
 
     @Mock
     private FilmRepository filmRepository;
+
+    @Mock
+    private FilmTypeRepository filmTypeRepository;
 
     private FilmService filmService;
 
     @BeforeEach
     void setUp()
     {
-        this.filmService = new FilmServiceImpl(filmRepository);
+        this.filmService = new FilmServiceImpl(filmRepository, filmTypeRepository);
     }
 
     // getFilms - with data
     @Test
-    void givenFilmsInInventory_whenFindAll_thenReturnAllFilms()
+    void givenExistentCustomers_whenFindAll_thenReturnAllFilms()
     {
         // given
         final List<Film> expected = Arrays.asList(FilmTestHelper.MOCK_FILM1, FilmTestHelper.MOCK_FILM2);
@@ -93,7 +79,7 @@ class FilmServiceTest
 
     // getFilms - without data
     @Test
-    void givenNoFilmsInInventory_whenFindAll_thenReturnEmptyCollection()
+    void givenNoFilms_whenFindAll_thenReturnEmptyCollection()
     {
         // given
         when(filmRepository.findAll()).thenReturn(Collections.emptyList());
@@ -116,7 +102,7 @@ class FilmServiceTest
     {
         // given
         final Film expected = FilmTestHelper.MOCK_FILM1;
-        when(filmRepository.findBy(anyLong())).thenReturn(expected);
+        when(filmRepository.findById(anyLong())).thenReturn(Optional.of(expected));
 
         // when
         final Film result = filmService.findBy(FilmTestHelper.MOCK_ID1);
@@ -127,7 +113,7 @@ class FilmServiceTest
         assertThat(result.getId(), is(expected.getId()));
         assertThat(result.getName(), is(expected.getName()));
         assertThat(result.getType(), is(expected.getType()));
-        verify(filmRepository, times(1)).findBy(FilmTestHelper.MOCK_ID1);
+        verify(filmRepository, times(1)).findById(FilmTestHelper.MOCK_ID1);
         verifyNoMoreInteractions(filmRepository);
     }
 
@@ -136,11 +122,11 @@ class FilmServiceTest
     void givenFilmsInInventoryAndNonexistentId_whenFindById_thenThrowSpecificException()
     {
         // given
-        when(filmRepository.findBy(anyLong())).thenThrow(VideoRentalStoreApiException.class);
+        when(filmRepository.findById(anyLong())).thenThrow(VideoRentalStoreApiException.class);
 
         // when + then
         assertThrows(VideoRentalStoreApiException.class, () -> filmService.findBy(FilmTestHelper.MOCK_UNKNOWN_ID));
-        verify(filmRepository, times(1)).findBy(FilmTestHelper.MOCK_UNKNOWN_ID);
+        verify(filmRepository, times(1)).findById(FilmTestHelper.MOCK_UNKNOWN_ID);
         verifyNoMoreInteractions(filmRepository);
     }
 
@@ -148,15 +134,16 @@ class FilmServiceTest
 
     // insertFilm - ok
     @Test
-    void givenValidFilm_whenInsertFilm_thenReturnFilmInserted()
+    void givenValidParameter_whenInsertFilm_thenReturnFilmInserted()
     {
         // given
-        final Film expected = FilmTestHelper.MOCK_FILM1;
-        when(filmRepository.save(any(Film.class))).thenReturn(expected.getId());
-        when(filmRepository.findBy(anyLong())).thenReturn(expected);
+        final Film expected = FilmTestHelper.MOCK_NEW_FILM;
+        final InsertFilmParameter mockParameter = FilmTestHelper.generateInsertFilmParameter(expected.getName(), expected.getType().getId());
+        when(filmTypeRepository.findById(anyLong())).thenReturn(Optional.of(expected.getType()));
+        when(filmRepository.save(any(Film.class))).thenReturn(expected);
 
         // when
-        final Film result = filmService.insert(expected);
+        final Film result = filmService.insert(mockParameter);
 
         // then
         assertNotNull(result);
@@ -164,23 +151,45 @@ class FilmServiceTest
         assertThat(result.getId(), is(expected.getId()));
         assertThat(result.getName(), is(expected.getName()));
         assertThat(result.getType(), is(expected.getType()));
-        verify(filmRepository, times(1)).save(expected);
-        verify(filmRepository, times(1)).findBy(expected.getId());
+        verify(filmTypeRepository, times(1)).findById(mockParameter.getFilmTypeId());
+        verifyNoMoreInteractions(filmTypeRepository);
+        verify(filmRepository, times(1)).save(any(Film.class));
         verifyNoMoreInteractions(filmRepository);
     }
 
-    // insertFilm - already exist in db
+    // insertFilm - already exist a film with same name in db
     @Test
-    void givenExistentFilmName_whenInsertFilm_thenThrowSpecificException()
+    void givenParameterWithExistentFilmName_whenInsertFilm_thenThrowSpecificException()
     {
         // given
         final Film mockFilm = FilmTestHelper.MOCK_FILM2;
-        when(filmRepository.save(any(Film.class))).thenThrow(VideoRentalStoreApiException.class);
+        final InsertFilmParameter mockParameter = FilmTestHelper.generateInsertFilmParameter(mockFilm.getName(), mockFilm.getType().getId());
+        when(filmTypeRepository.findById(anyLong())).thenReturn(Optional.of(mockFilm.getType()));
+        when(filmRepository.save(any(Film.class))).thenThrow(DataIntegrityViolationException.class);
 
         // when + then
-        assertThrows(VideoRentalStoreApiException.class, () -> filmService.insert(mockFilm));
-        verify(filmRepository, times(1)).save(mockFilm);
-        verify(filmRepository, times(0)).findBy(anyLong());
+        final VideoRentalStoreApiException ex = assertThrows(VideoRentalStoreApiException.class, () -> filmService.insert(mockParameter));
+        assertThat(ex.getError(), is(VideoRentalStoreApiError.RESOURCE_ALREADY_EXISTS));
+        verify(filmTypeRepository, times(1)).findById(mockParameter.getFilmTypeId());
+        verifyNoMoreInteractions(filmTypeRepository);
+        verify(filmRepository, times(1)).save(any(Film.class));
         verifyNoMoreInteractions(filmRepository);
+    }
+
+    // insertFilm - invalid film type id
+    @Test
+    void givenParameterWithUnknownFilmTypeId_whenInsertFilm_thenThrowSpecificException()
+    {
+        // given
+        final InsertFilmParameter mockParameter =
+            FilmTestHelper.generateInsertFilmParameter(FilmTestHelper.MOCK_NEW_FILM_NAME, FilmTestHelper.MOCK_UNKNOWN_ID);
+        when(filmTypeRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        // when + then
+        final VideoRentalStoreApiException ex = assertThrows(VideoRentalStoreApiException.class, () -> filmService.insert(mockParameter));
+        assertThat(ex.getError(), is(VideoRentalStoreApiError.UNKNOWN_RESOURCE));
+        verify(filmTypeRepository, times(1)).findById(mockParameter.getFilmTypeId());
+        verifyNoMoreInteractions(filmTypeRepository);
+        verifyZeroInteractions(filmRepository);
     }
 }

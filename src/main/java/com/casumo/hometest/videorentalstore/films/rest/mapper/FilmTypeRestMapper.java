@@ -9,42 +9,28 @@ import com.casumo.hometest.videorentalstore.films.rest.FilmTypeRest;
  */
 public class FilmTypeRestMapper
 {
-    private FilmTypeRestMapper()
-    {
-        // to prevent instantiation
-    }
-
     public static FilmTypeRest map(final FilmType filmType)
     {
         if (filmType != null)
         {
-            switch (filmType)
-            {
-                case NEW_RELEASE:
-                    return FilmTypeRest.NEW_RELEASE;
-                case REGULAR:
-                    return FilmTypeRest.REGULAR;
-                case OLD:
-                    return FilmTypeRest.OLD;
-            }
+            final FilmTypeRest filmTypeRest = new FilmTypeRest();
+            filmTypeRest.setId(filmType.getId());
+            filmTypeRest.setName(filmType.getName());
+//            filmTypeRest.setPrice(PriceRestMapper.map(filmType.getPrice()));
+            return filmTypeRest;
         }
         return null;
     }
 
-    public static FilmType mapToBizz(final FilmTypeRest filmType)
-    {
-        if (filmType != null)
-        {
-            switch (filmType)
-            {
-                case NEW_RELEASE:
-                    return FilmType.NEW_RELEASE;
-                case REGULAR:
-                    return FilmType.REGULAR;
-                case OLD:
-                    return FilmType.OLD;
-            }
-        }
-        return null;
-    }
+//    public static FilmType mapToBizz(final InsertFilmRequestBody parameterRest)
+//    {
+//        if (parameterRest != null)
+//        {
+//            final Film film = new Film();
+//            film.setName(parameterRest.getName());
+//            film.setType(FilmTypeRestMapper.mapToBizz(parameterRest.getFilmTypeId()));
+//            return film;
+//        }
+//        return null;
+//    }
 }

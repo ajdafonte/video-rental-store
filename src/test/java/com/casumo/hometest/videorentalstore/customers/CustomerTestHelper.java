@@ -57,6 +57,15 @@ public class CustomerTestHelper
         return customer;
     }
 
+    public static Customer generateCustomer(final String username, final String email, final long bonuspoints)
+    {
+        final Customer customer = new Customer();
+        customer.setUsername(username);
+        customer.setEmail(email);
+        customer.setBonuspoints(bonuspoints);
+        return customer;
+    }
+
     public static CustomerRest generateCustomerRest(final long id, final String username, final String email, final long bonuspoints)
     {
         final CustomerRest customerRest = new CustomerRest();
@@ -80,14 +89,6 @@ public class CustomerTestHelper
         final InsertCustomerRequestBody requestBody = new InsertCustomerRequestBody();
         requestBody.setUsername(username);
         return requestBody;
-    }
-
-    public static Customer generateCustomer(final String username, final String email)
-    {
-        final Customer customer = new Customer();
-        customer.setUsername(username);
-        customer.setEmail(email);
-        return customer;
     }
 
 }

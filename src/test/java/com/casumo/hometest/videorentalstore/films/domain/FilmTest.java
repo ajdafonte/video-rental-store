@@ -13,20 +13,13 @@ import com.casumo.hometest.videorentalstore.films.FilmTestHelper;
  */
 class FilmTest
 {
-    private static final long MOCK_ID1 = 1L;
-    private static final long MOCK_ID2 = 2L;
-    private static final String MOCK_NAME1 = "Saving Private Ryan";
-    private static final String MOCK_NAME2 = "Green Book";
-    private static final FilmType MOCK_FILM_TYPE1 = FilmType.OLD;
-    private static final FilmType MOCK_FILM_TYPE2 = FilmType.NEW_RELEASE;
-
     // equals ok
     @Test
     void givenTwoEqualFilms_whenCheckIfEquals_thenBothFilmsMustBeEquals()
     {
         // given
-        final Film mockFilm1 = FilmTestHelper.generateFilm(MOCK_ID1, MOCK_NAME1, MOCK_FILM_TYPE1);
-        final Film mockFilm2 = FilmTestHelper.generateFilm(MOCK_ID1, MOCK_NAME1, MOCK_FILM_TYPE1);
+        final Film mockFilm1 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_OLD_FILM_TYPE);
+        final Film mockFilm2 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_OLD_FILM_TYPE);
 
         // when + then
         assertEquals(mockFilm1.hashCode(), mockFilm2.hashCode());
@@ -38,8 +31,8 @@ class FilmTest
     void givenTwoDifferentFilms_whenCheckIfEquals_thenBothFilmsMustNotBeEquals()
     {
         // given
-        final Film mockFilm1 = FilmTestHelper.generateFilm(MOCK_ID1, MOCK_NAME1, MOCK_FILM_TYPE1);
-        final Film mockFilm2 = FilmTestHelper.generateFilm(MOCK_ID2, MOCK_NAME1, MOCK_FILM_TYPE1);
+        final Film mockFilm1 = FilmTestHelper.MOCK_FILM1;
+        final Film mockFilm2 = FilmTestHelper.MOCK_FILM2;
 
         // when + then
         assertNotEquals(mockFilm1.hashCode(), mockFilm2.hashCode());
@@ -51,11 +44,11 @@ class FilmTest
     void givenFilm_whenCallToString_thenReturnExpectedValue()
     {
         // given
-        final Film mockFilm = FilmTestHelper.generateFilm(MOCK_ID2, MOCK_NAME2, MOCK_FILM_TYPE2);
+        final Film mockFilm = FilmTestHelper.MOCK_FILM2;
         final String expected = "Film{" +
-            "id=" + MOCK_ID2 +
-            ", name='" + MOCK_NAME2 + '\'' +
-            ", type=" + MOCK_FILM_TYPE2 +
+            "id=" + mockFilm.getId() +
+            ", name='" + mockFilm.getName() + '\'' +
+            ", type=" + mockFilm.getType() +
             '}';
 
         // when

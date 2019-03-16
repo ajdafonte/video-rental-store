@@ -1,7 +1,17 @@
+CREATE TABLE IF NOT EXISTS price (
+  id              BIGINT PRIMARY KEY NOT NULL,
+  name            VARCHAR2(100),
+  value           DECIMAL(20, 2)
+);
+
 CREATE TABLE IF NOT EXISTS filmtype (
   id              BIGINT PRIMARY KEY NOT NULL,
-  name            VARCHAR2(100)
+  name            VARCHAR2(100),
+  priceid         BIGINT
 );
+
+ALTER TABLE filmtype
+  ADD FOREIGN KEY (priceid) references price(id);
 
 CREATE TABLE IF NOT EXISTS film (
   id              BIGINT PRIMARY KEY AUTO_INCREMENT,

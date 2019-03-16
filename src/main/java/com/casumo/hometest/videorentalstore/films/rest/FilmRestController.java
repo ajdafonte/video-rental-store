@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.casumo.hometest.videorentalstore.common.VideoRentalStoreApiConstants;
 import com.casumo.hometest.videorentalstore.films.bizz.FilmService;
 import com.casumo.hometest.videorentalstore.films.rest.mapper.FilmRestMapper;
+import com.casumo.hometest.videorentalstore.films.rest.mapper.InsertFilmParameterMapper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -84,6 +85,6 @@ public class FilmRestController
                         @ApiParam(value = "Request body parameter to insert a new film.", required = true)
                         @Valid final InsertFilmRequestBody requestBody)
     {
-        return FilmRestMapper.map(filmService.insert(FilmRestMapper.mapToBizz(requestBody)));
+        return FilmRestMapper.map(filmService.insert(InsertFilmParameterMapper.map(requestBody)));
     }
 }

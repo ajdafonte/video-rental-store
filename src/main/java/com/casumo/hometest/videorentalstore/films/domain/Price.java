@@ -1,23 +1,23 @@
 package com.casumo.hometest.videorentalstore.films.domain;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
 /**
- * FilmType class.
+ * Price class.
  */
 @Entity
-@Table(name = "filmtype")
-public class FilmType
+@Table(
+    name = "price"
+)
+public class Price
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +25,9 @@ public class FilmType
 
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "priceid", referencedColumnName = "id")
-    private Price price;
+    private BigDecimal value;
 
-    public FilmType()
+    public Price()
     {
     }
 
@@ -53,14 +51,14 @@ public class FilmType
         this.name = name;
     }
 
-    public Price getPrice()
+    public BigDecimal getValue()
     {
-        return price;
+        return value;
     }
 
-    public void setPrice(final Price price)
+    public void setValue(final BigDecimal value)
     {
-        this.price = price;
+        this.value = value;
     }
 
     @Override
@@ -74,25 +72,25 @@ public class FilmType
         {
             return false;
         }
-        final FilmType type = (FilmType) o;
-        return id == type.id &&
-            Objects.equals(name, type.name) &&
-            Objects.equals(price, type.price);
+        final Price price = (Price) o;
+        return id == price.id &&
+            Objects.equals(name, price.name) &&
+            Objects.equals(value, price.value);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(id, name, price);
+        return Objects.hash(id, name, value);
     }
 
     @Override
     public String toString()
     {
-        return "FilmType{" +
+        return "Price{" +
             "id=" + id +
             ", name='" + name + '\'' +
-            ", price=" + price +
+            ", value=" + value +
             '}';
     }
 }

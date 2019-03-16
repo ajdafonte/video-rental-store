@@ -8,36 +8,36 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
 import com.casumo.hometest.videorentalstore.films.FilmTestHelper;
-import com.casumo.hometest.videorentalstore.films.domain.FilmType;
-import com.casumo.hometest.videorentalstore.films.rest.FilmTypeRest;
+import com.casumo.hometest.videorentalstore.films.bizz.InsertFilmParameter;
+import com.casumo.hometest.videorentalstore.films.rest.InsertFilmRequestBody;
 
 
 /**
  * FilmTypeRestMapperTest class - FilmTypeRestMapper test class.
  */
-class FilmTypeRestMapperTest
+class InsertFilmParameterMapperTest
 {
     // map - ok
     @Test
-    void givenValidFilmType_whenMapToRest_thenReturnFilmTypeRest()
+    void givenValidInsertFilmRequestBody_whenMapToParameter_thenReturnInsertFilmParameter()
     {
         // given
-        final FilmType mockFilmType = FilmTestHelper.MOCK_REGULAR_FILM_TYPE;
+        final InsertFilmRequestBody mockRequestBody = FilmTestHelper.MOCK_INSERT_REQ_BODY1;
 
         // when
-        final FilmTypeRest result = FilmTypeRestMapper.map(mockFilmType);
+        final InsertFilmParameter result = InsertFilmParameterMapper.map(mockRequestBody);
 
         // then
         assertNotNull(result);
-        assertThat(result.getId(), is(mockFilmType.getId()));
-        assertThat(result.getName(), is(mockFilmType.getName()));
+        assertThat(result.getName(), is(mockRequestBody.getName()));
+        assertThat(result.getFilmTypeId(), is(mockRequestBody.getFilmTypeId()));
     }
 
     // map - null
     @Test
-    void givenNullFilmType_whenMapToRest_thenReturnNullValue()
+    void givenNullInsertFilmParameter_whenMapToRest_thenReturnNullValue()
     {
-        assertNull(FilmTypeRestMapper.map(null));
+        assertNull(InsertFilmParameterMapper.map(null));
     }
 
 //    // mapToBizz - ok

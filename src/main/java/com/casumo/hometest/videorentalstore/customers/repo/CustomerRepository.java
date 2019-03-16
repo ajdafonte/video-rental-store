@@ -1,6 +1,6 @@
 package com.casumo.hometest.videorentalstore.customers.repo;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.casumo.hometest.videorentalstore.customers.domain.Customer;
 
@@ -8,22 +8,7 @@ import com.casumo.hometest.videorentalstore.customers.domain.Customer;
 /**
  * CustomerRepository interface.
  */
-public interface CustomerRepository
+public interface CustomerRepository extends JpaRepository<Customer, Long>
 {
-    /**
-     * @return
-     */
-    List<Customer> findAll();
 
-    /**
-     * @param id
-     * @return
-     */
-    Customer findBy(long id);
-
-    /**
-     * @param customer
-     * @return
-     */
-    long save(Customer customer);
 }
