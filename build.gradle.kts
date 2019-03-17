@@ -43,6 +43,10 @@ dependencies {
     implementation("io.springfox", "springfox-swagger2", "2.8.0")
     implementation("io.springfox", "springfox-swagger-ui", "2.8.0")
 
+    // Jackson
+//    implementation("com.fasterxml.jackson.datatype", "jackson-datatype-jsr310")
+//    implementation("com.fasterxml.jackson.datatype", "jackson-datatype-jdk8")
+
     // db
     runtimeOnly("com.h2database", "h2")
 
@@ -57,11 +61,14 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.4.0")
     // IMPORTANT: Use this version. Why? See https://github.com/mockito/mockito/issues/1604
     testImplementation("org.mockito", "mockito-junit-jupiter", "2.23.4")
-    testImplementation("org.hamcrest","hamcrest-library","1.3")
+    testImplementation("org.hamcrest", "hamcrest-library", "1.3")
 
     // used because JSONObject change the order of elements
     // see https://stackoverflow.com/questions/17229418/jsonobject-why-jsonobject-changing-the-order-of-attributes
-    testImplementation("com.google.code.gson","gson","2.8.2")
+    testImplementation("com.google.code.gson", "gson", "2.8.2")
+
+    // see https://stackoverflow.com/questions/23072733/how-to-serialize-and-deserialize-java-8s-java-time-types-with-gson
+    testImplementation("com.fatboyindustrial.gson-javatime-serialisers", "gson-javatime-serialisers", "1.1.1")
 }
 
 tasks {

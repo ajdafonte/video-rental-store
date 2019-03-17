@@ -75,7 +75,7 @@ public class FilmRest
         final FilmRest filmRest = (FilmRest) o;
         return id == filmRest.id &&
             Objects.equals(name, filmRest.name) &&
-            type == filmRest.type;
+            Objects.equals(type, filmRest.type);
     }
 
     @Override

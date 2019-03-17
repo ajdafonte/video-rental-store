@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS film (
 );
 
 ALTER TABLE film
-  ADD FOREIGN KEY (typeid) references filmtype(id);
+  ADD FOREIGN KEY (typeid) REFERENCES filmtype(id);
 
 CREATE TABLE IF NOT EXISTS customer (
   id                  BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -31,3 +31,27 @@ CREATE TABLE IF NOT EXISTS customer (
   email               VARCHAR2(100),
   bonuspoints         BIGINT
 );
+
+CREATE TABLE IF NOT EXISTS rental (
+  id                  BIGINT PRIMARY KEY AUTO_INCREMENT,
+  customerid          BIGINT,
+  startdatetime       BIGINT
+);
+
+ALTER TABLE rental
+  ADD FOREIGN KEY (customerid) REFERENCES customer(id);
+
+
+CREATE TABLE IF NOT EXISTS rentalitem (
+  id                  BIGINT PRIMARY KEY AUTO_INCREMENT,
+  rentalid            BIGINT,
+  filmid              BIGINT,
+  daysrented          INT,
+  price               DECIMAL(20, 2),
+  subcharge           DECIMAL(20, 2),
+  startdatetime       BIGINT,
+  enddatetime         BIGINT
+);
+
+ALTER TABLE rentalitem ADD FOREIGN KEY (rentalid) REFERENCES rental(id);
+ALTER TABLE rentalitem ADD FOREIGN KEY (filmid) REFERENCES film(id);

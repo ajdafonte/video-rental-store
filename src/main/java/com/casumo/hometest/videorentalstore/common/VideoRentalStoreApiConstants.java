@@ -13,6 +13,10 @@ public class VideoRentalStoreApiConstants
     public static final String CUSTOMERS_RESOURCE = "customers";
     public static final String CUSTOMERS_ID_PATH_PARAM = "{id}";
 
+    // rentals
+    public static final String RENTALS_RESOURCE = "rentals";
+    public static final String RENTALS_ID_PATH_PARAM = "{id}";
+
     private VideoRentalStoreApiConstants()
     {
         // Suppresses default constructor, ensuring non-instantiability.

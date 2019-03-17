@@ -2,7 +2,6 @@ package com.casumo.hometest.videorentalstore.films.domain;
 
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +30,7 @@ public class Film
     @Column(nullable = false)
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "typeid", referencedColumnName = "id")
     private FilmType type;
 
@@ -79,7 +78,9 @@ public class Film
         final Film film = (Film) o;
         return id == film.id &&
             Objects.equals(name, film.name) &&
-            type == film.type;
+//            type == film.type
+            Objects.equals(type, film.type)
+            ;
     }
 
     @Override

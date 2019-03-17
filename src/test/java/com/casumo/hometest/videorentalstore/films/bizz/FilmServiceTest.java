@@ -59,7 +59,7 @@ class FilmServiceTest
 
     // getFilms - with data
     @Test
-    void givenExistentCustomers_whenFindAll_thenReturnAllFilms()
+    void givenExistentFilms_whenFindAll_thenReturnAllFilms()
     {
         // given
         final List<Film> expected = Arrays.asList(FilmTestHelper.MOCK_FILM1, FilmTestHelper.MOCK_FILM2);

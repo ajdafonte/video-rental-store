@@ -1,5 +1,6 @@
 package com.casumo.hometest.videorentalstore.config;
 
+import java.time.OffsetDateTime;
 import java.util.Collections;
 
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,8 @@ public class SwaggerConfig
             .select()
             .apis(RequestHandlerSelectors.basePackage("com.casumo.hometest.videorentalstore"))
             .build()
+            .directModelSubstitute(OffsetDateTime.class, String.class)
+            .useDefaultResponseMessages(false)
             .apiInfo(apiInfo());
     }
 
