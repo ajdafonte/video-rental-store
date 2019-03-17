@@ -12,8 +12,12 @@ import com.casumo.hometest.videorentalstore.customers.domain.Customer;
 import com.casumo.hometest.videorentalstore.films.FilmTestHelper;
 import com.casumo.hometest.videorentalstore.films.domain.Film;
 import com.casumo.hometest.videorentalstore.films.rest.FilmRest;
+import com.casumo.hometest.videorentalstore.rentals.bizz.InsertRentalItemParameter;
+import com.casumo.hometest.videorentalstore.rentals.bizz.InsertRentalParameter;
 import com.casumo.hometest.videorentalstore.rentals.domain.Rental;
 import com.casumo.hometest.videorentalstore.rentals.domain.RentalItem;
+import com.casumo.hometest.videorentalstore.rentals.rest.InsertRentalItemRequestBody;
+import com.casumo.hometest.videorentalstore.rentals.rest.InsertRentalRequestBody;
 import com.casumo.hometest.videorentalstore.rentals.rest.RentalItemRest;
 import com.casumo.hometest.videorentalstore.rentals.rest.RentalRest;
 
@@ -76,6 +80,16 @@ public class RentalTestHelper
     public static final RentalRest MOCK_RENTAL_REST1;
     public static final RentalRest MOCK_RENTAL_REST2;
 
+    //////////////
+
+    public static final InsertRentalRequestBody MOCK_INSERT_RENTAL_REQUEST_BODY1;
+    public static final InsertRentalItemRequestBody MOCK_INSERT_RENTAL_ITEM_REQUEST_BODY1;
+    public static final InsertRentalItemRequestBody MOCK_INSERT_RENTAL_ITEM_REQUEST_BODY2;
+
+    public static final InsertRentalParameter MOCK_INSERT_RENTAL_PARAMETER1;
+    public static final InsertRentalItemParameter MOCK_INSERT_RENTAL_ITEM_PARAMETER1;
+    public static final InsertRentalItemParameter MOCK_INSERT_RENTAL_ITEM_PARAMETER2;
+
     static
     {
         // domain objects
@@ -117,6 +131,18 @@ public class RentalTestHelper
             MOCK_TOTAL_PRICE2,
             MOCK_TOTAL_SUBCHARGE2,
             MOCK_RENTAL_ITEMS_REST2);
+
+        ///////////////
+        MOCK_INSERT_RENTAL_ITEM_REQUEST_BODY1 = generateInsertRentalItemRequestBody(MOCK_ID1, MOCK_DAYS_RENTED1);
+        MOCK_INSERT_RENTAL_ITEM_REQUEST_BODY2 = generateInsertRentalItemRequestBody(MOCK_ID2, MOCK_DAYS_RENTED2);
+        MOCK_INSERT_RENTAL_REQUEST_BODY1 =
+            generateInsertRentalRequestBody(MOCK_ID1, Arrays.asList(MOCK_INSERT_RENTAL_ITEM_REQUEST_BODY1, MOCK_INSERT_RENTAL_ITEM_REQUEST_BODY2));
+
+        MOCK_INSERT_RENTAL_ITEM_PARAMETER1 = generateInsertRentalItemParameter(MOCK_ID1, MOCK_DAYS_RENTED1);
+        MOCK_INSERT_RENTAL_ITEM_PARAMETER2 = generateInsertRentalItemParameter(MOCK_ID2, MOCK_DAYS_RENTED2);
+        MOCK_INSERT_RENTAL_PARAMETER1 =
+            generateInsertRentalParameter(MOCK_ID1, Arrays.asList(MOCK_INSERT_RENTAL_ITEM_PARAMETER1, MOCK_INSERT_RENTAL_ITEM_PARAMETER2));
+
     }
 
     public static Rental generateRental(final long id,
@@ -208,6 +234,40 @@ public class RentalTestHelper
         rentalItemRest.setStartDateTime(startdatetime);
         rentalItemRest.setEndDateTime(enddatetime);
         return rentalItemRest;
+    }
+
+    public static InsertRentalItemRequestBody generateInsertRentalItemRequestBody(final long filmId, final int daysToRent)
+    {
+        final InsertRentalItemRequestBody itemRequestBody = new InsertRentalItemRequestBody();
+        itemRequestBody.setFilmId(filmId);
+        itemRequestBody.setDaysToRent(daysToRent);
+        return itemRequestBody;
+    }
+
+    public static InsertRentalRequestBody generateInsertRentalRequestBody(final long customerId,
+                                                                          final List<InsertRentalItemRequestBody> rentalItems)
+    {
+        final InsertRentalRequestBody rentalRequestBody = new InsertRentalRequestBody();
+        rentalRequestBody.setCustomerId(customerId);
+        rentalRequestBody.setRentalItems(rentalItems);
+        return rentalRequestBody;
+    }
+
+    public static InsertRentalParameter generateInsertRentalParameter(final long customerId,
+                                                                      final List<InsertRentalItemParameter> itemsToRent)
+    {
+        final InsertRentalParameter parameter = new InsertRentalParameter();
+        parameter.setCustomerId(customerId);
+        parameter.setItemsToRent(itemsToRent);
+        return parameter;
+    }
+
+    public static InsertRentalItemParameter generateInsertRentalItemParameter(final long filmId, final int daysToRent)
+    {
+        final InsertRentalItemParameter parameter = new InsertRentalItemParameter();
+        parameter.setFilmId(filmId);
+        parameter.setDaysToRent(daysToRent);
+        return parameter;
     }
 
 }

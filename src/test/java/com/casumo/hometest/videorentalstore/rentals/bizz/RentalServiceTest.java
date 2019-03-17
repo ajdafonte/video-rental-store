@@ -21,6 +21,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.casumo.hometest.videorentalstore.customers.repo.CustomerRepository;
+import com.casumo.hometest.videorentalstore.films.repo.FilmRepository;
 import com.casumo.hometest.videorentalstore.rentals.RentalTestHelper;
 import com.casumo.hometest.videorentalstore.rentals.domain.Rental;
 import com.casumo.hometest.videorentalstore.rentals.repo.RentalRepository;
@@ -35,12 +37,18 @@ class RentalServiceTest
     @Mock
     private RentalRepository rentalRepository;
 
+    @Mock
+    private CustomerRepository customerRepository;
+
+    @Mock
+    private FilmRepository filmRepository;
+
     private RentalService rentalService;
 
     @BeforeEach
     void setUp()
     {
-        this.rentalService = new RentalService(rentalRepository);
+        this.rentalService = new RentalService(rentalRepository, customerRepository, filmRepository);
     }
 
     // getRentals - with data

@@ -57,9 +57,9 @@ public class FilmTestHelper
         MOCK_UNKNOWN_ID = 400L;
         MOCK_NAME1 = "Saving Private Ryan";
         MOCK_NAME2 = "Green Book";
-        MOCK_OLD_FILM_TYPE_NAME = "Old Film";
+        MOCK_OLD_FILM_TYPE_NAME = "Old";
         MOCK_NEW_FILM_TYPE_NAME = "New Release";
-        MOCK_REGULAR_FILM_TYPE_NAME = "Regular Film";
+        MOCK_REGULAR_FILM_TYPE_NAME = "Regular";
         MOCK_BASIC_PRICE_NAME = "Premium";
         MOCK_PREMIUM_PRICE_NAME = "Basic";
         MOCK_BASIC_PRICE_VALUE = BigDecimal.valueOf(40);

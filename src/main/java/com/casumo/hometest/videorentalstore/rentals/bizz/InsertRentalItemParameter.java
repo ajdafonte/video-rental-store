@@ -1,34 +1,17 @@
-package com.casumo.hometest.videorentalstore.rentals.rest;
+package com.casumo.hometest.videorentalstore.rentals.bizz;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 
 /**
- * InsertRentalItemRequestBody class.
+ * InsertRentalItemParameter class.
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@ApiModel(
-    value = "InsertRentalItemRequestBody",
-    description = "Request body parameter to insert a new rental item."
-)
-public class InsertRentalItemRequestBody
+public class InsertRentalItemParameter
 {
-    @ApiModelProperty(value = "The ID of the film.", required = true)
-    @NotNull
     private long filmId;
-
-    @ApiModelProperty(value = "The number of days to rent the film.", required = true)
-    @NotNull
     private int daysToRent;
 
-    public InsertRentalItemRequestBody()
+    public InsertRentalItemParameter()
     {
     }
 
@@ -63,7 +46,7 @@ public class InsertRentalItemRequestBody
         {
             return false;
         }
-        final InsertRentalItemRequestBody that = (InsertRentalItemRequestBody) o;
+        final InsertRentalItemParameter that = (InsertRentalItemParameter) o;
         return filmId == that.filmId &&
             daysToRent == that.daysToRent;
     }
@@ -77,7 +60,7 @@ public class InsertRentalItemRequestBody
     @Override
     public String toString()
     {
-        return "InsertRentalItemRequestBody{" +
+        return "InsertRentalItemParameter{" +
             "filmId=" + filmId +
             ", daysToRent=" + daysToRent +
             '}';
