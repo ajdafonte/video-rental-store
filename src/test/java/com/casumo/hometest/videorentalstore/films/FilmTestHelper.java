@@ -22,6 +22,7 @@ public class FilmTestHelper
     public static final long MOCK_UNKNOWN_ID;
     public static final String MOCK_NAME1;
     public static final String MOCK_NAME2;
+    public static final String MOCK_NAME3;
     public static final String MOCK_OLD_FILM_TYPE_NAME;
     public static final String MOCK_REGULAR_FILM_TYPE_NAME;
     public static final String MOCK_NEW_FILM_TYPE_NAME;
@@ -57,6 +58,7 @@ public class FilmTestHelper
         MOCK_UNKNOWN_ID = 400L;
         MOCK_NAME1 = "Saving Private Ryan";
         MOCK_NAME2 = "Green Book";
+        MOCK_NAME3 = "The Equalizer";
         MOCK_OLD_FILM_TYPE_NAME = "Old";
         MOCK_NEW_FILM_TYPE_NAME = "New Release";
         MOCK_REGULAR_FILM_TYPE_NAME = "Regular";

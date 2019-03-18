@@ -85,6 +85,13 @@ public class RentalService
                 .findFirst().orElseThrow(() -> new VideoRentalStoreApiException(VideoRentalStoreApiError.UNKNOWN_RESOURCE,
                     "Rental Item was not found."));
 
+            // check if rental item was already returned
+            if (rentalItem.getEnddatetime() != null)
+            {
+                throw new VideoRentalStoreApiException(VideoRentalStoreApiError.INVALID_REQUEST,
+                    "Rental Item was already returned.");
+            }
+
             // calculate subcharge
             final OffsetDateTime startRentalTime = MappingTool.offsetDateTimeOrNull(rentalItem.getStartdatetime());
             final OffsetDateTime limitDeliverRentalTime = startRentalTime.plus(rentalItem.getDaysrented(), ChronoUnit.DAYS);

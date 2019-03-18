@@ -153,7 +153,7 @@ class FilmRepositoryIntegrationTest
         assertThat(allFilms.size(), is(expectedNumFilms));
     }
 
-    // save - duplicated
+    // save - duplicated (unique constraint)
     @Test
     void givenExistentFilm_whenSaveFilm_thenThrowSpecificException()
     {
@@ -166,8 +166,7 @@ class FilmRepositoryIntegrationTest
         assertThrows(DataIntegrityViolationException.class, () -> filmRepository.save(duplicatedFilm));
     }
 
-    // save - unique constraint
-
+    // save - not null name
     @Test
     void givenFilmWithNullName_whenSaveCustomer_thenThrowSpecificException()
     {

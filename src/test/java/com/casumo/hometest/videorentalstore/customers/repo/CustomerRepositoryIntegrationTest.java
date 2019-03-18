@@ -148,7 +148,7 @@ class CustomerRepositoryIntegrationTest
         assertThat(allCustomers.size(), is(expectedNumCustomers));
     }
 
-    // save - duplicated
+    // save - duplicated (unique constraint)
     @Test
     void givenExistentCustomer_whenSaveCustomer_thenThrowSpecificException()
     {
@@ -166,7 +166,7 @@ class CustomerRepositoryIntegrationTest
         assertThrows(DataIntegrityViolationException.class, () -> customerRepository.save(duplicatedCustomer));
     }
 
-    // save - unique constraint
+    // save - not null username
 
     @Test
     void givenCustomerWithNullUsername_whenSaveCustomer_thenThrowSpecificException()
