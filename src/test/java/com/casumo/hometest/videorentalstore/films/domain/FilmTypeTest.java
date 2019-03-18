@@ -19,9 +19,9 @@ class FilmTypeTest
     {
         // given
         final FilmType mockFilmType1 =
-            FilmTestHelper.generateFilmType(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_PREMIUM_PRICE);
+            FilmTestHelper.generateFilmType(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_PREMIUM_PRICE);
         final FilmType mockFilmType2 =
-            FilmTestHelper.generateFilmType(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_PREMIUM_PRICE);
+            FilmTestHelper.generateFilmType(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_PREMIUM_PRICE);
 
         // when + then
         assertEquals(mockFilmType1.hashCode(), mockFilmType2.hashCode());

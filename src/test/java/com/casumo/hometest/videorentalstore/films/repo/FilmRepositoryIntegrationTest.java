@@ -64,8 +64,8 @@ class FilmRepositoryIntegrationTest
     void givenExistentFilms_whenFindAll_thenReturnAllFilms()
     {
         // given
-        final Film film1 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NAME1, oldFilmType);
-        final Film film2 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NAME2, newReleaseFilmType);
+        final Film film1 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_OLD_NAME, oldFilmType);
+        final Film film2 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NEW_RELEASE_NAME, newReleaseFilmType);
         final List<Film> mockFilms = Arrays.asList(film1, film2);
         mockFilms.forEach(film -> entityManager.persistAndFlush(film));
 
@@ -100,7 +100,7 @@ class FilmRepositoryIntegrationTest
     void givenExistentFilmId_whenFindById_thenReturnExistentFilm()
     {
         // given
-        final Film mockFilm = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NAME1, oldFilmType);
+        final Film mockFilm = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_OLD_NAME, oldFilmType);
         entityManager.persistAndFlush(mockFilm);
         final Long id = (Long) entityManager.getId(mockFilm);
 
@@ -120,7 +120,7 @@ class FilmRepositoryIntegrationTest
     void givenNonexistentFilmId_whenFindById_thenThrowSpecificException()
     {
         // given
-        final Film mockFilm = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NAME1, oldFilmType);
+        final Film mockFilm = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_OLD_NAME, oldFilmType);
         entityManager.persistAndFlush(mockFilm);
 
         // when
@@ -135,8 +135,8 @@ class FilmRepositoryIntegrationTest
     void givenNewFilm_whenSaveFilm_thenReturnNewFilmId()
     {
         // given
-        final Film film1 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NAME1, oldFilmType);
-        final Film film2 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NAME2, newReleaseFilmType);
+        final Film film1 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_OLD_NAME, oldFilmType);
+        final Film film2 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NEW_RELEASE_NAME, newReleaseFilmType);
         final List<Film> mockFilms = Arrays.asList(film1, film2);
         mockFilms.forEach(film -> entityManager.persistAndFlush(film));
 
@@ -158,9 +158,9 @@ class FilmRepositoryIntegrationTest
     void givenExistentFilm_whenSaveFilm_thenThrowSpecificException()
     {
         // given
-        final Film mockFilm = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NAME1, oldFilmType);
+        final Film mockFilm = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_OLD_NAME, oldFilmType);
         entityManager.persistAndFlush(mockFilm);
-        final Film duplicatedFilm = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NAME1, oldFilmType);
+        final Film duplicatedFilm = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_OLD_NAME, oldFilmType);
 
         // when + then
         assertThrows(DataIntegrityViolationException.class, () -> filmRepository.save(duplicatedFilm));

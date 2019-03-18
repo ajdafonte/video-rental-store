@@ -19,9 +19,9 @@ class InsertFilmRequestBodyTest
     {
         // given
         final InsertFilmRequestBody mockRequestBody1 =
-            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_ID1);
+            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_ID1);
         final InsertFilmRequestBody mockRequestBody2 =
-            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_ID1);
+            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_ID1);
 
         // when + then
         assertEquals(mockRequestBody1.hashCode(), mockRequestBody2.hashCode());
@@ -34,9 +34,9 @@ class InsertFilmRequestBodyTest
     {
         // given
         final InsertFilmRequestBody mockRequestBody1 =
-            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_ID1);
+            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_ID1);
         final InsertFilmRequestBody mockRequestBody2 =
-            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_NAME2, FilmTestHelper.MOCK_ID1);
+            FilmTestHelper.generateInsertFilmRequestBody(FilmTestHelper.MOCK_NEW_RELEASE_NAME, FilmTestHelper.MOCK_ID1);
 
         // when + then
         assertNotEquals(mockRequestBody1.hashCode(), mockRequestBody2.hashCode());

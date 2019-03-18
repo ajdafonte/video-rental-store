@@ -18,8 +18,8 @@ class FilmTest
     void givenTwoEqualFilms_whenCheckIfEquals_thenBothFilmsMustBeEquals()
     {
         // given
-        final Film mockFilm1 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_OLD_FILM_TYPE);
-        final Film mockFilm2 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_OLD_FILM_TYPE);
+        final Film mockFilm1 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_OLD_FILM_TYPE);
+        final Film mockFilm2 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_OLD_FILM_TYPE);
 
         // when + then
         assertEquals(mockFilm1.hashCode(), mockFilm2.hashCode());

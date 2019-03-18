@@ -19,9 +19,9 @@ class FilmRestTest
     {
         // given
         final FilmRest mockFilmRest1 =
-            FilmTestHelper.generateFilmRest(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_FILM_TYPE_REST1);
+            FilmTestHelper.generateFilmRest(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_FILM_TYPE_REST1);
         final FilmRest mockFilmRest2 =
-            FilmTestHelper.generateFilmRest(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_FILM_TYPE_REST1);
+            FilmTestHelper.generateFilmRest(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_FILM_TYPE_REST1);
 
         // when + then
         assertEquals(mockFilmRest1.hashCode(), mockFilmRest2.hashCode());

@@ -68,9 +68,9 @@ class RentalRepositoryIntegrationTest
         entityManager.persist(oldFilmType);
 
         // film
-        mockFilm1 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NAME1, oldFilmType);
-        mockFilm2 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NAME2, newReleaseFilmType);
-        mockFilm3 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NAME3, regularFilmType);
+        mockFilm1 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_OLD_NAME, oldFilmType);
+        mockFilm2 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NEW_RELEASE_NAME, newReleaseFilmType);
+        mockFilm3 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_REGULAR_NAME, regularFilmType);
         entityManager.persist(mockFilm1);
         entityManager.persist(mockFilm2);
         entityManager.persist(mockFilm3);

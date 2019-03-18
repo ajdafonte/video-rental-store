@@ -20,9 +20,9 @@ public class FilmTestHelper
     public static final long MOCK_ID2;
     public static final long MOCK_ID3;
     public static final long MOCK_UNKNOWN_ID;
-    public static final String MOCK_NAME1;
-    public static final String MOCK_NAME2;
-    public static final String MOCK_NAME3;
+    public static final String MOCK_OLD_NAME;
+    public static final String MOCK_NEW_RELEASE_NAME;
+    public static final String MOCK_REGULAR_NAME;
     public static final String MOCK_OLD_FILM_TYPE_NAME;
     public static final String MOCK_REGULAR_FILM_TYPE_NAME;
     public static final String MOCK_NEW_FILM_TYPE_NAME;
@@ -56,9 +56,9 @@ public class FilmTestHelper
         MOCK_ID2 = 2L;
         MOCK_ID3 = 3L;
         MOCK_UNKNOWN_ID = 400L;
-        MOCK_NAME1 = "Saving Private Ryan";
-        MOCK_NAME2 = "Green Book";
-        MOCK_NAME3 = "The Equalizer";
+        MOCK_OLD_NAME = "Saving Private Ryan";
+        MOCK_NEW_RELEASE_NAME = "Green Book";
+        MOCK_REGULAR_NAME = "The Equalizer";
         MOCK_OLD_FILM_TYPE_NAME = "Old";
         MOCK_NEW_FILM_TYPE_NAME = "New Release";
         MOCK_REGULAR_FILM_TYPE_NAME = "Regular";
@@ -74,13 +74,13 @@ public class FilmTestHelper
         MOCK_REGULAR_FILM_TYPE = generateFilmType(MOCK_ID2, MOCK_REGULAR_FILM_TYPE_NAME, MOCK_BASIC_PRICE);
         MOCK_NEW_RELEASE_FILM_TYPE = generateFilmType(MOCK_ID3, MOCK_NEW_FILM_TYPE_NAME, MOCK_PREMIUM_PRICE);
 
-        MOCK_FILM1 = generateFilm(MOCK_ID1, MOCK_NAME1, MOCK_OLD_FILM_TYPE);
-        MOCK_FILM2 = generateFilm(MOCK_ID2, MOCK_NAME2, MOCK_NEW_RELEASE_FILM_TYPE);
+        MOCK_FILM1 = generateFilm(MOCK_ID1, MOCK_OLD_NAME, MOCK_OLD_FILM_TYPE);
+        MOCK_FILM2 = generateFilm(MOCK_ID2, MOCK_NEW_RELEASE_NAME, MOCK_NEW_RELEASE_FILM_TYPE);
 
         MOCK_FILM_TYPE_REST1 = generateFilmTypeRest(MOCK_ID1, MOCK_OLD_FILM_TYPE_NAME);
         MOCK_FILM_TYPE_REST2 = generateFilmTypeRest(MOCK_ID3, MOCK_NEW_FILM_TYPE_NAME);
-        MOCK_FILM_REST1 = generateFilmRest(MOCK_ID1, MOCK_NAME1, MOCK_FILM_TYPE_REST1);
-        MOCK_FILM_REST2 = generateFilmRest(MOCK_ID2, MOCK_NAME2, MOCK_FILM_TYPE_REST2);
+        MOCK_FILM_REST1 = generateFilmRest(MOCK_ID1, MOCK_OLD_NAME, MOCK_FILM_TYPE_REST1);
+        MOCK_FILM_REST2 = generateFilmRest(MOCK_ID2, MOCK_NEW_RELEASE_NAME, MOCK_FILM_TYPE_REST2);
 
         MOCK_NEW_FILM_ID = 3L;
         MOCK_NEW_FILM_NAME = "Toy Story";

@@ -19,9 +19,9 @@ class InsertFilmParameterTest
     {
         // given
         final InsertFilmParameter mockParameter1 =
-            FilmTestHelper.generateInsertFilmParameter(FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_ID1);
+            FilmTestHelper.generateInsertFilmParameter(FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_ID1);
         final InsertFilmParameter mockParameter2 =
-            FilmTestHelper.generateInsertFilmParameter(FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_ID1);
+            FilmTestHelper.generateInsertFilmParameter(FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_ID1);
 
         // when + then
         assertEquals(mockParameter1.hashCode(), mockParameter2.hashCode());
@@ -34,9 +34,9 @@ class InsertFilmParameterTest
     {
         // given
         final InsertFilmParameter mockParameter1 =
-            FilmTestHelper.generateInsertFilmParameter(FilmTestHelper.MOCK_NAME1, FilmTestHelper.MOCK_ID1);
+            FilmTestHelper.generateInsertFilmParameter(FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_ID1);
         final InsertFilmParameter mockParameter2 =
-            FilmTestHelper.generateInsertFilmParameter(FilmTestHelper.MOCK_NAME2, FilmTestHelper.MOCK_ID1);
+            FilmTestHelper.generateInsertFilmParameter(FilmTestHelper.MOCK_NEW_RELEASE_NAME, FilmTestHelper.MOCK_ID1);
 
         // when + then
         assertNotEquals(mockParameter1.hashCode(), mockParameter2.hashCode());

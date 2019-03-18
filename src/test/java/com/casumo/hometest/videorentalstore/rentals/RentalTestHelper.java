@@ -34,13 +34,15 @@ public class RentalTestHelper
     public static final long MOCK_ID3 = 3L;
     public static final long MOCK_UNKNOWN_ID = 400L;
 
-    public static final long MOCK_START_DATETIME1 = 1552694400000L; /* 16-03-2019 */
-    public static final long MOCK_START_DATETIME2 = 1552780800000L; /* 17-03-2019 */
+    public static final long MOCK_START_DATETIME1 = 1552608000000L; /* 15-03-2019 */
+    public static final long MOCK_START_DATETIME2 = 1552694400000L; /* 16-03-2019 */
+    public static final long MOCK_START_DATETIME3 = 1552780800000L; /* 17-03-2019 */
     public static final long MOCK_END_DATETIME1 = 1552867200000L; /* 18-03-2019 */
     public static final long MOCK_END_DATETIME2 = 1553040000000L; /* 20-03-2019 */
 
-    public static final int MOCK_DAYS_RENTED1 = 2;
-    public static final int MOCK_DAYS_RENTED2 = 4;
+    public static final int MOCK_DAYS_RENTED1 = 5;
+    public static final int MOCK_DAYS_RENTED2 = 3;
+    public static final int MOCK_DAYS_RENTED3 = 2;
 
     public static final BigDecimal MOCK_PRICE1 = BigDecimal.valueOf(60);
     public static final BigDecimal MOCK_PRICE2 = BigDecimal.valueOf(80);
@@ -54,16 +56,8 @@ public class RentalTestHelper
     public static final BigDecimal MOCK_TOTAL_SUBCHARGE1 = BigDecimal.valueOf(0);
     public static final BigDecimal MOCK_TOTAL_SUBCHARGE2 = BigDecimal.valueOf(30);
 
-//    public static final Customer MOCK_CUSTOMER1 = CustomerTestHelper.MOCK_CUSTOMER1;
-//    public static final Customer MOCK_CUSTOMER2 = CustomerTestHelper.MOCK_CUSTOMER2;
-//
-//    public static final Film MOCK_FILM1 = FilmTestHelper.MOCK_FILM1;
-//    public static final Film MOCK_FILM2 = FilmTestHelper.MOCK_FILM2;
-
     public static final RentalItem MOCK_RENTAL_ITEM1;
     public static final RentalItem MOCK_RENTAL_ITEM2;
-//    public static final RentalItem MOCK_RENTAL_ITEM3;
-//    public static final RentalItem MOCK_RENTAL_ITEM4;
 
     public static final List<RentalItem> MOCK_RENTAL_ITEMS1;
     public static final List<RentalItem> MOCK_RENTAL_ITEMS2;
@@ -94,6 +88,51 @@ public class RentalTestHelper
 
     public static final PatchRentalRequestBody MOCK_PATCH_RENTAL_REQUEST_BODY1;
     public static final PatchRentalParameter MOCK_PATCH_RENTAL_PARAMETER1;
+
+    public static final Film MOCK_REGULAR_FILM =
+        FilmTestHelper.generateFilm(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_REGULAR_NAME, FilmTestHelper.MOCK_REGULAR_FILM_TYPE);
+    public static final Film MOCK_OLD_FILM =
+        FilmTestHelper.generateFilm(FilmTestHelper.MOCK_ID2, FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_OLD_FILM_TYPE);
+    public static final Film MOCK_NEW_RELEASE_FILM =
+        FilmTestHelper.generateFilm(FilmTestHelper.MOCK_ID3, FilmTestHelper.MOCK_NEW_RELEASE_NAME, FilmTestHelper.MOCK_NEW_RELEASE_FILM_TYPE);
+
+    // regular film with 5 days for rent
+    public static final RentalItem MOCK_NEW_RENTAL_ITEM1 =
+        generateRentalItem(MOCK_ID1, MOCK_REGULAR_FILM, MOCK_DAYS_RENTED1, BigDecimal.valueOf(90),
+            BigDecimal.valueOf(0), MOCK_START_DATETIME1, null);
+    // old film with 3 days for rent
+    public static final RentalItem MOCK_NEW_RENTAL_ITEM2 =
+        generateRentalItem(MOCK_ID2, MOCK_OLD_FILM, MOCK_DAYS_RENTED2, BigDecimal.valueOf(30),
+            BigDecimal.valueOf(0), MOCK_START_DATETIME1, null);
+    // new release film with 2 days for rent
+    public static final RentalItem MOCK_NEW_RENTAL_ITEM3 =
+        generateRentalItem(MOCK_ID3, MOCK_NEW_RELEASE_FILM, MOCK_DAYS_RENTED3, BigDecimal.valueOf(80),
+            BigDecimal.valueOf(0), MOCK_START_DATETIME1, null);
+    public static final Rental MOCK_NEW_RENTAL1 =
+        generateRental(MOCK_ID1,
+            CustomerTestHelper.MOCK_CUSTOMER1,
+            MOCK_START_DATETIME1,
+            Arrays.asList(MOCK_NEW_RENTAL_ITEM1, MOCK_NEW_RENTAL_ITEM2, MOCK_NEW_RENTAL_ITEM3));
+
+    public static final RentalItem MOCK_PATCHED_RENTAL_ITEM1 =
+        generateRentalItem(MOCK_ID1, MOCK_REGULAR_FILM, MOCK_DAYS_RENTED1, BigDecimal.valueOf(90),
+            BigDecimal.valueOf(0), MOCK_START_DATETIME1, MOCK_END_DATETIME1);
+    public static final RentalItem MOCK_PATCHED_RENTAL_ITEM3 =
+        generateRentalItem(MOCK_ID3, MOCK_NEW_RELEASE_FILM, MOCK_DAYS_RENTED3, BigDecimal.valueOf(80),
+            BigDecimal.valueOf(40), MOCK_START_DATETIME1, MOCK_END_DATETIME1);
+    public static final Rental MOCK_PATCHED_RENTAL1 = generateRental(MOCK_ID1,
+        CustomerTestHelper.MOCK_CUSTOMER1,
+        MOCK_START_DATETIME1,
+        Arrays.asList(MOCK_PATCHED_RENTAL_ITEM1, MOCK_NEW_RENTAL_ITEM2, MOCK_PATCHED_RENTAL_ITEM3));
+
+    public static final RentalItem MOCK_RETURNED_RENTAL_ITEM2 =
+        generateRentalItem(MOCK_ID2, MOCK_OLD_FILM, MOCK_DAYS_RENTED2, BigDecimal.valueOf(30),
+            BigDecimal.valueOf(0), MOCK_START_DATETIME2, MOCK_END_DATETIME2);
+    public static final Rental MOCK_RENTAL_WITH_ITEM_RETURNED =
+        generateRental(MOCK_ID1,
+            CustomerTestHelper.MOCK_CUSTOMER1,
+            MOCK_START_DATETIME1,
+            Arrays.asList(MOCK_NEW_RENTAL_ITEM1, MOCK_RETURNED_RENTAL_ITEM2));
 
     static
     {

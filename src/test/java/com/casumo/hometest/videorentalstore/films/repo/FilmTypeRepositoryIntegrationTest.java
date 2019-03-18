@@ -45,7 +45,7 @@ class FilmTypeRepositoryIntegrationTest
     void givenExistentFilmTypeId_whenFindById_thenReturnExistentFilmType()
     {
         // given
-        final FilmType mockFilmType = FilmTestHelper.generateFilmType(FilmTestHelper.MOCK_NAME1, basicPrice);
+        final FilmType mockFilmType = FilmTestHelper.generateFilmType(FilmTestHelper.MOCK_OLD_NAME, basicPrice);
         entityManager.persistAndFlush(mockFilmType);
         final Long id = (Long) entityManager.getId(mockFilmType);
 
@@ -65,7 +65,7 @@ class FilmTypeRepositoryIntegrationTest
     void givenNotExistentFilmTypeId_whenFindById_thenThrowSpecificException()
     {
         // given
-        final FilmType mockFilmType = FilmTestHelper.generateFilmType(FilmTestHelper.MOCK_NAME1, basicPrice);
+        final FilmType mockFilmType = FilmTestHelper.generateFilmType(FilmTestHelper.MOCK_OLD_NAME, basicPrice);
         entityManager.persistAndFlush(mockFilmType);
 
         // when
