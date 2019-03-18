@@ -2,6 +2,7 @@ package com.casumo.hometest.videorentalstore.rentals.rest;
 
 import java.util.Objects;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,10 +22,12 @@ import io.swagger.annotations.ApiModelProperty;
 public class InsertRentalItemRequestBody
 {
     @ApiModelProperty(value = "The ID of the film.", required = true)
+    @Min(value = 1)
     @NotNull
     private long filmId;
 
     @ApiModelProperty(value = "The number of days to rent the film.", required = true)
+    @Min(value = 1)
     @NotNull
     private int daysToRent;
 

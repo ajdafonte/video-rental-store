@@ -66,8 +66,8 @@ class FilmRestControllerTest
     void givenInventoryOfFilms_whenGetAllFilms_thenReturnAllFilms() throws Exception
     {
         // given
-        final List<Film> allFilms = Arrays.asList(FilmTestHelper.MOCK_FILM1, FilmTestHelper.MOCK_FILM2);
-        final List<FilmRest> expectedResult = Arrays.asList(FilmTestHelper.MOCK_FILM_REST1, FilmTestHelper.MOCK_FILM_REST2);
+        final List<Film> allFilms = Arrays.asList(FilmTestHelper.MOCK_NEW_RELEASE_FILM, FilmTestHelper.MOCK_OLD_FILM);
+        final List<FilmRest> expectedResult = Arrays.asList(FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST, FilmTestHelper.MOCK_OLD_FILM_REST);
         doReturn(allFilms).when(filmService).findAll();
         final String expectedContent = generateSuccessBody(expectedResult);
 
@@ -311,9 +311,9 @@ class FilmRestControllerTest
         return generateJsonObject(film).toString();
     }
 
-    private String generateRequestBody(final InsertFilmRequestBody parameter)
+    private String generateRequestBody(final InsertFilmRequestBody requestBody)
     {
-        return generateJsonObject(parameter).toString();
+        return generateJsonObject(requestBody).toString();
     }
 
 }

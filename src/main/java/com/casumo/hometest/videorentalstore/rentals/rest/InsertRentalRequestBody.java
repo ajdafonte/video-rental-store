@@ -3,6 +3,8 @@ package com.casumo.hometest.videorentalstore.rentals.rest;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -23,10 +25,12 @@ public class InsertRentalRequestBody
 {
     @ApiModelProperty(value = "The ID of the customer.", required = true)
     @NotNull
+    @Min(value = 1)
     private long customerId;
 
     @ApiModelProperty(value = "The list of items that should be rented.", required = true)
     @NotNull
+    @Valid
     private List<InsertRentalItemRequestBody> rentalItems;
 
     public InsertRentalRequestBody()

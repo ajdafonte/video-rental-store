@@ -279,7 +279,7 @@ class RentalServiceTest
         // given
         final RentalItem currentRentalItem1 =
             RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID1,
-                RentalTestHelper.MOCK_REGULAR_FILM,
+                FilmTestHelper.MOCK_REGULAR_FILM,
                 RentalTestHelper.MOCK_DAYS_RENTED1,
                 BigDecimal.valueOf(90),
                 BigDecimal.valueOf(0),
@@ -287,7 +287,7 @@ class RentalServiceTest
                 null);
         final RentalItem currentRentalItem2 =
             RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID2,
-                RentalTestHelper.MOCK_OLD_FILM,
+                FilmTestHelper.MOCK_OLD_FILM,
                 RentalTestHelper.MOCK_DAYS_RENTED2,
                 BigDecimal.valueOf(30),
                 BigDecimal.valueOf(0),
