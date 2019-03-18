@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import java.math.BigDecimal;
@@ -31,9 +32,11 @@ import com.casumo.hometest.videorentalstore.common.error.VideoRentalStoreApiErro
 import com.casumo.hometest.videorentalstore.common.error.VideoRentalStoreApiException;
 import com.casumo.hometest.videorentalstore.common.infra.MappingTool;
 import com.casumo.hometest.videorentalstore.customers.CustomerTestHelper;
+import com.casumo.hometest.videorentalstore.customers.domain.Customer;
 import com.casumo.hometest.videorentalstore.films.FilmTestHelper;
 import com.casumo.hometest.videorentalstore.rentals.RentalTestHelper;
 import com.casumo.hometest.videorentalstore.rentals.bizz.InsertRentalParameter;
+import com.casumo.hometest.videorentalstore.rentals.bizz.PatchRentalParameter;
 import com.casumo.hometest.videorentalstore.rentals.bizz.RentalService;
 import com.casumo.hometest.videorentalstore.rentals.domain.Rental;
 import com.casumo.hometest.videorentalstore.rentals.domain.RentalItem;
@@ -452,6 +455,286 @@ class RentalRestControllerTest
         verifyZeroInteractions(rentalService);
     }
 
+    // patch rental - ok
+    @Test
+    void givenValidRequest_whenPatchExistentRental_thenReturnPatchedRental() throws Exception
+    {
+        // given
+        final Customer mockCustomer = CustomerTestHelper.MOCK_CUSTOMER1;
+        final RentalItem mockRentalItem1 =
+            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID1,
+                FilmTestHelper.MOCK_REGULAR_FILM,
+                RentalTestHelper.MOCK_DAYS_RENTED1,
+                BigDecimal.valueOf(90),
+                BigDecimal.valueOf(0),
+                RentalTestHelper.MOCK_START_DATETIME1,
+                RentalTestHelper.MOCK_START_DATETIME1);
+        // old film with 3 days for rent
+        final RentalItem mockRentalItem2 =
+            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID2,
+                FilmTestHelper.MOCK_OLD_FILM,
+                RentalTestHelper.MOCK_DAYS_RENTED2,
+                BigDecimal.valueOf(30),
+                BigDecimal.valueOf(0),
+                RentalTestHelper.MOCK_START_DATETIME1,
+                null);
+        final RentalItem mockRentalItem3 =
+            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID3,
+                FilmTestHelper.MOCK_NEW_RELEASE_FILM,
+                RentalTestHelper.MOCK_DAYS_RENTED3,
+                BigDecimal.valueOf(80),
+                BigDecimal.valueOf(40),
+                RentalTestHelper.MOCK_START_DATETIME1,
+                RentalTestHelper.MOCK_END_DATETIME1);
+        final List<RentalItem> mockRentalItems = Arrays.asList(mockRentalItem1, mockRentalItem2, mockRentalItem3);
+        final Rental mockRental =
+            RentalTestHelper.generateRental(RentalTestHelper.MOCK_ID1,
+                mockCustomer,
+                RentalTestHelper.MOCK_START_DATETIME1,
+                mockRentalItems);
+
+        doReturn(mockRental).when(rentalService).patch(any(PatchRentalParameter.class));
+
+        final List<Long> mockItemsIds = Arrays.asList(mockRentalItem1.getId(), mockRentalItem3.getId());
+        final PatchRentalRequestBody mockRequestBody = RentalTestHelper.generatePatchRentalRequestBody(mockItemsIds);
+        final String requestBody = generateRequestBody(mockRequestBody);
+
+        final RentalItemRest rentalItemRest1 =
+            RentalTestHelper.generateRentalItemRest(mockRentalItem1.getId(),
+                FilmTestHelper.MOCK_REGULAR_FILM_REST,
+                mockRentalItem1.getDaysrented(),
+                mockRentalItem1.getPrice(),
+                mockRentalItem1.getSubcharge(),
+                MappingTool.offsetDateTimeOrNull(mockRentalItem1.getStartdatetime()),
+                MappingTool.offsetDateTimeOrNull(mockRentalItem1.getEnddatetime()));
+        final RentalItemRest rentalItemRest2 =
+            RentalTestHelper.generateRentalItemRest(mockRentalItem2.getId(),
+                FilmTestHelper.MOCK_OLD_FILM_REST,
+                mockRentalItem2.getDaysrented(),
+                mockRentalItem2.getPrice(),
+                mockRentalItem2.getSubcharge(),
+                MappingTool.offsetDateTimeOrNull(mockRentalItem2.getStartdatetime()),
+                MappingTool.offsetDateTimeOrNull(mockRentalItem2.getEnddatetime()));
+        final RentalItemRest rentalItemRest3 =
+            RentalTestHelper.generateRentalItemRest(mockRentalItem3.getId(),
+                FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST,
+                mockRentalItem3.getDaysrented(),
+                mockRentalItem3.getPrice(),
+                mockRentalItem3.getSubcharge(),
+                MappingTool.offsetDateTimeOrNull(mockRentalItem3.getStartdatetime()),
+                MappingTool.offsetDateTimeOrNull(mockRentalItem3.getEnddatetime()));
+        final List<RentalItemRest> rentalItemsRest = Arrays.asList(rentalItemRest1, rentalItemRest2, rentalItemRest3);
+        final RentalRest expectedRentalRest =
+            RentalTestHelper.generateRentalRest(mockRental.getId(),
+                MappingTool.offsetDateTimeOrNull(mockRental.getStartdatetime()), BigDecimal.valueOf(200), BigDecimal.valueOf(40), rentalItemsRest);
+        final String expectedContent = generateRequestBody(expectedRentalRest);
+
+        // when
+        final ResultActions result = mvc.perform(patch(RENTAL_BY_ID_URI, mockCustomer.getId())
+            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+            .content(requestBody));
+
+        // then
+        result.andExpect(MockMvcResultMatchers.status().isOk());
+        result.andExpect(MockMvcResultMatchers.content().string(expectedContent));
+        verify(rentalService, times(1)).patch(any(PatchRentalParameter.class));
+        verifyNoMoreInteractions(rentalService);
+    }
+
+    // patch rental - nok (rental not found)
+    @Test
+    void givenInvalidRentalId_whenPatchExistentRental_thenReturnNotFound() throws Exception
+    {
+        // given
+        final long unknownRentalId = RentalTestHelper.MOCK_UNKNOWN_ID;
+        final List<Long> mockItemsIds = Arrays.asList(RentalTestHelper.MOCK_ID1, RentalTestHelper.MOCK_ID3);
+        final PatchRentalRequestBody mockRequestBody = RentalTestHelper.generatePatchRentalRequestBody(mockItemsIds);
+        final String requestBody = generateRequestBody(mockRequestBody);
+
+        doThrow(new VideoRentalStoreApiException(VideoRentalStoreApiError.UNKNOWN_RESOURCE,
+            "Rental was not found."))
+            .when(rentalService)
+            .patch(any(PatchRentalParameter.class));
+
+        // when
+        final ResultActions result = mvc.perform(patch(RENTAL_BY_ID_URI, unknownRentalId)
+            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+            .content(requestBody));
+
+        // then
+        result.andExpect(MockMvcResultMatchers.status().isNotFound());
+        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(UNKNOWN_RESOURCE)));
+        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("Rental was not found.")));
+        verify(rentalService, times(1)).patch(any(PatchRentalParameter.class));
+        verifyNoMoreInteractions(rentalService);
+    }
+
+    // patch rental - nok (item to return not found)
+    @Test
+    void givenNotExistentRentalItemId_whenPatchExistentRental_thenReturnNotFound() throws Exception
+    {
+        // given
+        final long mockRentalId = RentalTestHelper.MOCK_ID1;
+        final List<Long> mockItemsIds = Arrays.asList(RentalTestHelper.MOCK_ID1, RentalTestHelper.MOCK_UNKNOWN_ID);
+        final PatchRentalRequestBody mockRequestBody = RentalTestHelper.generatePatchRentalRequestBody(mockItemsIds);
+        final String requestBody = generateRequestBody(mockRequestBody);
+
+        doThrow(new VideoRentalStoreApiException(VideoRentalStoreApiError.UNKNOWN_RESOURCE,
+            "Rental Item was not found."))
+            .when(rentalService)
+            .patch(any(PatchRentalParameter.class));
+
+        // when
+        final ResultActions result = mvc.perform(patch(RENTAL_BY_ID_URI, mockRentalId)
+            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+            .content(requestBody));
+
+        // then
+        result.andExpect(MockMvcResultMatchers.status().isNotFound());
+        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(UNKNOWN_RESOURCE)));
+        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("Rental Item was not found.")));
+        verify(rentalService, times(1)).patch(any(PatchRentalParameter.class));
+        verifyNoMoreInteractions(rentalService);
+    }
+
+    // patch rental - nok (one item already returned)
+    @Test
+    void givenRentalItemIdAlreadyReturned_whenPatchExistentRental_thenReturnNotFound() throws Exception
+    {
+        // given
+        final long mockRentalId = RentalTestHelper.MOCK_ID1;
+        final List<Long> mockItemsIds = Arrays.asList(RentalTestHelper.MOCK_ID1, RentalTestHelper.MOCK_ID3);
+        final PatchRentalRequestBody mockRequestBody = RentalTestHelper.generatePatchRentalRequestBody(mockItemsIds);
+        final String requestBody = generateRequestBody(mockRequestBody);
+
+        doThrow(new VideoRentalStoreApiException(VideoRentalStoreApiError.INVALID_REQUEST,
+            "Rental Item was already returned."))
+            .when(rentalService)
+            .patch(any(PatchRentalParameter.class));
+
+        // when
+        final ResultActions result = mvc.perform(patch(RENTAL_BY_ID_URI, mockRentalId)
+            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+            .content(requestBody));
+
+        // then
+        result.andExpect(MockMvcResultMatchers.status().isBadRequest());
+        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST)));
+        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("Rental Item was already returned.")));
+        verify(rentalService, times(1)).patch(any(PatchRentalParameter.class));
+        verifyNoMoreInteractions(rentalService);
+    }
+
+    // patch rental - invalid body (null body)
+    @Test
+    void givenNullRequestBody_whenPatchExistentRental_thenReturnBadRequest() throws Exception
+    {
+        // given
+        final long mockRentalId = RentalTestHelper.MOCK_ID1;
+        final String requestBody = "{}";
+
+        // when
+        final ResultActions result = mvc.perform(patch(RENTAL_BY_ID_URI, mockRentalId)
+            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+            .content(requestBody));
+
+        // then
+        result.andExpect(MockMvcResultMatchers.status().isBadRequest());
+        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST)));
+        verifyZeroInteractions(rentalService);
+    }
+
+    // patch rental - body with invalid values
+    @Test
+    void givenRequestBodyWithInvalidItems_whenPatchExistentRental_thenReturnBadRequest() throws Exception
+    {
+        // given
+        final long mockRentalId = RentalTestHelper.MOCK_ID1;
+        final List<Long> mockItemsIds = Arrays.asList(RentalTestHelper.MOCK_ID1, -1L);
+        final PatchRentalRequestBody mockRequestBody = RentalTestHelper.generatePatchRentalRequestBody(mockItemsIds);
+        final String requestBody = generateRequestBody(mockRequestBody);
+
+        // when
+        final ResultActions result = mvc.perform(patch(RENTAL_BY_ID_URI, mockRentalId)
+            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+            .content(requestBody));
+
+        // then
+        result.andExpect(MockMvcResultMatchers.status().isBadRequest());
+        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST)));
+        verifyZeroInteractions(rentalService);
+    }
+//
+//    // save rental - invalid body (body with missing values)
+//    @Test
+//    void givenIncompleteRequestBody_whenInsertNewRental_thenReturnBadRequest() throws Exception
+//    {
+//        // given
+//        final InsertRentalRequestBody parameter =
+//            RentalTestHelper.generateInsertRentalRequestBody(RentalTestHelper.MOCK_ID1, null);
+//        final String requestBody = generateRequestBody(parameter);
+//
+//        // when
+//        final ResultActions result = mvc.perform(post(RENTALS_URI)
+//            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+//            .content(requestBody));
+//
+//        // then
+//        result.andExpect(MockMvcResultMatchers.status().isBadRequest());
+//        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST)));
+//        verifyZeroInteractions(rentalService);
+//    }
+//
+//    // save rental - invalid body (body with invalid values)
+//    @Test
+//    void givenInvalidRentalItemRequestBody_whenInsertNewRental_thenReturnBadRequest() throws Exception
+//    {
+//        // given
+//        final long invalidFilmId = -1;
+//        final InsertRentalItemRequestBody rentalItemRequestBody1 =
+//            RentalTestHelper.generateInsertRentalItemRequestBody(FilmTestHelper.MOCK_REGULAR_FILM.getId(), RentalTestHelper.MOCK_DAYS_RENTED1);
+//        final InsertRentalItemRequestBody rentalItemRequestBody2 =
+//            RentalTestHelper.generateInsertRentalItemRequestBody(invalidFilmId, RentalTestHelper.MOCK_DAYS_RENTED2);
+//        final List<InsertRentalItemRequestBody> rentalItems = Arrays.asList(rentalItemRequestBody1, rentalItemRequestBody2);
+//        final InsertRentalRequestBody parameter =
+//            RentalTestHelper.generateInsertRentalRequestBody(RentalTestHelper.MOCK_ID1, rentalItems);
+//        final String requestBody = generateRequestBody(parameter);
+//
+//        // when
+//        final ResultActions result = mvc.perform(post(RENTALS_URI)
+//            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+//            .content(requestBody));
+//
+//        // then
+//        result.andExpect(MockMvcResultMatchers.status().isBadRequest());
+//        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST)));
+//        verifyZeroInteractions(rentalService);
+//    }
+//
+//    // save rental - invalid body (body with invalid customer id) -- this should be replaced in future
+//    @Test
+//    void givenInvalidCustomerId_whenInsertNewRental_thenReturnBadRequest() throws Exception
+//    {
+//        // given
+//        final long invalidCustomerId = -1;
+//        final InsertRentalItemRequestBody rentalItemRequestBody1 =
+//            RentalTestHelper.generateInsertRentalItemRequestBody(FilmTestHelper.MOCK_REGULAR_FILM.getId(), RentalTestHelper.MOCK_DAYS_RENTED1);
+//        final List<InsertRentalItemRequestBody> rentalItems = Collections.singletonList(rentalItemRequestBody1);
+//        final InsertRentalRequestBody parameter =
+//            RentalTestHelper.generateInsertRentalRequestBody(invalidCustomerId, rentalItems);
+//        final String requestBody = generateRequestBody(parameter);
+//
+//        // when
+//        final ResultActions result = mvc.perform(post(RENTALS_URI)
+//            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+//            .content(requestBody));
+//
+//        // then
+//        result.andExpect(MockMvcResultMatchers.status().isBadRequest());
+//        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST)));
+//        verifyZeroInteractions(rentalService);
+//    }
+
     private String generateRequestBody(final RentalRest rentalRest)
     {
         return generateJsonObject(rentalRest).toString();
@@ -460,6 +743,16 @@ class RentalRestControllerTest
     private String generateRequestBody(final InsertRentalRequestBody requestBody)
     {
         return generateJsonObject(requestBody).toString();
+    }
+
+    private String generateRequestBody(final PatchRentalRequestBody requestBody)
+    {
+        return generateJsonObject(requestBody).toString();
+    }
+
+    private JsonElement generateJsonObject(final PatchRentalRequestBody requestBody)
+    {
+        return new Gson().toJsonTree(requestBody);
     }
 
     private JsonElement generateJsonObject(final InsertRentalRequestBody requestBody)
@@ -480,9 +773,9 @@ class RentalRestControllerTest
         return jsonArray.toString();
     }
 
-    private String generateSuccessBody(final RentalRest rental)
-    {
-        return generateJsonObject(rental).toString();
-    }
+//    private String generateSuccessBody(final RentalRest rental)
+//    {
+//        return generateJsonObject(rental).toString();
+//    }
 
 }

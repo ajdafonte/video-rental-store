@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -23,7 +24,7 @@ public class PatchRentalRequestBody
 {
     @ApiModelProperty(value = "The list of rental items ID that should be return from renting.", required = true)
     @NotNull
-    private List<Long> rentalItemsToReturn;
+    private List<@Positive Long> rentalItemsToReturn;
 
     public PatchRentalRequestBody()
     {
