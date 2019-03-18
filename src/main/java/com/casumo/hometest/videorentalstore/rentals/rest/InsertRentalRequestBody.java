@@ -25,7 +25,7 @@ public class InsertRentalRequestBody
     @NotNull
     private long customerId;
 
-    @ApiModelProperty("The list of items that should be rented.")
+    @ApiModelProperty(value = "The list of items that should be rented.", required = true)
     @NotNull
     private List<InsertRentalItemRequestBody> rentalItems;
 

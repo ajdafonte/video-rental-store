@@ -20,4 +20,16 @@ public class MappingTool
     {
         return timeStamp == null ? null : offsetDateTime(timeStamp);
     }
+
+    /**
+     * Returns the representation in milliseconds if the source is not <code>null</code>. If source is <code>null</code> <code>null</code> is
+     * returned.
+     *
+     * @param source a {@link OffsetDateTime}
+     * @return millis if source is not null or null if source is null.
+     */
+    public static Long millisOrNull(final OffsetDateTime source)
+    {
+        return source == null ? null : source.toInstant().toEpochMilli();
+    }
 }

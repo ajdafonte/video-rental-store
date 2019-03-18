@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.casumo.hometest.videorentalstore.common.VideoRentalStoreApiConstants;
 import com.casumo.hometest.videorentalstore.rentals.bizz.RentalService;
 import com.casumo.hometest.videorentalstore.rentals.rest.mapper.InsertRentalParameterMapper;
+import com.casumo.hometest.videorentalstore.rentals.rest.mapper.PatchRentalParameterMapper;
 import com.casumo.hometest.videorentalstore.rentals.rest.mapper.RentalRestMapper;
 
 import io.swagger.annotations.Api;
@@ -73,5 +76,21 @@ public class RentalRestController
                             @Valid final InsertRentalRequestBody requestBody)
     {
         return RentalRestMapper.map(rentalService.insert(InsertRentalParameterMapper.map(requestBody)));
+    }
+
+    @PatchMapping(value = VideoRentalStoreApiConstants.RENTALS_ID_PATH_PARAM)
+    @ApiOperation(value = "Patch a certain rental in the system. Currently, is only possible to return films from renting.")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "The update of the rental was performed successfully."),
+        @ApiResponse(code = 400, message = "Bad Request."),
+    })
+    @ResponseStatus(HttpStatus.OK)
+    RentalRest patchRental(@PathVariable
+                           @ApiParam(value = "The ID of the rental.", required = true) final long id,
+                           @RequestBody
+                           @ApiParam(value = "Request body parameter to perform a patch operation in a rental object.", required = true)
+                           @Valid final PatchRentalRequestBody requestBody)
+    {
+        return RentalRestMapper.map(rentalService.patch(PatchRentalParameterMapper.map(id, requestBody)));
     }
 }

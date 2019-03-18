@@ -2,6 +2,7 @@ package com.casumo.hometest.videorentalstore.rentals.bizz;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.casumo.hometest.videorentalstore.common.error.VideoRentalStoreApiError;
 import com.casumo.hometest.videorentalstore.common.error.VideoRentalStoreApiException;
+import com.casumo.hometest.videorentalstore.common.infra.MappingTool;
 import com.casumo.hometest.videorentalstore.customers.domain.Customer;
 import com.casumo.hometest.videorentalstore.customers.repo.CustomerRepository;
 import com.casumo.hometest.videorentalstore.films.domain.Film;
@@ -61,6 +63,42 @@ public class RentalService
         updateCustomerBonusPoints(customer, savedRental);
 
         return savedRental;
+    }
+
+    public Rental patch(final PatchRentalParameter parameter)
+    {
+        final long rentalId = parameter.getRentalId();
+        final List<Long> itemsToPatch = parameter.getRentalItemsToReturn();
+
+        // find rental to patch
+        final Rental rental =
+            rentalRepository.findById(rentalId).orElseThrow(() -> new VideoRentalStoreApiException(VideoRentalStoreApiError.UNKNOWN_RESOURCE,
+                "Rental was not found."));
+
+        // handle items to patch
+        final List<RentalItem> rentalItems = rental.getRentalItems();
+        for (final Long itemToPatch : itemsToPatch)
+        {
+            // check if all rentalItems exists in the rental
+            final RentalItem rentalItem = rentalItems.stream()
+                .filter(item -> item.getId() == itemToPatch)
+                .findFirst().orElseThrow(() -> new VideoRentalStoreApiException(VideoRentalStoreApiError.UNKNOWN_RESOURCE,
+                    "Rental Item was not found."));
+
+            // calculate subcharge
+            final OffsetDateTime startRentalTime = MappingTool.offsetDateTimeOrNull(rentalItem.getStartdatetime());
+            final OffsetDateTime limitDeliverRentalTime = startRentalTime.plus(rentalItem.getDaysrented(), ChronoUnit.DAYS);
+            final OffsetDateTime currentTime = OffsetDateTime.now();
+            final long numDays = ChronoUnit.DAYS.between(limitDeliverRentalTime, currentTime);
+            if (numDays > 0)
+            {
+                rentalItem.setSubcharge(calculateRentalSubcharge(rentalItem.getFilm(), Long.valueOf(numDays).intValue()));
+            }
+
+            // set enddatetime for rental
+            rentalItem.setEnddatetime(MappingTool.millisOrNull(currentTime));
+        }
+        return rentalRepository.save(rental);
     }
 
     private void updateCustomerBonusPoints(final Customer customer, final Rental savedRental)
@@ -116,6 +154,18 @@ public class RentalService
         return rentalCalculator.rentalPrice(film, numDaysToRent);
     }
 
+    private int calculateNumExtraDays()
+    {
+        // TODO
+        return 0;
+    }
+
+    private BigDecimal calculateRentalSubcharge(final Film film, final int extraNumDays)
+    {
+        final RentalCalculator rentalCalculator = RentalCalculatorFactory.getRentalCalculator(film.getType());
+        return rentalCalculator.rentalSubcharge(film, extraNumDays);
+    }
+
     private int calculateBonusPoints(final List<RentalItem> rentalItems)
     {
         int total = 0;
@@ -127,4 +177,5 @@ public class RentalService
         }
         return total;
     }
+
 }
