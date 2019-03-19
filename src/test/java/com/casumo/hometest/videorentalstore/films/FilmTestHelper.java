@@ -30,23 +30,10 @@ public class FilmTestHelper
     public static final String MOCK_PREMIUM_PRICE_NAME = "Basic";
     public static final BigDecimal MOCK_BASIC_PRICE_VALUE = BigDecimal.valueOf(40);
     public static final BigDecimal MOCK_PREMIUM_PRICE_VALUE = BigDecimal.valueOf(30);
-    public static final long MOCK_NEW_FILM_ID = 4L;
     public static final String MOCK_NEW_FILM_NAME = "Toy Story";
 
     public static final InsertFilmRequestBody MOCK_INSERT_REQ_BODY1;
     public static final InsertFilmParameter MOCK_INSERT_PARAMETER1;
-//    public static final FilmRest MOCK_NEW_FILM_REST;
-//    public static final FilmTypeRest MOCK_NEW_FILM_TYPE_REST;
-//    public static final Film MOCK_NEW_FILM;
-
-    //    public static final Film MOCK_FILM1;
-//    public static final Film MOCK_FILM2;
-//    public static final FilmRest MOCK_FILM_REST1;
-//    public static final FilmRest MOCK_FILM_REST2;
-//    public static final FilmTypeRest MOCK_FILM_TYPE_REST1;
-//    public static final FilmTypeRest MOCK_FILM_TYPE_REST2;
-
-    ///////////////////////////////////////
 
     public static final Price MOCK_PREMIUM_PRICE;
     public static final Price MOCK_BASIC_PRICE;
@@ -96,21 +83,8 @@ public class FilmTestHelper
         MOCK_OLD_FILM_REST =
             generateFilmRest(MOCK_OLD_FILM.getId(), MOCK_OLD_FILM.getName(), MOCK_OLD_FILM_TYPE_REST);
 
-//        MOCK_FILM1 = generateFilm(MOCK_ID1, MOCK_OLD_NAME, MOCK_OLD_FILM_TYPE);
-//        MOCK_FILM2 = generateFilm(MOCK_ID2, MOCK_NEW_RELEASE_NAME, MOCK_NEW_RELEASE_FILM_TYPE);
-//
-//        MOCK_FILM_TYPE_REST1 = generateFilmTypeRest(MOCK_ID1, MOCK_OLD_FILM_TYPE_NAME);
-//        MOCK_FILM_TYPE_REST2 = generateFilmTypeRest(MOCK_ID3, MOCK_NEW_FILM_TYPE_NAME);
-//        MOCK_FILM_REST1 = generateFilmRest(MOCK_ID1, MOCK_OLD_NAME, MOCK_FILM_TYPE_REST1);
-//        MOCK_FILM_REST2 = generateFilmRest(MOCK_ID2, MOCK_NEW_RELEASE_NAME, MOCK_FILM_TYPE_REST2);
-
         MOCK_INSERT_REQ_BODY1 = generateInsertFilmRequestBody(MOCK_NEW_FILM_NAME, MOCK_REGULAR_FILM_TYPE.getId());
         MOCK_INSERT_PARAMETER1 = generateInsertFilmParameter(MOCK_NEW_FILM_NAME, MOCK_REGULAR_FILM_TYPE.getId());
-
-//        MOCK_NEW_FILM = generateFilm(MOCK_NEW_FILM_ID, MOCK_NEW_FILM_NAME, MOCK_REGULAR_FILM_TYPE);
-//        MOCK_NEW_FILM_TYPE_REST = generateFilmTypeRest(MOCK_ID2, MOCK_REGULAR_FILM_TYPE_NAME);
-//        MOCK_NEW_FILM_REST = generateFilmRest(MOCK_NEW_FILM_ID, MOCK_NEW_FILM_NAME, MOCK_NEW_FILM_TYPE_REST);
-
     }
 
     public static Film generateFilm(final long id, final String name, final FilmType type)
