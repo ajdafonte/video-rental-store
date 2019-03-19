@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,6 +41,8 @@ import io.swagger.annotations.ApiResponses;
 )
 public class CustomerRestController
 {
+    private static final Logger LOG = LoggerFactory.getLogger(CustomerRestController.class);
+
     private final CustomerService customerService;
 
     @Autowired
@@ -52,6 +56,7 @@ public class CustomerRestController
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returns a collection with all the available customers.")})
     List<CustomerRest> getCustomers()
     {
+        LOG.info(">> Request received in order to retrieve all the available customers.");
         return customerService.findAll()
             .stream()
             .map(CustomerRestMapper::map)
@@ -67,6 +72,7 @@ public class CustomerRestController
     CustomerRest getCustomer(@PathVariable
                              @ApiParam(value = "The ID of the customer.", required = true) final long id)
     {
+        LOG.info(">> Request received in order to retrieve a customer with ID {}", id);
         return CustomerRestMapper.map(customerService.findBy(id));
     }
 
@@ -82,6 +88,7 @@ public class CustomerRestController
                                 @ApiParam(value = "Request body parameter to insert a new customer.", required = true)
                                 @Valid final InsertCustomerRequestBody requestBody)
     {
+        LOG.info(">> Request received to insert a new customer in the system.");
         return CustomerRestMapper.map(customerService.insert(InsertCustomerParameterMapper.map(requestBody)));
     }
 }

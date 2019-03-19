@@ -58,6 +58,7 @@ public class RentalRestController
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returns a collection with all the available rentals.")})
     List<RentalRest> getRentals()
     {
+        LOG.info(">> Request received in order to retrieve all the available rentals.");
         return rentalService.findAll()
             .stream()
             .map(RentalRestMapper::map)
@@ -76,6 +77,7 @@ public class RentalRestController
                             @ApiParam(value = "Request body parameter to insert a new rental.", required = true)
                             @Valid final InsertRentalRequestBody requestBody)
     {
+        LOG.info(">> Request received to insert a new rental in the system.");
         return RentalRestMapper.map(rentalService.insert(InsertRentalParameterMapper.map(requestBody)));
     }
 
@@ -94,6 +96,7 @@ public class RentalRestController
                            @ApiParam(value = "Request body parameter to perform a patch operation in a rental object.", required = true)
                            @Valid final PatchRentalRequestBody requestBody)
     {
+        LOG.info(">> Request received to patch a rental with ID {} in the system.", id);
         return RentalRestMapper.map(rentalService.patch(PatchRentalParameterMapper.map(id, requestBody)));
     }
 }

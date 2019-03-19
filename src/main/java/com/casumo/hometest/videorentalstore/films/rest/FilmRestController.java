@@ -56,6 +56,7 @@ public class FilmRestController
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returns a collection with all the available films.")})
     List<FilmRest> getFilms()
     {
+        LOG.info(">> Request received in order to retrieve all the available films.");
         return filmService.findAll()
             .stream()
             .map(FilmRestMapper::map)
@@ -71,6 +72,7 @@ public class FilmRestController
     FilmRest getFilm(@PathVariable
                      @ApiParam(value = "The ID of the film.", required = true) final long id)
     {
+        LOG.info(">> Request received in order to retrieve a film with ID {}", id);
         return FilmRestMapper.map(filmService.findBy(id));
     }
 
@@ -86,6 +88,7 @@ public class FilmRestController
                         @ApiParam(value = "Request body parameter to insert a new film.", required = true)
                         @Valid final InsertFilmRequestBody requestBody)
     {
+        LOG.info(">> Request received to insert a new film in the system.");
         return FilmRestMapper.map(filmService.insert(InsertFilmParameterMapper.map(requestBody)));
     }
 }
