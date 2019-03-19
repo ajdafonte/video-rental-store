@@ -25,7 +25,7 @@ class NewReleaseRentalCalculatorTest
         this.rentalCalculator = new NewReleaseRentalCalculator();
     }
 
-    // rentalPrice
+    // calculatePrice
     @Test
     void givenNewReleaseFilm_whenCalculatingRentalPrice_thenReturnExpectedPrice()
     {
@@ -36,7 +36,7 @@ class NewReleaseRentalCalculatorTest
         final BigDecimal expectedRentalPrice = mockPrice.multiply(BigDecimal.valueOf(mockNumDays));
 
         // when
-        final BigDecimal result = rentalCalculator.rentalPrice(mockFilm, mockNumDays);
+        final BigDecimal result = rentalCalculator.calculatePrice(mockFilm, mockNumDays);
 
         // then
         assertThat(result, is(expectedRentalPrice));
@@ -50,13 +50,13 @@ class NewReleaseRentalCalculatorTest
         final BigDecimal expectedRentalPrice = BigDecimal.valueOf(0);
 
         // when
-        final BigDecimal result = rentalCalculator.rentalPrice(mockFilm, 2);
+        final BigDecimal result = rentalCalculator.calculatePrice(mockFilm, 2);
 
         // then
         assertThat(result, is(expectedRentalPrice));
     }
 
-    // rentalSubcharge
+    // calculateSurcharge
     @Test
     void givenNewReleaseFilm_whenCalculatingRentalSubcharge_thenReturnExpectedSubcharge()
     {
@@ -67,7 +67,7 @@ class NewReleaseRentalCalculatorTest
         final BigDecimal expectedRentalPrice = mockPrice.multiply(BigDecimal.valueOf(mockNumDays));
 
         // when
-        final BigDecimal result = rentalCalculator.rentalSubcharge(mockFilm, mockNumDays);
+        final BigDecimal result = rentalCalculator.calculateSurcharge(mockFilm, mockNumDays);
 
         // then
         assertThat(result, is(expectedRentalPrice));
@@ -81,13 +81,13 @@ class NewReleaseRentalCalculatorTest
         final BigDecimal expectedRentalSubcharge = BigDecimal.valueOf(0);
 
         // when
-        final BigDecimal result = rentalCalculator.rentalSubcharge(mockFilm, 2);
+        final BigDecimal result = rentalCalculator.calculateSurcharge(mockFilm, 2);
 
         // then
         assertThat(result, is(expectedRentalSubcharge));
     }
 
-    // rentalBonusPoints
+    // calculateBonusPoints
     @Test
     void givenNewReleaseFilm_whenCalculatingBonusPoints_thenReturnExpectedBonusPoints()
     {
@@ -96,7 +96,7 @@ class NewReleaseRentalCalculatorTest
         final int expectedBonusPoints = 2;
 
         // when
-        final int result = rentalCalculator.rentalBonusPoints(mockFilm);
+        final int result = rentalCalculator.calculateBonusPoints();
 
         // then
         assertThat(result, is(expectedBonusPoints));

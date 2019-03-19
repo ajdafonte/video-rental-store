@@ -37,7 +37,7 @@ class RentalItemRestMapperTest
         assertThat(result.getFilm(), is(FilmRestMapper.map(mockFilm)));
         assertThat(result.getDaysRented(), is(mockRentalItem.getDaysrented()));
         assertThat(result.getPrice(), is(mockRentalItem.getPrice()));
-        assertThat(result.getSubcharge(), is(mockRentalItem.getSubcharge()));
+        assertThat(result.getSurcharge(), is(mockRentalItem.getSurcharge()));
         assertThat(result.getStartDateTime(), is(MappingTool.offsetDateTimeOrNull(mockRentalItem.getStartdatetime())));
         assertThat(result.getEndDateTime(), is(MappingTool.offsetDateTimeOrNull(mockRentalItem.getEnddatetime())));
     }

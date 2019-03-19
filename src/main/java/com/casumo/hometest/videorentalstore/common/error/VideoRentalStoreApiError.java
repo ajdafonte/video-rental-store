@@ -22,7 +22,8 @@ public enum VideoRentalStoreApiError
     BAD_REQUEST("Bad request", HttpStatus.BAD_REQUEST),
     INVALID_REQUEST("Invalid request: %s", HttpStatus.BAD_REQUEST),
     INVALID_REQUEST_PARAMETER("Invalid request parameter '%s'", HttpStatus.BAD_REQUEST),
-    RESOURCE_ALREADY_EXISTS("Resource already exists. %s", HttpStatus.CONFLICT);
+    RESOURCE_ALREADY_EXISTS("Resource already exists. %s", HttpStatus.CONFLICT),
+    RENTAL_ITEM_ALREADY_RETURNED("The following Rental Item was already returned: %s", HttpStatus.CONFLICT);
 
     private final String errorText;
     private final HttpStatus httpStatus;

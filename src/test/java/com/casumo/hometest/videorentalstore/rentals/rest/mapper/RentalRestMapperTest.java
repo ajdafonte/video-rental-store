@@ -43,7 +43,7 @@ class RentalRestMapperTest
         assertThat(result.getId(), is(mockRental.getId()));
         assertThat(result.getStartDateTime(), is(MappingTool.offsetDateTimeOrNull(mockRental.getStartdatetime())));
         assertThat(result.getTotalPrice(), is(calculateTotalPrice(mockRentalItems)));
-        assertThat(result.getTotalSubcharge(), is(calculateTotalSubcharge(mockRentalItems)));
+        assertThat(result.getTotalSurcharge(), is(calculateTotalSubcharge(mockRentalItems)));
         assertThat(result.getRentalItems(), is(expectedRentalItems));
     }
 
@@ -62,7 +62,7 @@ class RentalRestMapperTest
 
     private static BigDecimal calculateTotalSubcharge(final List<RentalItem> items)
     {
-        return items.stream().map(RentalItem::getSubcharge).reduce(BigDecimal::add).orElse(BigDecimal.valueOf(0));
+        return items.stream().map(RentalItem::getSurcharge).reduce(BigDecimal::add).orElse(BigDecimal.valueOf(0));
     }
 
 }

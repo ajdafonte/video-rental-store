@@ -56,7 +56,7 @@ class RentalItemTest
             "id=" + mockRentalItem.getId() +
             ", daysrented=" + mockRentalItem.getDaysrented() +
             ", price=" + mockRentalItem.getPrice() +
-            ", subcharge=" + mockRentalItem.getSubcharge() +
+            ", surcharge=" + mockRentalItem.getSurcharge() +
             ", startdatetime=" + mockRentalItem.getStartdatetime() +
             ", enddatetime=" + mockRentalItem.getEnddatetime() +
             ", film=" + mockRentalItem.getFilm() +

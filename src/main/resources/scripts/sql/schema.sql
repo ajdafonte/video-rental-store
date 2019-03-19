@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS rentalitem (
   filmid              BIGINT,
   daysrented          INT,
   price               DECIMAL(20, 2),
-  subcharge           DECIMAL(20, 2),
+  surcharge           DECIMAL(20, 2),
   startdatetime       BIGINT,
   enddatetime         BIGINT
 );

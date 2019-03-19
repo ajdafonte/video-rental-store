@@ -58,10 +58,8 @@ class RentalRestControllerTest
     private static final String RENTAL_BY_ID_URI = "/rentals/{id}";
 
     private static final String INVALID_REQUEST = "Invalid request";
-    private static final String INVALID_REQUEST_PARAMETER = "Invalid request parameter";
-    private static final String RESOURCE_NOT_FOUND = "Resource not found";
-    private static final String RESOURCE_ALREADY_EXISTS = "Resource already exists";
     private static final String UNKNOWN_RESOURCE = "Resource not found";
+    private static final String RENTAL_ITEM_ALREADY_RETURNED = "The following Rental Item was already returned";
 
     @Autowired
     private MockMvc mvc;
@@ -116,7 +114,7 @@ class RentalRestControllerTest
                 FilmTestHelper.MOCK_REGULAR_FILM_REST,
                 mockRentalItem1.getDaysrented(),
                 mockRentalItem1.getPrice(),
-                mockRentalItem1.getSubcharge(),
+                mockRentalItem1.getSurcharge(),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem1.getStartdatetime()),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem1.getEnddatetime()));
         final RentalItemRest rentalItemRest2 =
@@ -124,7 +122,7 @@ class RentalRestControllerTest
                 FilmTestHelper.MOCK_OLD_FILM_REST,
                 mockRentalItem2.getDaysrented(),
                 mockRentalItem2.getPrice(),
-                mockRentalItem2.getSubcharge(),
+                mockRentalItem2.getSurcharge(),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem2.getStartdatetime()),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem2.getEnddatetime()));
         final List<RentalItemRest> rentalItemsRest = Arrays.asList(rentalItemRest1, rentalItemRest2);
@@ -136,7 +134,7 @@ class RentalRestControllerTest
                 FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST,
                 mockRentalItem3.getDaysrented(),
                 mockRentalItem3.getPrice(),
-                mockRentalItem3.getSubcharge(),
+                mockRentalItem3.getSurcharge(),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem3.getStartdatetime()),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem3.getEnddatetime()));
         final RentalRest expectedRentalRest2 =
@@ -237,7 +235,7 @@ class RentalRestControllerTest
                 FilmTestHelper.MOCK_REGULAR_FILM_REST,
                 mockRentalItem1.getDaysrented(),
                 mockRentalItem1.getPrice(),
-                mockRentalItem1.getSubcharge(),
+                mockRentalItem1.getSurcharge(),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem1.getStartdatetime()),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem1.getEnddatetime()));
         final RentalItemRest rentalItemRest2 =
@@ -245,7 +243,7 @@ class RentalRestControllerTest
                 FilmTestHelper.MOCK_OLD_FILM_REST,
                 mockRentalItem2.getDaysrented(),
                 mockRentalItem2.getPrice(),
-                mockRentalItem2.getSubcharge(),
+                mockRentalItem2.getSurcharge(),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem2.getStartdatetime()),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem2.getEnddatetime()));
         final RentalItemRest rentalItemRest3 =
@@ -253,7 +251,7 @@ class RentalRestControllerTest
                 FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST,
                 mockRentalItem3.getDaysrented(),
                 mockRentalItem3.getPrice(),
-                mockRentalItem3.getSubcharge(),
+                mockRentalItem3.getSurcharge(),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem3.getStartdatetime()),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem3.getEnddatetime()));
         final List<RentalItemRest> rentalItemsRest = Arrays.asList(rentalItemRest1, rentalItemRest2, rentalItemRest3);
@@ -276,7 +274,7 @@ class RentalRestControllerTest
 
     // save rental - nok (rental with invalid customer)
     @Test
-    void givenRequestBodyWithInvalidCustomer_whenInsertNewRental_thenReturnForbidden() throws Exception
+    void givenRequestBodyWithInvalidCustomer_whenInsertNewRental_thenReturnNotFound() throws Exception
     {
         // given
         final long unknownCustomerId = RentalTestHelper.MOCK_UNKNOWN_ID;
@@ -313,7 +311,7 @@ class RentalRestControllerTest
         verifyNoMoreInteractions(rentalService);
     }
 
-    // save rental - nok (rental with invalid customer)
+    // save rental - nok (rental with invalid film)
     @Test
     void givenRequestBodyWithInvalidFilm_whenInsertNewRental_thenReturnNotFound() throws Exception
     {
@@ -350,7 +348,7 @@ class RentalRestControllerTest
         final String requestBody = generateRequestBody(mockRequestBody);
 
         doThrow(new VideoRentalStoreApiException(VideoRentalStoreApiError.UNKNOWN_RESOURCE,
-            "One of the items to rent are not available"))
+            "Film with id " + unknownFilmId + " does not exist."))
             .when(rentalService)
             .insert(any(InsertRentalParameter.class));
 
@@ -362,7 +360,7 @@ class RentalRestControllerTest
         // then
         result.andExpect(MockMvcResultMatchers.status().isNotFound());
         result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(UNKNOWN_RESOURCE)));
-        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("One of the items to rent are not available")));
+        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("Film with id " + unknownFilmId + " does not exist.")));
         verify(rentalService, times(1)).insert(any(InsertRentalParameter.class));
         verifyNoMoreInteractions(rentalService);
     }
@@ -504,7 +502,7 @@ class RentalRestControllerTest
                 FilmTestHelper.MOCK_REGULAR_FILM_REST,
                 mockRentalItem1.getDaysrented(),
                 mockRentalItem1.getPrice(),
-                mockRentalItem1.getSubcharge(),
+                mockRentalItem1.getSurcharge(),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem1.getStartdatetime()),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem1.getEnddatetime()));
         final RentalItemRest rentalItemRest2 =
@@ -512,7 +510,7 @@ class RentalRestControllerTest
                 FilmTestHelper.MOCK_OLD_FILM_REST,
                 mockRentalItem2.getDaysrented(),
                 mockRentalItem2.getPrice(),
-                mockRentalItem2.getSubcharge(),
+                mockRentalItem2.getSurcharge(),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem2.getStartdatetime()),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem2.getEnddatetime()));
         final RentalItemRest rentalItemRest3 =
@@ -520,7 +518,7 @@ class RentalRestControllerTest
                 FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST,
                 mockRentalItem3.getDaysrented(),
                 mockRentalItem3.getPrice(),
-                mockRentalItem3.getSubcharge(),
+                mockRentalItem3.getSurcharge(),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem3.getStartdatetime()),
                 MappingTool.offsetDateTimeOrNull(mockRentalItem3.getEnddatetime()));
         final List<RentalItemRest> rentalItemsRest = Arrays.asList(rentalItemRest1, rentalItemRest2, rentalItemRest3);
@@ -580,7 +578,7 @@ class RentalRestControllerTest
         final String requestBody = generateRequestBody(mockRequestBody);
 
         doThrow(new VideoRentalStoreApiException(VideoRentalStoreApiError.UNKNOWN_RESOURCE,
-            "Rental Item was not found."))
+            "Rental Item with id " + RentalTestHelper.MOCK_UNKNOWN_ID + " does not exist in this Rental."))
             .when(rentalService)
             .patch(any(PatchRentalParameter.class));
 
@@ -592,7 +590,8 @@ class RentalRestControllerTest
         // then
         result.andExpect(MockMvcResultMatchers.status().isNotFound());
         result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(UNKNOWN_RESOURCE)));
-        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("Rental Item was not found.")));
+        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(
+            "Rental Item with id " + RentalTestHelper.MOCK_UNKNOWN_ID + " does not exist in this Rental.")));
         verify(rentalService, times(1)).patch(any(PatchRentalParameter.class));
         verifyNoMoreInteractions(rentalService);
     }
@@ -607,7 +606,7 @@ class RentalRestControllerTest
         final PatchRentalRequestBody mockRequestBody = RentalTestHelper.generatePatchRentalRequestBody(mockItemsIds);
         final String requestBody = generateRequestBody(mockRequestBody);
 
-        doThrow(new VideoRentalStoreApiException(VideoRentalStoreApiError.INVALID_REQUEST,
+        doThrow(new VideoRentalStoreApiException(VideoRentalStoreApiError.RENTAL_ITEM_ALREADY_RETURNED,
             "Rental Item was already returned."))
             .when(rentalService)
             .patch(any(PatchRentalParameter.class));
@@ -618,8 +617,8 @@ class RentalRestControllerTest
             .content(requestBody));
 
         // then
-        result.andExpect(MockMvcResultMatchers.status().isBadRequest());
-        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST)));
+        result.andExpect(MockMvcResultMatchers.status().isConflict());
+        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(RENTAL_ITEM_ALREADY_RETURNED)));
         result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("Rental Item was already returned.")));
         verify(rentalService, times(1)).patch(any(PatchRentalParameter.class));
         verifyNoMoreInteractions(rentalService);
@@ -664,76 +663,6 @@ class RentalRestControllerTest
         result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST)));
         verifyZeroInteractions(rentalService);
     }
-//
-//    // save rental - invalid body (body with missing values)
-//    @Test
-//    void givenIncompleteRequestBody_whenInsertNewRental_thenReturnBadRequest() throws Exception
-//    {
-//        // given
-//        final InsertRentalRequestBody parameter =
-//            RentalTestHelper.generateInsertRentalRequestBody(RentalTestHelper.MOCK_ID1, null);
-//        final String requestBody = generateRequestBody(parameter);
-//
-//        // when
-//        final ResultActions result = mvc.perform(post(RENTALS_URI)
-//            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-//            .content(requestBody));
-//
-//        // then
-//        result.andExpect(MockMvcResultMatchers.status().isBadRequest());
-//        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST)));
-//        verifyZeroInteractions(rentalService);
-//    }
-//
-//    // save rental - invalid body (body with invalid values)
-//    @Test
-//    void givenInvalidRentalItemRequestBody_whenInsertNewRental_thenReturnBadRequest() throws Exception
-//    {
-//        // given
-//        final long invalidFilmId = -1;
-//        final InsertRentalItemRequestBody rentalItemRequestBody1 =
-//            RentalTestHelper.generateInsertRentalItemRequestBody(FilmTestHelper.MOCK_REGULAR_FILM.getId(), RentalTestHelper.MOCK_DAYS_RENTED1);
-//        final InsertRentalItemRequestBody rentalItemRequestBody2 =
-//            RentalTestHelper.generateInsertRentalItemRequestBody(invalidFilmId, RentalTestHelper.MOCK_DAYS_RENTED2);
-//        final List<InsertRentalItemRequestBody> rentalItems = Arrays.asList(rentalItemRequestBody1, rentalItemRequestBody2);
-//        final InsertRentalRequestBody parameter =
-//            RentalTestHelper.generateInsertRentalRequestBody(RentalTestHelper.MOCK_ID1, rentalItems);
-//        final String requestBody = generateRequestBody(parameter);
-//
-//        // when
-//        final ResultActions result = mvc.perform(post(RENTALS_URI)
-//            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-//            .content(requestBody));
-//
-//        // then
-//        result.andExpect(MockMvcResultMatchers.status().isBadRequest());
-//        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST)));
-//        verifyZeroInteractions(rentalService);
-//    }
-//
-//    // save rental - invalid body (body with invalid customer id) -- this should be replaced in future
-//    @Test
-//    void givenInvalidCustomerId_whenInsertNewRental_thenReturnBadRequest() throws Exception
-//    {
-//        // given
-//        final long invalidCustomerId = -1;
-//        final InsertRentalItemRequestBody rentalItemRequestBody1 =
-//            RentalTestHelper.generateInsertRentalItemRequestBody(FilmTestHelper.MOCK_REGULAR_FILM.getId(), RentalTestHelper.MOCK_DAYS_RENTED1);
-//        final List<InsertRentalItemRequestBody> rentalItems = Collections.singletonList(rentalItemRequestBody1);
-//        final InsertRentalRequestBody parameter =
-//            RentalTestHelper.generateInsertRentalRequestBody(invalidCustomerId, rentalItems);
-//        final String requestBody = generateRequestBody(parameter);
-//
-//        // when
-//        final ResultActions result = mvc.perform(post(RENTALS_URI)
-//            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-//            .content(requestBody));
-//
-//        // then
-//        result.andExpect(MockMvcResultMatchers.status().isBadRequest());
-//        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(INVALID_REQUEST)));
-//        verifyZeroInteractions(rentalService);
-//    }
 
     private String generateRequestBody(final RentalRest rentalRest)
     {
@@ -772,10 +701,4 @@ class RentalRestControllerTest
         rentals.forEach(rentalRest -> jsonArray.add(generateJsonObject(rentalRest)));
         return jsonArray.toString();
     }
-
-//    private String generateSuccessBody(final RentalRest rental)
-//    {
-//        return generateJsonObject(rental).toString();
-//    }
-
 }

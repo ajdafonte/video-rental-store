@@ -20,7 +20,7 @@ public class RentalItemRestMapper
             rentalItemRest.setFilm(FilmRestMapper.map(rentalItem.getFilm()));
             rentalItemRest.setDaysRented(rentalItem.getDaysrented());
             rentalItemRest.setPrice(rentalItem.getPrice());
-            rentalItemRest.setSubcharge(rentalItem.getSubcharge());
+            rentalItemRest.setSurcharge(rentalItem.getSurcharge());
             rentalItemRest.setStartDateTime(MappingTool.offsetDateTimeOrNull(rentalItem.getStartdatetime()));
             rentalItemRest.setEndDateTime(MappingTool.offsetDateTimeOrNull(rentalItem.getEnddatetime()));
             return rentalItemRest;

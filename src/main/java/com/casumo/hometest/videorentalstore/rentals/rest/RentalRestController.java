@@ -81,8 +81,9 @@ public class RentalRestController
     @PatchMapping(value = VideoRentalStoreApiConstants.RENTALS_ID_PATH_PARAM)
     @ApiOperation(value = "Patch a certain rental in the system. Currently, is only possible to return films from renting.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "The update of the rental was performed successfully."),
+        @ApiResponse(code = 200, message = "The patch of the rental was performed successfully. All rental items were returned from rental."),
         @ApiResponse(code = 400, message = "Bad Request."),
+        @ApiResponse(code = 409, message = "Conflict.")
     })
     @ResponseStatus(HttpStatus.OK)
     RentalRest patchRental(@PathVariable

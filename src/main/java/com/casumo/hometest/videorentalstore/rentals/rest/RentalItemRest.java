@@ -33,8 +33,8 @@ public class RentalItemRest
     @ApiModelProperty(value = "The price of the rental item.")
     private BigDecimal price;
 
-    @ApiModelProperty(value = "The subcharge associated to the rental item.")
-    private BigDecimal subcharge;
+    @ApiModelProperty(value = "The surcharge associated to the rental item.")
+    private BigDecimal surcharge;
 
     @ApiModelProperty(value = "The start date time of the rental.")
     private OffsetDateTime startDateTime;
@@ -86,14 +86,14 @@ public class RentalItemRest
         this.price = price;
     }
 
-    public BigDecimal getSubcharge()
+    public BigDecimal getSurcharge()
     {
-        return subcharge;
+        return surcharge;
     }
 
-    public void setSubcharge(final BigDecimal subcharge)
+    public void setSurcharge(final BigDecimal surcharge)
     {
-        this.subcharge = subcharge;
+        this.surcharge = surcharge;
     }
 
     public OffsetDateTime getStartDateTime()
@@ -124,7 +124,7 @@ public class RentalItemRest
             ", film=" + film +
             ", daysRented=" + daysRented +
             ", price=" + price +
-            ", subcharge=" + subcharge +
+            ", surcharge=" + surcharge +
             ", startDateTime=" + startDateTime +
             ", endDateTime=" + endDateTime +
             '}';
@@ -146,7 +146,7 @@ public class RentalItemRest
             daysRented == that.daysRented &&
             Objects.equals(film, that.film) &&
             Objects.equals(price, that.price) &&
-            Objects.equals(subcharge, that.subcharge) &&
+            Objects.equals(surcharge, that.surcharge) &&
             Objects.equals(startDateTime, that.startDateTime) &&
             Objects.equals(endDateTime, that.endDateTime);
     }
@@ -154,6 +154,6 @@ public class RentalItemRest
     @Override
     public int hashCode()
     {
-        return Objects.hash(id, film, daysRented, price, subcharge, startDateTime, endDateTime);
+        return Objects.hash(id, film, daysRented, price, surcharge, startDateTime, endDateTime);
     }
 }

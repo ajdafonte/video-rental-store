@@ -66,7 +66,7 @@ class RentalItemRestTest
             ", film=" + mockRentalItemRest.getFilm() +
             ", daysRented=" + mockRentalItemRest.getDaysRented() +
             ", price=" + mockRentalItemRest.getPrice() +
-            ", subcharge=" + mockRentalItemRest.getSubcharge() +
+            ", surcharge=" + mockRentalItemRest.getSurcharge() +
             ", startDateTime=" + mockRentalItemRest.getStartDateTime() +
             ", endDateTime=" + mockRentalItemRest.getEndDateTime() +
             '}';

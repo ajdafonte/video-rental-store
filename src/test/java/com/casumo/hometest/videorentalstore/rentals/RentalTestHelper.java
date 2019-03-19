@@ -213,14 +213,14 @@ public class RentalTestHelper
                                                 final Film film,
                                                 final int daysrented,
                                                 final BigDecimal price,
-                                                final BigDecimal subcharge, final Long startdatettime, final Long enddatettime)
+                                                final BigDecimal surcharge, final Long startdatettime, final Long enddatettime)
     {
         final RentalItem rentalItem = new RentalItem();
         rentalItem.setId(id);
         rentalItem.setFilm(film);
         rentalItem.setDaysrented(daysrented);
         rentalItem.setPrice(price);
-        rentalItem.setSubcharge(subcharge);
+        rentalItem.setSurcharge(surcharge);
         rentalItem.setStartdatetime(startdatettime);
         rentalItem.setEnddatetime(enddatettime);
 //        rentalItem.setRental(rental);
@@ -230,13 +230,13 @@ public class RentalTestHelper
     public static RentalItem generateRentalItem(final Film film,
                                                 final int daysrented,
                                                 final BigDecimal price,
-                                                final BigDecimal subcharge, final Long startdatettime, final Long enddatettime)
+                                                final BigDecimal surcharge, final Long startdatettime, final Long enddatettime)
     {
         final RentalItem rentalItem = new RentalItem();
         rentalItem.setFilm(film);
         rentalItem.setDaysrented(daysrented);
         rentalItem.setPrice(price);
-        rentalItem.setSubcharge(subcharge);
+        rentalItem.setSurcharge(surcharge);
         rentalItem.setStartdatetime(startdatettime);
         rentalItem.setEnddatetime(enddatettime);
 //        rentalItem.setRental(rental);
@@ -253,7 +253,7 @@ public class RentalTestHelper
         rentalRest.setId(id);
         rentalRest.setStartDateTime(startdatetime);
         rentalRest.setTotalPrice(totalPrice);
-        rentalRest.setTotalSubcharge(totalSubcharge);
+        rentalRest.setTotalSurcharge(totalSubcharge);
         rentalRest.setRentalItems(rentalItemsRest);
         return rentalRest;
     }
@@ -262,7 +262,7 @@ public class RentalTestHelper
                                                         final FilmRest filmRest,
                                                         final int daysrented,
                                                         final BigDecimal price,
-                                                        final BigDecimal subcharge,
+                                                        final BigDecimal surcharge,
                                                         final OffsetDateTime startdatetime, final OffsetDateTime enddatetime)
     {
         final RentalItemRest rentalItemRest = new RentalItemRest();
@@ -270,7 +270,7 @@ public class RentalTestHelper
         rentalItemRest.setFilm(filmRest);
         rentalItemRest.setDaysRented(daysrented);
         rentalItemRest.setPrice(price);
-        rentalItemRest.setSubcharge(subcharge);
+        rentalItemRest.setSurcharge(surcharge);
         rentalItemRest.setStartDateTime(startdatetime);
         rentalItemRest.setEndDateTime(enddatetime);
         return rentalItemRest;

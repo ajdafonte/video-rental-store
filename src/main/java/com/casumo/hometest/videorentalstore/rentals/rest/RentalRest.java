@@ -30,8 +30,8 @@ public class RentalRest
     @ApiModelProperty(value = "The total price of the rental.")
     private BigDecimal totalPrice;
 
-    @ApiModelProperty(value = "The total subcharge of the rental")
-    private BigDecimal totalSubcharge;
+    @ApiModelProperty(value = "The total surcharge of the rental")
+    private BigDecimal totalSurcharge;
 
     @ApiModelProperty(value = "The items of the rental")
     private List<RentalItemRest> rentalItems;
@@ -70,14 +70,14 @@ public class RentalRest
         this.totalPrice = totalPrice;
     }
 
-    public BigDecimal getTotalSubcharge()
+    public BigDecimal getTotalSurcharge()
     {
-        return totalSubcharge;
+        return totalSurcharge;
     }
 
-    public void setTotalSubcharge(final BigDecimal totalSubcharge)
+    public void setTotalSurcharge(final BigDecimal totalSurcharge)
     {
-        this.totalSubcharge = totalSubcharge;
+        this.totalSurcharge = totalSurcharge;
     }
 
     public List<RentalItemRest> getRentalItems()
@@ -105,7 +105,7 @@ public class RentalRest
         return id == that.id &&
             Objects.equals(startDateTime, that.startDateTime) &&
             Objects.equals(totalPrice, that.totalPrice) &&
-            Objects.equals(totalSubcharge, that.totalSubcharge) &&
+            Objects.equals(totalSurcharge, that.totalSurcharge) &&
             Objects.equals(rentalItems, that.rentalItems);
     }
 
@@ -114,7 +114,7 @@ public class RentalRest
     {
         return Objects.hash(id,
             startDateTime,
-            totalPrice, totalSubcharge, rentalItems);
+            totalPrice, totalSurcharge, rentalItems);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class RentalRest
             "id=" + id +
             ", startDateTime=" + startDateTime +
             ", totalPrice=" + totalPrice +
-            ", totalSubcharge=" + totalSubcharge +
+            ", totalSurcharge=" + totalSurcharge +
             ", rentalItems=" + rentalItems +
             '}';
     }

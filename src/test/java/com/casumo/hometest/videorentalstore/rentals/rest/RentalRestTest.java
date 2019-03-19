@@ -60,7 +60,7 @@ class RentalRestTest
             "id=" + mockRentalRest.getId() +
             ", startDateTime=" + mockRentalRest.getStartDateTime() +
             ", totalPrice=" + mockRentalRest.getTotalPrice() +
-            ", totalSubcharge=" + mockRentalRest.getTotalSubcharge() +
+            ", totalSurcharge=" + mockRentalRest.getTotalSurcharge() +
             ", rentalItems=" + mockRentalRest.getRentalItems() +
             '}';
 

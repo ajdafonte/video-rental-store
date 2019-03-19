@@ -242,9 +242,9 @@ class RentalServiceTest
         assertThat(result.getCustomer(), is(expectedRental.getCustomer()));
         assertThat(result.getRentalItems(), is(expectedRental.getRentalItems()));
         assertThat(result.getRentalItems(), containsInAnyOrder(
-            hasProperty("subcharge", is(expectedSubcharge)),
-            hasProperty("subcharge", is(BigDecimal.valueOf(0))),
-            hasProperty("subcharge", is(BigDecimal.valueOf(0)))
+            hasProperty("surcharge", is(expectedSubcharge)),
+            hasProperty("surcharge", is(BigDecimal.valueOf(0))),
+            hasProperty("surcharge", is(BigDecimal.valueOf(0)))
         ));
 
         verify(rentalRepository, times(1)).save(any(Rental.class));
@@ -326,7 +326,7 @@ class RentalServiceTest
 
         // when + then
         final VideoRentalStoreApiException ex = assertThrows(VideoRentalStoreApiException.class, () -> rentalService.patch(mockParameter));
-        assertThat(ex.getError(), is(VideoRentalStoreApiError.INVALID_REQUEST));
+        assertThat(ex.getError(), is(VideoRentalStoreApiError.RENTAL_ITEM_ALREADY_RETURNED));
         verify(rentalRepository, times(1)).findById(currentRental.getId());
         verifyNoMoreInteractions(rentalRepository);
     }

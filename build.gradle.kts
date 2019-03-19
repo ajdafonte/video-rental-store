@@ -29,12 +29,10 @@ ext {
 
 dependencies {
     implementation("org.springframework.boot", "spring-boot-starter-web")
-//    implementation("org.springframework.boot", "spring-boot-starter-jdbc")
     implementation("org.springframework.boot", "spring-boot-starter-data-jpa")
 
 
     // metrics and monitoring
-//    implementation("org.springframework.boot", "spring-boot-starter-parent", "2.0.1.RELEASE")
     implementation("org.springframework.boot", "spring-boot-devtools")
 
     // swagger
@@ -42,10 +40,6 @@ dependencies {
     // See: https://github.com/springfox/springfox/issues/2528 & https://github.com/springfox/springfox/issues/2265
     implementation("io.springfox", "springfox-swagger2", "2.8.0")
     implementation("io.springfox", "springfox-swagger-ui", "2.8.0")
-
-    // Jackson
-//    implementation("com.fasterxml.jackson.datatype", "jackson-datatype-jsr310")
-//    implementation("com.fasterxml.jackson.datatype", "jackson-datatype-jdk8")
 
     // db
     runtimeOnly("com.h2database", "h2")
@@ -63,10 +57,9 @@ dependencies {
     testImplementation("org.mockito", "mockito-junit-jupiter", "2.23.4")
     testImplementation("org.hamcrest", "hamcrest-library", "1.3")
 
-    // used because JSONObject change the order of elements
+    // Gson - for testing and used because JSONObject change the order of elements
     // see https://stackoverflow.com/questions/17229418/jsonobject-why-jsonobject-changing-the-order-of-attributes
     testImplementation("com.google.code.gson", "gson", "2.8.2")
-
     // see https://stackoverflow.com/questions/23072733/how-to-serialize-and-deserialize-java-8s-java-time-types-with-gson
     testImplementation("com.fatboyindustrial.gson-javatime-serialisers", "gson-javatime-serialisers", "1.1.1")
 }

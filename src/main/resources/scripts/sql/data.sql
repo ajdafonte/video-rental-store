@@ -32,13 +32,13 @@ INSERT INTO rental (id, customerid, startdatetime) VALUES (1, 1, 1552694400000 /
 INSERT INTO rental (id, customerid, startdatetime) VALUES (2, 2, 1552780800000 /* 17-03-2019 */);
 
 -- rentalitems
-INSERT INTO rentalitem (id, rentalid, filmid, daysrented, price, subcharge, startdatetime, enddatetime)
+INSERT INTO rentalitem (id, rentalid, filmid, daysrented, price, surcharge, startdatetime, enddatetime)
 VALUES (1, 1, 1, 2, 80, 0, 1552694400000 /* 16-03-2019 */, null);
-INSERT INTO rentalitem (id, rentalid, filmid, daysrented, price, subcharge, startdatetime, enddatetime)
+INSERT INTO rentalitem (id, rentalid, filmid, daysrented, price, surcharge, startdatetime, enddatetime)
 VALUES (2, 1, 2, 4, 120, 0, 1552694400000 /* 16-03-2019 */, null);
 
-INSERT INTO rentalitem (id, rentalid, filmid, daysrented, price, subcharge, startdatetime, enddatetime)
+INSERT INTO rentalitem (id, rentalid, filmid, daysrented, price, surcharge, startdatetime, enddatetime)
 VALUES (3, 2, 2, 2, 60, 0, 1552780800000 /* 17-03-2019 */, null);
-INSERT INTO rentalitem (id, rentalid, filmid, daysrented, price, subcharge, startdatetime, enddatetime)
+INSERT INTO rentalitem (id, rentalid, filmid, daysrented, price, surcharge, startdatetime, enddatetime)
 VALUES (4, 2, 3, 1, 30, 0, 1552780800000 /* 17-03-2019 */, null);
 

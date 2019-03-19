@@ -33,7 +33,7 @@ public class RentalItem
 
     private BigDecimal price;
 
-    private BigDecimal subcharge;
+    private BigDecimal surcharge;
 
     private Long startdatetime;
 
@@ -77,14 +77,14 @@ public class RentalItem
         this.price = price;
     }
 
-    public BigDecimal getSubcharge()
+    public BigDecimal getSurcharge()
     {
-        return subcharge;
+        return surcharge;
     }
 
-    public void setSubcharge(final BigDecimal subcharge)
+    public void setSurcharge(final BigDecimal surcharge)
     {
-        this.subcharge = subcharge;
+        this.surcharge = surcharge;
     }
 
     public Long getStartdatetime()
@@ -142,7 +142,7 @@ public class RentalItem
         return id == that.id &&
             daysrented == that.daysrented &&
             Objects.equals(price, that.price) &&
-            Objects.equals(subcharge, that.subcharge) &&
+            Objects.equals(surcharge, that.surcharge) &&
             Objects.equals(startdatetime, that.startdatetime) &&
             Objects.equals(enddatetime, that.enddatetime) &&
             Objects.equals(film, that.film) &&
@@ -152,7 +152,7 @@ public class RentalItem
     @Override
     public int hashCode()
     {
-        return Objects.hash(id, daysrented, price, subcharge, startdatetime, enddatetime, film, rental);
+        return Objects.hash(id, daysrented, price, surcharge, startdatetime, enddatetime, film, rental);
     }
 
     @Override
@@ -162,7 +162,7 @@ public class RentalItem
             "id=" + id +
             ", daysrented=" + daysrented +
             ", price=" + price +
-            ", subcharge=" + subcharge +
+            ", surcharge=" + surcharge +
             ", startdatetime=" + startdatetime +
             ", enddatetime=" + enddatetime +
             ", film=" + film +

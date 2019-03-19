@@ -1,9 +1,13 @@
 package com.casumo.hometest.videorentalstore.rentals.bizz;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 
+import com.casumo.hometest.videorentalstore.common.infra.MappingTool;
 import com.casumo.hometest.videorentalstore.films.domain.Film;
 import com.casumo.hometest.videorentalstore.films.domain.FilmType;
+import com.casumo.hometest.videorentalstore.rentals.domain.RentalItem;
 
 
 /**
@@ -14,7 +18,7 @@ abstract class RentalCalculator
     int filmPoints;
     int filmMinRentalDays;
 
-    BigDecimal rentalPrice(final Film film, final int numDays)
+    BigDecimal calculatePrice(final Film film, final int numDays)
     {
         if (film != null)
         {
@@ -31,7 +35,7 @@ abstract class RentalCalculator
         return BigDecimal.valueOf(0);
     }
 
-    BigDecimal rentalSubcharge(final Film film, final int extraDays)
+    BigDecimal calculateSurcharge(final Film film, final int extraDays)
     {
         return defaultRentalCalculation(film, extraDays);
     }
@@ -49,7 +53,14 @@ abstract class RentalCalculator
         return BigDecimal.valueOf(0);
     }
 
-    int rentalBonusPoints(final Film film)
+    long calculateNumberOfExtraDays(final RentalItem rentalItem, final OffsetDateTime endDateTime)
+    {
+        final OffsetDateTime startRentalTime = MappingTool.offsetDateTimeOrNull(rentalItem.getStartdatetime());
+        final OffsetDateTime limitDeliverRentalTime = startRentalTime.plus(rentalItem.getDaysrented(), ChronoUnit.DAYS);
+        return ChronoUnit.DAYS.between(limitDeliverRentalTime, endDateTime);
+    }
+
+    int calculateBonusPoints()
     {
         return filmPoints;
     }

@@ -20,7 +20,7 @@ public class NewReleaseRentalCalculator extends RentalCalculator
     }
 
     @Override
-    public BigDecimal rentalPrice(final Film film, final int numDays)
+    public BigDecimal calculatePrice(final Film film, final int numDays)
     {
         return defaultRentalCalculation(film, numDays);
     }
