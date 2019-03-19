@@ -2,17 +2,7 @@
 server:
   port: 8080
 
-# jdbc settings
-#spring:
-#  session:
-#    store-type: JDBC
-
-# datasource settings
-#spring:
-#  datasource:
-#    url: jdbc:h2:mem:videorentalstoredb
-#    driverClassName: org.h2.Driver
-
+# spring configs
 spring:
   jpa:
     hibernate:
