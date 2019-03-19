@@ -47,7 +47,7 @@ class FilmTypeRestTest
     void givenFilmTypeRest_whenCallToString_thenReturnExpectedValue()
     {
         // given
-        final FilmTypeRest mockFilmTypeRest = FilmTestHelper.MOCK_FILM_TYPE_REST1;
+        final FilmTypeRest mockFilmTypeRest = FilmTestHelper.MOCK_REGULAR_FILM_TYPE_REST;
         final String expected = "FilmTypeRest{" +
             "id=" + mockFilmTypeRest.getId() +
             ", name='" + mockFilmTypeRest.getName() + '\'' +

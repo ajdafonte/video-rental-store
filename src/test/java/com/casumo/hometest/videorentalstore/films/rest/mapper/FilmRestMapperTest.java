@@ -23,7 +23,7 @@ class FilmRestMapperTest
     void givenValidFilm_whenMapToRest_thenReturnFilmRestObject()
     {
         // given
-        final Film mockFilm = FilmTestHelper.MOCK_FILM2;
+        final Film mockFilm = FilmTestHelper.MOCK_NEW_RELEASE_FILM;
         final FilmType mockFilmType = mockFilm.getType();
 
         // when
@@ -45,28 +45,4 @@ class FilmRestMapperTest
         // given + when + then
         assertNull(FilmRestMapper.map(null));
     }
-
-//    // mapToBizz - ok
-//    @Test
-//    void givenValidInsertFilmRequestBody_whenMapToBizz_thenReturnFilmObject()
-//    {
-//        // given
-//        final InsertFilmRequestBody mockRequestBody = FilmTestHelper.MOCK_INSERT_REQ_BODY1;
-//
-//        // when
-//        final Film result = FilmRestMapper.mapToBizz(mockRequestBody);
-//
-//        // then
-//        assertNotNull(result);
-//        assertThat(result.getName(), is(mockRequestBody.getName()));
-//        assertThat(result.getType(), is(FilmTypeRestMapper.mapToBizz(mockRequestBody.getFilmTypeId())));
-//    }
-//
-//    // mapToBizz - null
-//    @Test
-//    void givenNullInsertFilmRequestBody_whenMapToBizz_thenReturnNullValue()
-//    {
-//        // given + when + then
-//        assertNull(FilmRestMapper.mapToBizz(null));
-//    }
 }

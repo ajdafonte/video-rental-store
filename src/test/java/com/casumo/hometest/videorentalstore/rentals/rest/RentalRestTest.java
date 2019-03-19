@@ -3,6 +3,8 @@ package com.casumo.hometest.videorentalstore.rentals.rest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.util.Arrays;
+
 import org.junit.jupiter.api.Test;
 
 import com.casumo.hometest.videorentalstore.common.infra.MappingTool;
@@ -24,13 +26,13 @@ class RentalRestTest
                 MappingTool.offsetDateTimeOrNull(RentalTestHelper.MOCK_START_DATETIME1),
                 RentalTestHelper.MOCK_TOTAL_PRICE1,
                 RentalTestHelper.MOCK_TOTAL_SUBCHARGE1,
-                RentalTestHelper.MOCK_RENTAL_ITEMS_REST1);
+                Arrays.asList(RentalTestHelper.MOCK_RENTAL_ITEM_REST1, RentalTestHelper.MOCK_RENTAL_ITEM_REST2));
         final RentalRest mockRentalRest2 =
             RentalTestHelper.generateRentalRest(RentalTestHelper.MOCK_ID1,
                 MappingTool.offsetDateTimeOrNull(RentalTestHelper.MOCK_START_DATETIME1),
                 RentalTestHelper.MOCK_TOTAL_PRICE1,
                 RentalTestHelper.MOCK_TOTAL_SUBCHARGE1,
-                RentalTestHelper.MOCK_RENTAL_ITEMS_REST1);
+                Arrays.asList(RentalTestHelper.MOCK_RENTAL_ITEM_REST1, RentalTestHelper.MOCK_RENTAL_ITEM_REST2));
 
         // when + then
         assertEquals(mockRentalRest1.hashCode(), mockRentalRest2.hashCode());

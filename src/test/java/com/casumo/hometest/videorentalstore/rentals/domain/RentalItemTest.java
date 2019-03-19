@@ -20,11 +20,11 @@ class RentalItemTest
     {
         // given
         final RentalItem mockRentalItem1 =
-            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID1, FilmTestHelper.MOCK_FILM1,
+            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID1, FilmTestHelper.MOCK_OLD_FILM,
                 RentalTestHelper.MOCK_DAYS_RENTED1, RentalTestHelper.MOCK_PRICE1, RentalTestHelper.MOCK_SUBCHARGE1,
                 RentalTestHelper.MOCK_START_DATETIME1, RentalTestHelper.MOCK_END_DATETIME1);
         final RentalItem mockRentalItem2 =
-            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID1, FilmTestHelper.MOCK_FILM1,
+            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID1, FilmTestHelper.MOCK_OLD_FILM,
                 RentalTestHelper.MOCK_DAYS_RENTED1, RentalTestHelper.MOCK_PRICE1, RentalTestHelper.MOCK_SUBCHARGE1,
                 RentalTestHelper.MOCK_START_DATETIME1, RentalTestHelper.MOCK_END_DATETIME1);
 
@@ -38,8 +38,8 @@ class RentalItemTest
     void givenTwoDifferentRentalItems_whenCheckIfEquals_thenBothRentalItemsMustNotBeEquals()
     {
         // given
-        final RentalItem mockRentalItem1 = RentalTestHelper.MOCK_RENTAL_ITEM1;
-        final RentalItem mockRentalItem2 = RentalTestHelper.MOCK_RENTAL_ITEM2;
+        final RentalItem mockRentalItem1 = RentalTestHelper.getMockRentalItem1();
+        final RentalItem mockRentalItem2 = RentalTestHelper.getMockRentalItem2();
 
         // when + then
         assertNotEquals(mockRentalItem1.hashCode(), mockRentalItem2.hashCode());
@@ -51,7 +51,7 @@ class RentalItemTest
     void givenRentalItem_whenCallToString_thenReturnExpectedValue()
     {
         // given
-        final RentalItem mockRentalItem = RentalTestHelper.MOCK_RENTAL_ITEM2;
+        final RentalItem mockRentalItem = RentalTestHelper.getMockRentalItem2();
         final String expected = "RentalItem{" +
             "id=" + mockRentalItem.getId() +
             ", daysrented=" + mockRentalItem.getDaysrented() +

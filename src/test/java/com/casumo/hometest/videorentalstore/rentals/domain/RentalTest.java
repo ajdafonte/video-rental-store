@@ -3,6 +3,8 @@ package com.casumo.hometest.videorentalstore.rentals.domain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.util.Collections;
+
 import org.junit.jupiter.api.Test;
 
 import com.casumo.hometest.videorentalstore.customers.CustomerTestHelper;
@@ -23,12 +25,12 @@ class RentalTest
             RentalTestHelper.generateRental(RentalTestHelper.MOCK_ID1,
                 CustomerTestHelper.MOCK_CUSTOMER1,
                 RentalTestHelper.MOCK_START_DATETIME1,
-                RentalTestHelper.MOCK_RENTAL_ITEMS1);
+                Collections.singletonList(RentalTestHelper.getMockRentalItem1()));
         final Rental mockRental2 =
             RentalTestHelper.generateRental(RentalTestHelper.MOCK_ID1,
                 CustomerTestHelper.MOCK_CUSTOMER1,
                 RentalTestHelper.MOCK_START_DATETIME1,
-                RentalTestHelper.MOCK_RENTAL_ITEMS1);
+                Collections.singletonList(RentalTestHelper.getMockRentalItem1()));
 
         // when + then
         assertEquals(mockRental1.hashCode(), mockRental2.hashCode());
@@ -40,8 +42,14 @@ class RentalTest
     void givenTwoDifferentRentals_whenCheckIfEquals_thenBothRentalsMustNotBeEquals()
     {
         // given
-        final Rental mockRental1 = RentalTestHelper.MOCK_RENTAL1;
-        final Rental mockRental2 = RentalTestHelper.MOCK_RENTAL2;
+        final Rental mockRental1 = RentalTestHelper.generateRental(RentalTestHelper.MOCK_ID1,
+            CustomerTestHelper.MOCK_CUSTOMER1,
+            RentalTestHelper.MOCK_START_DATETIME1,
+            Collections.singletonList(RentalTestHelper.getMockRentalItem1()));
+        final Rental mockRental2 = RentalTestHelper.generateRental(RentalTestHelper.MOCK_ID1,
+            CustomerTestHelper.MOCK_CUSTOMER2,
+            RentalTestHelper.MOCK_START_DATETIME2,
+            Collections.singletonList(RentalTestHelper.getMockRentalItem1()));
 
         // when + then
         assertNotEquals(mockRental1.hashCode(), mockRental2.hashCode());
@@ -53,7 +61,10 @@ class RentalTest
     void givenRental_whenCallToString_thenReturnExpectedValue()
     {
         // given
-        final Rental mockRental = RentalTestHelper.MOCK_RENTAL2;
+        final Rental mockRental = RentalTestHelper.generateRental(RentalTestHelper.MOCK_ID1,
+            CustomerTestHelper.MOCK_CUSTOMER1,
+            RentalTestHelper.MOCK_START_DATETIME1,
+            Collections.singletonList(RentalTestHelper.getMockRentalItem1()));
         final String expected = "Rental{" +
             "id=" + mockRental.getId() +
             ", startdatetime=" + mockRental.getStartdatetime() +

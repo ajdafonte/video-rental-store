@@ -107,7 +107,6 @@ class OldFilmRentalCalculatorTest
     void givenOldFilm_whenCalculatingBonusPoints_thenReturnExpectedBonusPoints()
     {
         // given
-        final Film mockFilm = FilmTestHelper.generateFilm("Forest Gump", FilmTestHelper.MOCK_OLD_FILM_TYPE);
         final int expectedBonusPoints = 1;
 
         // when

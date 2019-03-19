@@ -25,7 +25,7 @@ class RentalItemRestMapperTest
     void givenValidRentalItem_whenMapToRest_thenReturnRentalItemRestObject()
     {
         // given
-        final RentalItem mockRentalItem = RentalTestHelper.MOCK_RENTAL_ITEM2;
+        final RentalItem mockRentalItem = RentalTestHelper.getMockRentalItem2();
         final Film mockFilm = mockRentalItem.getFilm();
 
         // when

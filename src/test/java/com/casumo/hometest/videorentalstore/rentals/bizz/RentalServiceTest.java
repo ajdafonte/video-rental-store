@@ -71,7 +71,10 @@ class RentalServiceTest
     void givenExistentRentals_whenFindAll_thenReturnAllRentals()
     {
         // given
-        final List<Rental> expected = Arrays.asList(RentalTestHelper.MOCK_RENTAL1, RentalTestHelper.MOCK_RENTAL2);
+        final Rental mockRental1 = RentalTestHelper.getMockRentalWithItems(Collections.singletonList(RentalTestHelper.getMockRentalItem1()));
+        final Rental mockRental2 = RentalTestHelper.getMockRentalWithItems(Arrays.asList(RentalTestHelper.getMockRentalItem1(),
+            RentalTestHelper.getMockRentalItem2()));
+        final List<Rental> expected = Arrays.asList(mockRental1, mockRental2);
         when(rentalRepository.findAll()).thenReturn(expected);
 
         // when
@@ -81,7 +84,7 @@ class RentalServiceTest
         assertNotNull(result);
         assertFalse(result.isEmpty());
         assertThat(result.size(), is(expected.size()));
-        assertThat(result, containsInAnyOrder(RentalTestHelper.MOCK_RENTAL1, RentalTestHelper.MOCK_RENTAL2));
+        assertThat(result, containsInAnyOrder(mockRental1, mockRental2));
         verify(rentalRepository, times(1)).findAll();
         verifyNoMoreInteractions(rentalRepository);
     }
@@ -111,19 +114,24 @@ class RentalServiceTest
     {
         // given
         final Customer mockCustomer = CustomerTestHelper.MOCK_CUSTOMER1;
-        final Film mockFilm1 = RentalTestHelper.MOCK_NEW_RENTAL_ITEM1.getFilm();
-        final Film mockFilm2 = RentalTestHelper.MOCK_NEW_RENTAL_ITEM2.getFilm();
-        final Film mockFilm3 = RentalTestHelper.MOCK_NEW_RENTAL_ITEM3.getFilm();
+        final RentalItem mockRentalItem1 = RentalTestHelper.getMockRentalItem1();
+        final RentalItem mockRentalItem2 = RentalTestHelper.getMockRentalItem2();
+        final RentalItem mockRentalItem3 = RentalTestHelper.getMockRentalItem3();
+        final Film mockFilm1 = mockRentalItem1.getFilm();
+        final Film mockFilm2 = mockRentalItem2.getFilm();
+        final Film mockFilm3 = mockRentalItem3.getFilm();
         final InsertRentalItemParameter rentalItemParameter1 =
-            RentalTestHelper.generateInsertRentalItemParameter(mockFilm1.getId(), RentalTestHelper.MOCK_NEW_RENTAL_ITEM1.getDaysrented());
+            RentalTestHelper.generateInsertRentalItemParameter(mockFilm1.getId(), mockRentalItem1.getDaysrented());
         final InsertRentalItemParameter rentalItemParameter2 =
-            RentalTestHelper.generateInsertRentalItemParameter(mockFilm2.getId(), RentalTestHelper.MOCK_NEW_RENTAL_ITEM2.getDaysrented());
+            RentalTestHelper.generateInsertRentalItemParameter(mockFilm2.getId(), mockRentalItem2.getDaysrented());
         final InsertRentalItemParameter rentalItemParameter3 =
-            RentalTestHelper.generateInsertRentalItemParameter(mockFilm3.getId(), RentalTestHelper.MOCK_NEW_RENTAL_ITEM3.getDaysrented());
+            RentalTestHelper.generateInsertRentalItemParameter(mockFilm3.getId(), mockRentalItem3.getDaysrented());
         final InsertRentalParameter mockParameter = RentalTestHelper.generateInsertRentalParameter(mockCustomer.getId(),
             Arrays.asList(rentalItemParameter1, rentalItemParameter2, rentalItemParameter3));
 
-        final Rental expectedRental = RentalTestHelper.MOCK_NEW_RENTAL1; // see RentalTestHelper for details
+        final Rental expectedRental = RentalTestHelper.getMockRentalWithItems(Arrays.asList(RentalTestHelper.getMockRentalItem1(),
+            RentalTestHelper.getMockRentalItem2(),
+            RentalTestHelper.getMockRentalItem3()));
         final long expectedBonusPoints = mockCustomer.getBonuspoints() + 4; // 2 for new release + 2 for old film & regular
         final BigDecimal expectedPrice1 = BigDecimal.valueOf(90);
         final BigDecimal expectedPrice2 = BigDecimal.valueOf(30);
@@ -168,9 +176,10 @@ class RentalServiceTest
         // things to check
         // given
         final long mockCustomerId = CustomerTestHelper.MOCK_UNKNOWN_ID;
-        final Film mockFilm1 = RentalTestHelper.MOCK_NEW_RENTAL_ITEM1.getFilm();
+        final RentalItem mockRentalItem1 = RentalTestHelper.getMockRentalItem1();
+        final Film mockFilm1 = mockRentalItem1.getFilm();
         final InsertRentalItemParameter rentalItemParameter1 =
-            RentalTestHelper.generateInsertRentalItemParameter(mockFilm1.getId(), RentalTestHelper.MOCK_NEW_RENTAL_ITEM1.getDaysrented());
+            RentalTestHelper.generateInsertRentalItemParameter(mockFilm1.getId(), mockRentalItem1.getDaysrented());
         final List<InsertRentalItemParameter> mockItemsToRent = Collections.singletonList(rentalItemParameter1);
         final InsertRentalParameter mockParameter = RentalTestHelper.generateInsertRentalParameter(mockCustomerId, mockItemsToRent);
 
@@ -192,12 +201,13 @@ class RentalServiceTest
         // given
         final Customer mockCustomer = CustomerTestHelper.MOCK_CUSTOMER1;
         final long unknownFilmId = FilmTestHelper.MOCK_UNKNOWN_ID;
-        final Film mockFilm1 = RentalTestHelper.MOCK_NEW_RENTAL_ITEM1.getFilm();
+        final RentalItem mockRentalItem1 = RentalTestHelper.getMockRentalItem1();
+        final RentalItem mockRentalItem2 = RentalTestHelper.getMockRentalItem2();
+        final Film mockFilm1 = mockRentalItem1.getFilm();
         final InsertRentalItemParameter rentalItemParameter1 =
-            RentalTestHelper.generateInsertRentalItemParameter(mockFilm1.getId(), RentalTestHelper.MOCK_NEW_RENTAL_ITEM1.getDaysrented());
+            RentalTestHelper.generateInsertRentalItemParameter(mockFilm1.getId(), mockRentalItem1.getDaysrented());
         final InsertRentalItemParameter rentalItemParameter2 =
-            RentalTestHelper.generateInsertRentalItemParameter(unknownFilmId,
-                RentalTestHelper.MOCK_NEW_RENTAL_ITEM2.getDaysrented());
+            RentalTestHelper.generateInsertRentalItemParameter(unknownFilmId, mockRentalItem2.getDaysrented());
         final List<InsertRentalItemParameter> mockItemsToRent = Arrays.asList(rentalItemParameter1, rentalItemParameter2);
         final InsertRentalParameter mockParameter = RentalTestHelper.generateInsertRentalParameter(mockCustomer.getId(), mockItemsToRent);
 
@@ -220,13 +230,19 @@ class RentalServiceTest
     void givenValidParameter_whenPatchRental_thenReturnRentalPatched()
     {
         // given
-        final Rental currentRental = RentalTestHelper.MOCK_NEW_RENTAL1;
-        final RentalItem mockRentalItem1 = RentalTestHelper.MOCK_PATCHED_RENTAL_ITEM1;
-        final RentalItem mockRentalItem3 = RentalTestHelper.MOCK_PATCHED_RENTAL_ITEM3;
+        final Rental currentRental = RentalTestHelper.getMockRentalWithItems(Arrays.asList(RentalTestHelper.getMockRentalItem1(),
+            RentalTestHelper.getMockRentalItem2(),
+            RentalTestHelper.getMockRentalItem3()));
+        final RentalItem mockRentalItem1 = RentalTestHelper.getMockRentalItem1();
+        mockRentalItem1.setEnddatetime(RentalTestHelper.MOCK_END_DATETIME1);
+        final RentalItem mockRentalItem3 = RentalTestHelper.getMockRentalItem3();
+        mockRentalItem3.setEnddatetime(RentalTestHelper.MOCK_END_DATETIME1);
+        mockRentalItem3.setSurcharge(BigDecimal.valueOf(40));
         final List<Long> rentalItemsToReturn = Arrays.asList(mockRentalItem1.getId(), mockRentalItem3.getId());
         final PatchRentalParameter mockParameter = RentalTestHelper.generatePatchRentalParameter(currentRental.getId(), rentalItemsToReturn);
 
-        final Rental expectedRental = RentalTestHelper.MOCK_PATCHED_RENTAL1; // see RentalTestHelper for details
+        final Rental expectedRental =
+            RentalTestHelper.getMockRentalWithItems(Arrays.asList(mockRentalItem1, RentalTestHelper.getMockRentalItem2(), mockRentalItem3));
         final BigDecimal expectedSubcharge = BigDecimal.valueOf(40); // new release delivered 1 day later
 
         when(rentalRepository.findById(currentRental.getId())).thenReturn(Optional.of(currentRental));
@@ -258,8 +274,11 @@ class RentalServiceTest
     {
         // given
         final long unknownRentalId = RentalTestHelper.MOCK_UNKNOWN_ID;
-        final RentalItem mockRentalItem1 = RentalTestHelper.MOCK_PATCHED_RENTAL_ITEM1;
-        final RentalItem mockRentalItem3 = RentalTestHelper.MOCK_PATCHED_RENTAL_ITEM3;
+        final RentalItem mockRentalItem1 = RentalTestHelper.getMockRentalItem1();
+        mockRentalItem1.setEnddatetime(RentalTestHelper.MOCK_END_DATETIME1);
+        final RentalItem mockRentalItem3 = RentalTestHelper.getMockRentalItem3();
+        mockRentalItem3.setEnddatetime(RentalTestHelper.MOCK_END_DATETIME1);
+        mockRentalItem3.setSurcharge(BigDecimal.valueOf(40));
         final List<Long> rentalItemsToReturn = Arrays.asList(mockRentalItem1.getId(), mockRentalItem3.getId());
         final PatchRentalParameter mockParameter = RentalTestHelper.generatePatchRentalParameter(unknownRentalId, rentalItemsToReturn);
 
@@ -298,7 +317,8 @@ class RentalServiceTest
             RentalTestHelper.MOCK_START_DATETIME1,
             Arrays.asList(currentRentalItem1, currentRentalItem2));
 
-        final RentalItem mockRentalItem1 = RentalTestHelper.MOCK_PATCHED_RENTAL_ITEM1;
+        final RentalItem mockRentalItem1 = RentalTestHelper.getMockRentalItem1();
+        mockRentalItem1.setEnddatetime(RentalTestHelper.MOCK_END_DATETIME1);
         final List<Long> rentalItemsToReturn = Arrays.asList(mockRentalItem1.getId(), RentalTestHelper.MOCK_UNKNOWN_ID);
         final PatchRentalParameter mockParameter = RentalTestHelper.generatePatchRentalParameter(currentRental.getId(), rentalItemsToReturn);
 
@@ -316,9 +336,10 @@ class RentalServiceTest
     void givenValidParameterWithRentalItemAlreadyReturned_whenPatchRental_thenThrowSpecificException()
     {
         // given
-        final Rental currentRental = RentalTestHelper.MOCK_RENTAL_WITH_ITEM_RETURNED;
-        final RentalItem mockRentalItem1 = RentalTestHelper.MOCK_NEW_RENTAL_ITEM1;
-        final RentalItem mockRentalItem2 = RentalTestHelper.MOCK_RETURNED_RENTAL_ITEM2;
+        final RentalItem mockRentalItem1 = RentalTestHelper.getMockRentalItem1();
+        final RentalItem mockRentalItem2 = RentalTestHelper.getMockRentalItem2();
+        mockRentalItem2.setEnddatetime(RentalTestHelper.MOCK_END_DATETIME2);
+        final Rental currentRental = RentalTestHelper.getMockRentalWithItems(Arrays.asList(mockRentalItem1, mockRentalItem2));
         final List<Long> rentalItemsToReturn = Arrays.asList(mockRentalItem1.getId(), mockRentalItem2.getId());
         final PatchRentalParameter mockParameter = RentalTestHelper.generatePatchRentalParameter(currentRental.getId(), rentalItemsToReturn);
 

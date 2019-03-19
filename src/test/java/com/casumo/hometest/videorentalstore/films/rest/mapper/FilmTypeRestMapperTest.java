@@ -39,20 +39,4 @@ class FilmTypeRestMapperTest
     {
         assertNull(FilmTypeRestMapper.map(null));
     }
-
-//    // mapToBizz - ok
-//    @Test
-//    void givenValidFilmTypeRest_whenMapToBizz_thenReturnFilmType()
-//    {
-//        assertThat(FilmTypeRestMapper.mapToBizz(FilmTypeRest.NEW_RELEASE), is(FilmType.NEW_RELEASE));
-//        assertThat(FilmTypeRestMapper.mapToBizz(FilmTypeRest.REGULAR), is(FilmType.REGULAR));
-//        assertThat(FilmTypeRestMapper.mapToBizz(FilmTypeRest.OLD), is(FilmType.OLD));
-//    }
-//
-//    // mapToBizz - nok
-//    @Test
-//    void givenNullFilmTypeRest_whenMapToBizz_thenReturnNullValue()
-//    {
-//        assertNull(FilmTypeRestMapper.mapToBizz(null));
-//    }
 }

@@ -107,7 +107,6 @@ class RegularFilmRentalCalculatorTest
     void givenRegularFilm_whenCalculatingBonusPoints_thenReturnExpectedBonusPoints()
     {
         // given
-        final Film mockFilm = FilmTestHelper.generateFilm("The Equalizer", FilmTestHelper.MOCK_REGULAR_FILM_TYPE);
         final int expectedBonusPoints = 1;
 
         // when

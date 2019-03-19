@@ -62,7 +62,7 @@ class FilmServiceTest
     void givenExistentFilms_whenFindAll_thenReturnAllFilms()
     {
         // given
-        final List<Film> expected = Arrays.asList(FilmTestHelper.MOCK_FILM1, FilmTestHelper.MOCK_FILM2);
+        final List<Film> expected = Arrays.asList(FilmTestHelper.MOCK_OLD_FILM, FilmTestHelper.MOCK_NEW_RELEASE_FILM);
         when(filmRepository.findAll()).thenReturn(expected);
 
         // when
@@ -72,7 +72,7 @@ class FilmServiceTest
         assertNotNull(result);
         assertFalse(result.isEmpty());
         assertThat(result.size(), is(expected.size()));
-        assertThat(result, containsInAnyOrder(FilmTestHelper.MOCK_FILM1, FilmTestHelper.MOCK_FILM2));
+        assertThat(result, containsInAnyOrder(FilmTestHelper.MOCK_OLD_FILM, FilmTestHelper.MOCK_NEW_RELEASE_FILM));
         verify(filmRepository, times(1)).findAll();
         verifyNoMoreInteractions(filmRepository);
     }
@@ -101,7 +101,7 @@ class FilmServiceTest
     void givenFilmsInInventoryAndExistentId_whenFindById_thenReturnSpecificFilm()
     {
         // given
-        final Film expected = FilmTestHelper.MOCK_FILM1;
+        final Film expected = FilmTestHelper.MOCK_OLD_FILM;
         when(filmRepository.findById(anyLong())).thenReturn(Optional.of(expected));
 
         // when
@@ -137,7 +137,7 @@ class FilmServiceTest
     void givenValidParameter_whenInsertFilm_thenReturnFilmInserted()
     {
         // given
-        final Film expected = FilmTestHelper.MOCK_NEW_FILM;
+        final Film expected = FilmTestHelper.MOCK_NEW_RELEASE_FILM;
         final InsertFilmParameter mockParameter = FilmTestHelper.generateInsertFilmParameter(expected.getName(), expected.getType().getId());
         when(filmTypeRepository.findById(anyLong())).thenReturn(Optional.of(expected.getType()));
         when(filmRepository.save(any(Film.class))).thenReturn(expected);
@@ -162,7 +162,7 @@ class FilmServiceTest
     void givenParameterWithExistentFilmName_whenInsertFilm_thenThrowSpecificException()
     {
         // given
-        final Film mockFilm = FilmTestHelper.MOCK_FILM2;
+        final Film mockFilm = FilmTestHelper.MOCK_NEW_RELEASE_FILM;
         final InsertFilmParameter mockParameter = FilmTestHelper.generateInsertFilmParameter(mockFilm.getName(), mockFilm.getType().getId());
         when(filmTypeRepository.findById(anyLong())).thenReturn(Optional.of(mockFilm.getType()));
         when(filmRepository.save(any(Film.class))).thenThrow(DataIntegrityViolationException.class);

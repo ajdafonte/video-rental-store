@@ -92,7 +92,6 @@ class NewReleaseRentalCalculatorTest
     void givenNewReleaseFilm_whenCalculatingBonusPoints_thenReturnExpectedBonusPoints()
     {
         // given
-        final Film mockFilm = FilmTestHelper.generateFilm("Gringo", FilmTestHelper.MOCK_NEW_RELEASE_FILM_TYPE);
         final int expectedBonusPoints = 2;
 
         // when

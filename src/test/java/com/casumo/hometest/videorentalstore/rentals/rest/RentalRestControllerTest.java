@@ -72,80 +72,30 @@ class RentalRestControllerTest
     void givenInventoryOfRentals_whenGetAllRentals_thenReturnAllRentals() throws Exception
     {
         // given
-        final RentalItem mockRentalItem1 =
-            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID1,
-                FilmTestHelper.MOCK_REGULAR_FILM,
-                RentalTestHelper.MOCK_DAYS_RENTED1,
-                BigDecimal.valueOf(90),
-                BigDecimal.valueOf(0),
-                RentalTestHelper.MOCK_START_DATETIME1,
-                null);
-        // old film with 3 days for rent
-        final RentalItem mockRentalItem2 =
-            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID2,
-                FilmTestHelper.MOCK_OLD_FILM,
-                RentalTestHelper.MOCK_DAYS_RENTED2,
-                BigDecimal.valueOf(30),
-                BigDecimal.valueOf(0),
-                RentalTestHelper.MOCK_START_DATETIME1,
-                null);
-        final Rental mockRental1 =
-            RentalTestHelper.generateRental(RentalTestHelper.MOCK_ID1,
-                CustomerTestHelper.MOCK_CUSTOMER1,
-                RentalTestHelper.MOCK_START_DATETIME1,
-                Arrays.asList(mockRentalItem1, mockRentalItem2));
-        final RentalItem mockRentalItem3 =
-            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID3,
-                FilmTestHelper.MOCK_NEW_RELEASE_FILM,
-                RentalTestHelper.MOCK_DAYS_RENTED3,
-                BigDecimal.valueOf(80),
-                BigDecimal.valueOf(0),
-                RentalTestHelper.MOCK_START_DATETIME1,
-                null);
-        final Rental mockRental2 =
-            RentalTestHelper.generateRental(RentalTestHelper.MOCK_ID2,
-                CustomerTestHelper.MOCK_CUSTOMER2,
-                RentalTestHelper.MOCK_START_DATETIME2,
-                Collections.singletonList(mockRentalItem3));
+        final RentalItem mockRentalItem1 = RentalTestHelper.getMockRentalItem1();
+        final RentalItem mockRentalItem2 = RentalTestHelper.getMockRentalItem2();
+        final Rental mockRental1 = RentalTestHelper.generateRental(RentalTestHelper.MOCK_ID1, CustomerTestHelper.MOCK_CUSTOMER1,
+            RentalTestHelper.MOCK_START_DATETIME1, Arrays.asList(mockRentalItem1, mockRentalItem2));
+        final RentalItem mockRentalItem3 = RentalTestHelper.getMockRentalItem3();
+        final Rental mockRental2 = RentalTestHelper.generateRental(RentalTestHelper.MOCK_ID2, CustomerTestHelper.MOCK_CUSTOMER2,
+            RentalTestHelper.MOCK_START_DATETIME2, Collections.singletonList(mockRentalItem3));
         final List<Rental> allRentals = Arrays.asList(mockRental1, mockRental2);
 
-        final RentalItemRest rentalItemRest1 =
-            RentalTestHelper.generateRentalItemRest(mockRentalItem1.getId(),
-                FilmTestHelper.MOCK_REGULAR_FILM_REST,
-                mockRentalItem1.getDaysrented(),
-                mockRentalItem1.getPrice(),
-                mockRentalItem1.getSurcharge(),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem1.getStartdatetime()),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem1.getEnddatetime()));
-        final RentalItemRest rentalItemRest2 =
-            RentalTestHelper.generateRentalItemRest(mockRentalItem2.getId(),
-                FilmTestHelper.MOCK_OLD_FILM_REST,
-                mockRentalItem2.getDaysrented(),
-                mockRentalItem2.getPrice(),
-                mockRentalItem2.getSurcharge(),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem2.getStartdatetime()),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem2.getEnddatetime()));
-        final List<RentalItemRest> rentalItemsRest = Arrays.asList(rentalItemRest1, rentalItemRest2);
+        final RentalItemRest rentalItemRest1 = RentalTestHelper.getMockRentalItemRest(mockRentalItem1, FilmTestHelper.MOCK_REGULAR_FILM_REST);
+        final RentalItemRest rentalItemRest2 = RentalTestHelper.getMockRentalItemRest(mockRentalItem2, FilmTestHelper.MOCK_OLD_FILM_REST);
         final RentalRest expectedRentalRest1 =
             RentalTestHelper.generateRentalRest(mockRental1.getId(),
-                MappingTool.offsetDateTimeOrNull(mockRental1.getStartdatetime()), BigDecimal.valueOf(120), BigDecimal.valueOf(0), rentalItemsRest);
-        final RentalItemRest rentalItemRest3 =
-            RentalTestHelper.generateRentalItemRest(mockRentalItem3.getId(),
-                FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST,
-                mockRentalItem3.getDaysrented(),
-                mockRentalItem3.getPrice(),
-                mockRentalItem3.getSurcharge(),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem3.getStartdatetime()),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem3.getEnddatetime()));
-        final RentalRest expectedRentalRest2 =
-            RentalTestHelper.generateRentalRest(mockRental2.getId(),
-                MappingTool.offsetDateTimeOrNull(mockRental2.getStartdatetime()), BigDecimal.valueOf(80), BigDecimal.valueOf(0),
-                Collections.singletonList(rentalItemRest3));
+                MappingTool.offsetDateTimeOrNull(mockRental1.getStartdatetime()),
+                BigDecimal.valueOf(120),
+                BigDecimal.valueOf(0),
+                Arrays.asList(rentalItemRest1, rentalItemRest2));
+        final RentalItemRest rentalItemRest3 = RentalTestHelper.getMockRentalItemRest(mockRentalItem3, FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST);
+        final RentalRest expectedRentalRest2 = RentalTestHelper.generateRentalRest(mockRental2.getId(),
+            MappingTool.offsetDateTimeOrNull(mockRental2.getStartdatetime()), BigDecimal.valueOf(80), BigDecimal.valueOf(0),
+            Collections.singletonList(rentalItemRest3));
         final List<RentalRest> expectedResult = Arrays.asList(expectedRentalRest1, expectedRentalRest2);
 
         // given
-//        final List<Rental> allRentals = Arrays.asList(RentalTestHelper.MOCK_RENTAL1, RentalTestHelper.MOCK_RENTAL2);
-//        final List<RentalRest> expectedResult = Arrays.asList(RentalTestHelper.MOCK_RENTAL_REST1, RentalTestHelper.MOCK_RENTAL_REST2);
         doReturn(allRentals).when(rentalService).findAll();
         final String expectedContent = generateSuccessBody(expectedResult);
 
@@ -185,32 +135,13 @@ class RentalRestControllerTest
     void givenValidRequest_whenInsertNewRental_thenReturnNewRental() throws Exception
     {
         // given
-        final RentalItem mockRentalItem1 =
-            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID1,
-                FilmTestHelper.MOCK_REGULAR_FILM,
-                RentalTestHelper.MOCK_DAYS_RENTED1,
-                BigDecimal.valueOf(90),
-                BigDecimal.valueOf(0),
-                RentalTestHelper.MOCK_START_DATETIME1,
-                null);
+        final RentalItem mockRentalItem1 = RentalTestHelper.getMockRentalItem1();
         // old film with 3 days for rent
         final RentalItem mockRentalItem2 =
-            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID2,
-                FilmTestHelper.MOCK_OLD_FILM,
-                RentalTestHelper.MOCK_DAYS_RENTED2,
-                BigDecimal.valueOf(30),
-                BigDecimal.valueOf(0),
-                RentalTestHelper.MOCK_START_DATETIME1,
-                null);
+            RentalTestHelper.getMockRentalItem2();
         // new release film with 2 days for rent
         final RentalItem mockRentalItem3 =
-            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID3,
-                FilmTestHelper.MOCK_NEW_RELEASE_FILM,
-                RentalTestHelper.MOCK_DAYS_RENTED3,
-                BigDecimal.valueOf(80),
-                BigDecimal.valueOf(0),
-                RentalTestHelper.MOCK_START_DATETIME1,
-                null);
+            RentalTestHelper.getMockRentalItem3();
         final Rental mockRental =
             RentalTestHelper.generateRental(RentalTestHelper.MOCK_ID1,
                 CustomerTestHelper.MOCK_CUSTOMER1,
@@ -230,34 +161,15 @@ class RentalRestControllerTest
             RentalTestHelper.generateInsertRentalRequestBody(mockRental.getCustomer().getId(), rentalItems);
         final String requestBody = generateRequestBody(mockRequestBody);
 
-        final RentalItemRest rentalItemRest1 =
-            RentalTestHelper.generateRentalItemRest(mockRentalItem1.getId(),
-                FilmTestHelper.MOCK_REGULAR_FILM_REST,
-                mockRentalItem1.getDaysrented(),
-                mockRentalItem1.getPrice(),
-                mockRentalItem1.getSurcharge(),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem1.getStartdatetime()),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem1.getEnddatetime()));
-        final RentalItemRest rentalItemRest2 =
-            RentalTestHelper.generateRentalItemRest(mockRentalItem2.getId(),
-                FilmTestHelper.MOCK_OLD_FILM_REST,
-                mockRentalItem2.getDaysrented(),
-                mockRentalItem2.getPrice(),
-                mockRentalItem2.getSurcharge(),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem2.getStartdatetime()),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem2.getEnddatetime()));
-        final RentalItemRest rentalItemRest3 =
-            RentalTestHelper.generateRentalItemRest(mockRentalItem3.getId(),
-                FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST,
-                mockRentalItem3.getDaysrented(),
-                mockRentalItem3.getPrice(),
-                mockRentalItem3.getSurcharge(),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem3.getStartdatetime()),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem3.getEnddatetime()));
-        final List<RentalItemRest> rentalItemsRest = Arrays.asList(rentalItemRest1, rentalItemRest2, rentalItemRest3);
+        final RentalItemRest rentalItemRest1 = RentalTestHelper.getMockRentalItemRest(mockRentalItem1, FilmTestHelper.MOCK_REGULAR_FILM_REST);
+        final RentalItemRest rentalItemRest2 = RentalTestHelper.getMockRentalItemRest(mockRentalItem2, FilmTestHelper.MOCK_OLD_FILM_REST);
+        final RentalItemRest rentalItemRest3 = RentalTestHelper.getMockRentalItemRest(mockRentalItem3, FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST);
         final RentalRest expectedRentalRest =
             RentalTestHelper.generateRentalRest(mockRental.getId(),
-                MappingTool.offsetDateTimeOrNull(mockRental.getStartdatetime()), BigDecimal.valueOf(200), BigDecimal.valueOf(0), rentalItemsRest);
+                MappingTool.offsetDateTimeOrNull(mockRental.getStartdatetime()),
+                BigDecimal.valueOf(200),
+                BigDecimal.valueOf(0),
+                Arrays.asList(rentalItemRest1, rentalItemRest2, rentalItemRest3));
         final String expectedContent = generateRequestBody(expectedRentalRest);
 
         // when
@@ -278,19 +190,11 @@ class RentalRestControllerTest
     {
         // given
         final long unknownCustomerId = RentalTestHelper.MOCK_UNKNOWN_ID;
-        final RentalItem mockRentalItem1 =
-            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID1,
-                FilmTestHelper.MOCK_REGULAR_FILM,
-                RentalTestHelper.MOCK_DAYS_RENTED1,
-                BigDecimal.valueOf(90),
-                BigDecimal.valueOf(0),
-                RentalTestHelper.MOCK_START_DATETIME1,
-                null);
+        final RentalItem mockRentalItem1 = RentalTestHelper.getMockRentalItem1();
         final InsertRentalItemRequestBody rentalItemRequestBody1 =
             RentalTestHelper.generateInsertRentalItemRequestBody(FilmTestHelper.MOCK_REGULAR_FILM.getId(), mockRentalItem1.getDaysrented());
-        final List<InsertRentalItemRequestBody> rentalItems = Collections.singletonList(rentalItemRequestBody1);
         final InsertRentalRequestBody mockRequestBody =
-            RentalTestHelper.generateInsertRentalRequestBody(unknownCustomerId, rentalItems);
+            RentalTestHelper.generateInsertRentalRequestBody(unknownCustomerId, Collections.singletonList(rentalItemRequestBody1));
         final String requestBody = generateRequestBody(mockRequestBody);
 
         doThrow(new VideoRentalStoreApiException(VideoRentalStoreApiError.UNKNOWN_RESOURCE,
@@ -317,22 +221,8 @@ class RentalRestControllerTest
     {
         // given
         final long unknownFilmId = RentalTestHelper.MOCK_UNKNOWN_ID;
-        final RentalItem mockRentalItem1 =
-            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID1,
-                FilmTestHelper.MOCK_REGULAR_FILM,
-                RentalTestHelper.MOCK_DAYS_RENTED1,
-                BigDecimal.valueOf(90),
-                BigDecimal.valueOf(0),
-                RentalTestHelper.MOCK_START_DATETIME1,
-                null);
-        final RentalItem mockRentalItem2 =
-            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID2,
-                FilmTestHelper.MOCK_OLD_FILM,
-                RentalTestHelper.MOCK_DAYS_RENTED2,
-                BigDecimal.valueOf(30),
-                BigDecimal.valueOf(0),
-                RentalTestHelper.MOCK_START_DATETIME1,
-                null);
+        final RentalItem mockRentalItem1 = RentalTestHelper.getMockRentalItem1();
+        final RentalItem mockRentalItem2 = RentalTestHelper.getMockRentalItem2();
         final Rental mockRental =
             RentalTestHelper.generateRental(RentalTestHelper.MOCK_ID1,
                 CustomerTestHelper.MOCK_CUSTOMER1,
@@ -414,8 +304,7 @@ class RentalRestControllerTest
         final InsertRentalItemRequestBody rentalItemRequestBody2 =
             RentalTestHelper.generateInsertRentalItemRequestBody(invalidFilmId, RentalTestHelper.MOCK_DAYS_RENTED2);
         final List<InsertRentalItemRequestBody> rentalItems = Arrays.asList(rentalItemRequestBody1, rentalItemRequestBody2);
-        final InsertRentalRequestBody parameter =
-            RentalTestHelper.generateInsertRentalRequestBody(RentalTestHelper.MOCK_ID1, rentalItems);
+        final InsertRentalRequestBody parameter = RentalTestHelper.generateInsertRentalRequestBody(RentalTestHelper.MOCK_ID1, rentalItems);
         final String requestBody = generateRequestBody(parameter);
 
         // when
@@ -459,37 +348,18 @@ class RentalRestControllerTest
     {
         // given
         final Customer mockCustomer = CustomerTestHelper.MOCK_CUSTOMER1;
-        final RentalItem mockRentalItem1 =
-            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID1,
-                FilmTestHelper.MOCK_REGULAR_FILM,
-                RentalTestHelper.MOCK_DAYS_RENTED1,
-                BigDecimal.valueOf(90),
-                BigDecimal.valueOf(0),
-                RentalTestHelper.MOCK_START_DATETIME1,
-                RentalTestHelper.MOCK_START_DATETIME1);
+        final RentalItem mockRentalItem1 = RentalTestHelper.getMockRentalItem1();
+        mockRentalItem1.setEnddatetime(RentalTestHelper.MOCK_START_DATETIME1);
         // old film with 3 days for rent
-        final RentalItem mockRentalItem2 =
-            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID2,
-                FilmTestHelper.MOCK_OLD_FILM,
-                RentalTestHelper.MOCK_DAYS_RENTED2,
-                BigDecimal.valueOf(30),
-                BigDecimal.valueOf(0),
-                RentalTestHelper.MOCK_START_DATETIME1,
-                null);
-        final RentalItem mockRentalItem3 =
-            RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID3,
-                FilmTestHelper.MOCK_NEW_RELEASE_FILM,
-                RentalTestHelper.MOCK_DAYS_RENTED3,
-                BigDecimal.valueOf(80),
-                BigDecimal.valueOf(40),
-                RentalTestHelper.MOCK_START_DATETIME1,
-                RentalTestHelper.MOCK_END_DATETIME1);
-        final List<RentalItem> mockRentalItems = Arrays.asList(mockRentalItem1, mockRentalItem2, mockRentalItem3);
+        final RentalItem mockRentalItem2 = RentalTestHelper.getMockRentalItem2();
+        final RentalItem mockRentalItem3 = RentalTestHelper.getMockRentalItem3();
+        mockRentalItem3.setEnddatetime(RentalTestHelper.MOCK_END_DATETIME1);
+        mockRentalItem3.setSurcharge(BigDecimal.valueOf(40));
         final Rental mockRental =
             RentalTestHelper.generateRental(RentalTestHelper.MOCK_ID1,
                 mockCustomer,
                 RentalTestHelper.MOCK_START_DATETIME1,
-                mockRentalItems);
+                Arrays.asList(mockRentalItem1, mockRentalItem2, mockRentalItem3));
 
         doReturn(mockRental).when(rentalService).patch(any(PatchRentalParameter.class));
 
@@ -497,30 +367,9 @@ class RentalRestControllerTest
         final PatchRentalRequestBody mockRequestBody = RentalTestHelper.generatePatchRentalRequestBody(mockItemsIds);
         final String requestBody = generateRequestBody(mockRequestBody);
 
-        final RentalItemRest rentalItemRest1 =
-            RentalTestHelper.generateRentalItemRest(mockRentalItem1.getId(),
-                FilmTestHelper.MOCK_REGULAR_FILM_REST,
-                mockRentalItem1.getDaysrented(),
-                mockRentalItem1.getPrice(),
-                mockRentalItem1.getSurcharge(),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem1.getStartdatetime()),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem1.getEnddatetime()));
-        final RentalItemRest rentalItemRest2 =
-            RentalTestHelper.generateRentalItemRest(mockRentalItem2.getId(),
-                FilmTestHelper.MOCK_OLD_FILM_REST,
-                mockRentalItem2.getDaysrented(),
-                mockRentalItem2.getPrice(),
-                mockRentalItem2.getSurcharge(),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem2.getStartdatetime()),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem2.getEnddatetime()));
-        final RentalItemRest rentalItemRest3 =
-            RentalTestHelper.generateRentalItemRest(mockRentalItem3.getId(),
-                FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST,
-                mockRentalItem3.getDaysrented(),
-                mockRentalItem3.getPrice(),
-                mockRentalItem3.getSurcharge(),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem3.getStartdatetime()),
-                MappingTool.offsetDateTimeOrNull(mockRentalItem3.getEnddatetime()));
+        final RentalItemRest rentalItemRest1 = RentalTestHelper.getMockRentalItemRest(mockRentalItem1, FilmTestHelper.MOCK_REGULAR_FILM_REST);
+        final RentalItemRest rentalItemRest2 = RentalTestHelper.getMockRentalItemRest(mockRentalItem2, FilmTestHelper.MOCK_OLD_FILM_REST);
+        final RentalItemRest rentalItemRest3 = RentalTestHelper.getMockRentalItemRest(mockRentalItem3, FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST);
         final List<RentalItemRest> rentalItemsRest = Arrays.asList(rentalItemRest1, rentalItemRest2, rentalItemRest3);
         final RentalRest expectedRentalRest =
             RentalTestHelper.generateRentalRest(mockRental.getId(),

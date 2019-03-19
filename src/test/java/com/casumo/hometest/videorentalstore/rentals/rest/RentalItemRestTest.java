@@ -22,7 +22,7 @@ class RentalItemRestTest
         // given
         final RentalItemRest mockRentalItemRest1 =
             RentalTestHelper.generateRentalItemRest(RentalTestHelper.MOCK_ID1,
-                FilmTestHelper.MOCK_FILM_REST1,
+                FilmTestHelper.MOCK_OLD_FILM_REST,
                 RentalTestHelper.MOCK_DAYS_RENTED1,
                 RentalTestHelper.MOCK_PRICE1,
                 RentalTestHelper.MOCK_SUBCHARGE1,
@@ -30,7 +30,7 @@ class RentalItemRestTest
                 MappingTool.offsetDateTimeOrNull(RentalTestHelper.MOCK_START_DATETIME1));
         final RentalItemRest mockRentalItemRest2 =
             RentalTestHelper.generateRentalItemRest(RentalTestHelper.MOCK_ID1,
-                FilmTestHelper.MOCK_FILM_REST1,
+                FilmTestHelper.MOCK_OLD_FILM_REST,
                 RentalTestHelper.MOCK_DAYS_RENTED1,
                 RentalTestHelper.MOCK_PRICE1,
                 RentalTestHelper.MOCK_SUBCHARGE1,

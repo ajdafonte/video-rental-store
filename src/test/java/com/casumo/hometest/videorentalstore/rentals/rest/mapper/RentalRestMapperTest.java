@@ -6,12 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
 import com.casumo.hometest.videorentalstore.common.infra.MappingTool;
+import com.casumo.hometest.videorentalstore.customers.CustomerTestHelper;
 import com.casumo.hometest.videorentalstore.rentals.RentalTestHelper;
 import com.casumo.hometest.videorentalstore.rentals.domain.Rental;
 import com.casumo.hometest.videorentalstore.rentals.domain.RentalItem;
@@ -29,7 +31,10 @@ class RentalRestMapperTest
     void givenValidRental_whenMapToRest_thenReturnRentalRestObject()
     {
         // given
-        final Rental mockRental = RentalTestHelper.MOCK_RENTAL2;
+        final Rental mockRental = RentalTestHelper.generateRental(RentalTestHelper.MOCK_ID1,
+            CustomerTestHelper.MOCK_CUSTOMER1,
+            RentalTestHelper.MOCK_START_DATETIME1,
+            Arrays.asList(RentalTestHelper.getMockRentalItem1(), RentalTestHelper.getMockRentalItem2()));
         final List<RentalItem> mockRentalItems = mockRental.getRentalItems();
         final List<RentalItemRest> expectedRentalItems = mockRentalItems.stream()
             .map(RentalItemRestMapper::map)

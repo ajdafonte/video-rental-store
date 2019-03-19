@@ -107,8 +107,8 @@ class FilmRestControllerTest
     void givenExistentId_whenGetFilmById_thenReturnExistentFilm() throws Exception
     {
         // given
-        final Film mockFilm = FilmTestHelper.MOCK_FILM1;
-        final FilmRest expectedFilm = FilmTestHelper.MOCK_FILM_REST1;
+        final Film mockFilm = FilmTestHelper.MOCK_OLD_FILM;
+        final FilmRest expectedFilm = FilmTestHelper.MOCK_OLD_FILM_REST;
         doReturn(mockFilm).when(filmService).findBy(anyLong());
         final String expectedContent = generateSuccessBody(expectedFilm);
 
@@ -166,11 +166,11 @@ class FilmRestControllerTest
     void givenValidRequest_whenInsertNewFilm_thenReturnNewFilm() throws Exception
     {
         // given
-        final Film newFilm = FilmTestHelper.MOCK_NEW_FILM;
+        final Film newFilm = FilmTestHelper.MOCK_NEW_RELEASE_FILM;
         doReturn(newFilm).when(filmService).insert(any(InsertFilmParameter.class));
         final InsertFilmRequestBody mockRequestBody = FilmTestHelper.MOCK_INSERT_REQ_BODY1;
         final String requestBody = generateRequestBody(mockRequestBody);
-        final FilmRest expectedResult = FilmTestHelper.MOCK_NEW_FILM_REST;
+        final FilmRest expectedResult = FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST;
         final String expectedContent = generateSuccessBody(expectedResult);
 
         // when

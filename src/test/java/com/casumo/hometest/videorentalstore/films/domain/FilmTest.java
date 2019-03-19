@@ -31,8 +31,8 @@ class FilmTest
     void givenTwoDifferentFilms_whenCheckIfEquals_thenBothFilmsMustNotBeEquals()
     {
         // given
-        final Film mockFilm1 = FilmTestHelper.MOCK_FILM1;
-        final Film mockFilm2 = FilmTestHelper.MOCK_FILM2;
+        final Film mockFilm1 = FilmTestHelper.MOCK_OLD_FILM;
+        final Film mockFilm2 = FilmTestHelper.MOCK_NEW_RELEASE_FILM;
 
         // when + then
         assertNotEquals(mockFilm1.hashCode(), mockFilm2.hashCode());
@@ -44,7 +44,7 @@ class FilmTest
     void givenFilm_whenCallToString_thenReturnExpectedValue()
     {
         // given
-        final Film mockFilm = FilmTestHelper.MOCK_FILM2;
+        final Film mockFilm = FilmTestHelper.MOCK_NEW_RELEASE_FILM;
         final String expected = "Film{" +
             "id=" + mockFilm.getId() +
             ", name='" + mockFilm.getName() + '\'' +

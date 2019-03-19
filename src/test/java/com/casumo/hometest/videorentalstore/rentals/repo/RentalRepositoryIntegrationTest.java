@@ -43,9 +43,6 @@ class RentalRepositoryIntegrationTest
     @Autowired
     private TestEntityManager entityManager;
 
-    private Film mockFilm1;
-    private Film mockFilm2;
-    private Film mockFilm3;
     private Customer mockCustomer1;
     private Customer mockCustomer2;
     private RentalItem mockRentalItem1;
@@ -68,9 +65,9 @@ class RentalRepositoryIntegrationTest
         entityManager.persist(oldFilmType);
 
         // film
-        mockFilm1 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_OLD_NAME, oldFilmType);
-        mockFilm2 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NEW_RELEASE_NAME, newReleaseFilmType);
-        mockFilm3 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_REGULAR_NAME, regularFilmType);
+        final Film mockFilm1 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_OLD_NAME, oldFilmType);
+        final Film mockFilm2 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_NEW_RELEASE_NAME, newReleaseFilmType);
+        final Film mockFilm3 = FilmTestHelper.generateFilm(FilmTestHelper.MOCK_REGULAR_NAME, regularFilmType);
         entityManager.persist(mockFilm1);
         entityManager.persist(mockFilm2);
         entityManager.persist(mockFilm3);

@@ -19,9 +19,9 @@ class FilmRestTest
     {
         // given
         final FilmRest mockFilmRest1 =
-            FilmTestHelper.generateFilmRest(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_FILM_TYPE_REST1);
+            FilmTestHelper.generateFilmRest(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_OLD_FILM_TYPE_REST);
         final FilmRest mockFilmRest2 =
-            FilmTestHelper.generateFilmRest(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_FILM_TYPE_REST1);
+            FilmTestHelper.generateFilmRest(FilmTestHelper.MOCK_ID1, FilmTestHelper.MOCK_OLD_NAME, FilmTestHelper.MOCK_OLD_FILM_TYPE_REST);
 
         // when + then
         assertEquals(mockFilmRest1.hashCode(), mockFilmRest2.hashCode());
@@ -33,8 +33,8 @@ class FilmRestTest
     void givenTwoDifferentFilmRest_whenCheckIfEquals_thenBothFilmRestMustNotBeEquals()
     {
         // given
-        final FilmRest mockFilmRest1 = FilmTestHelper.MOCK_FILM_REST1;
-        final FilmRest mockFilmRest2 = FilmTestHelper.MOCK_FILM_REST2;
+        final FilmRest mockFilmRest1 = FilmTestHelper.MOCK_OLD_FILM_REST;
+        final FilmRest mockFilmRest2 = FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST;
 
         // when + then
         assertNotEquals(mockFilmRest1.hashCode(), mockFilmRest2.hashCode());
@@ -46,7 +46,7 @@ class FilmRestTest
     void givenFilmRest_whenCallToString_thenReturnExpectedValue()
     {
         // given
-        final FilmRest mockFilmRest = FilmTestHelper.MOCK_FILM_REST2;
+        final FilmRest mockFilmRest = FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST;
         final String expected = "FilmRest{" +
             "id=" + mockFilmRest.getId() +
             ", name='" + mockFilmRest.getName() + '\'' +

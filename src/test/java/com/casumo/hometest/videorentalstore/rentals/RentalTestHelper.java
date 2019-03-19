@@ -56,22 +56,20 @@ public class RentalTestHelper
     public static final BigDecimal MOCK_TOTAL_SUBCHARGE1 = BigDecimal.valueOf(0);
     public static final BigDecimal MOCK_TOTAL_SUBCHARGE2 = BigDecimal.valueOf(30);
 
-    public static final RentalItem MOCK_RENTAL_ITEM1;
-    public static final RentalItem MOCK_RENTAL_ITEM2;
+//    public static final RentalItem MOCK_RENTAL_ITEM1;
+//    public static final RentalItem MOCK_RENTAL_ITEM2;
 
-    public static final List<RentalItem> MOCK_RENTAL_ITEMS1;
-    public static final List<RentalItem> MOCK_RENTAL_ITEMS2;
-
-    public static final Rental MOCK_RENTAL1;
-    public static final Rental MOCK_RENTAL2;
+//    public static final List<RentalItem> MOCK_RENTAL_ITEMS1;
+//    public static final List<RentalItem> MOCK_RENTAL_ITEMS2;
+//
+//    public static final Rental MOCK_RENTAL1;
+//    public static final Rental MOCK_RENTAL2;
 
     public static final RentalItemRest MOCK_RENTAL_ITEM_REST1;
     public static final RentalItemRest MOCK_RENTAL_ITEM_REST2;
-//    public static final RentalItemRest MOCK_RENTAL_ITEM_REST3;
-//    public static final RentalItemRest MOCK_RENTAL_ITEM_REST4;
 
-    public static final List<RentalItemRest> MOCK_RENTAL_ITEMS_REST1;
-    public static final List<RentalItemRest> MOCK_RENTAL_ITEMS_REST2;
+//    public static final List<RentalItemRest> MOCK_RENTAL_ITEMS_REST1;
+//    public static final List<RentalItemRest> MOCK_RENTAL_ITEMS_REST2;
 
     public static final RentalRest MOCK_RENTAL_REST1;
     public static final RentalRest MOCK_RENTAL_REST2;
@@ -90,84 +88,79 @@ public class RentalTestHelper
     public static final PatchRentalParameter MOCK_PATCH_RENTAL_PARAMETER1;
 
     // regular film with 5 days for rent
-    public static final RentalItem MOCK_NEW_RENTAL_ITEM1 =
-        generateRentalItem(MOCK_ID1, FilmTestHelper.MOCK_REGULAR_FILM, MOCK_DAYS_RENTED1, BigDecimal.valueOf(90),
-            BigDecimal.valueOf(0), MOCK_START_DATETIME1, null);
-    // old film with 3 days for rent
-    public static final RentalItem MOCK_NEW_RENTAL_ITEM2 =
-        generateRentalItem(MOCK_ID2, FilmTestHelper.MOCK_OLD_FILM, MOCK_DAYS_RENTED2, BigDecimal.valueOf(30),
-            BigDecimal.valueOf(0), MOCK_START_DATETIME1, null);
-    // new release film with 2 days for rent
-    public static final RentalItem MOCK_NEW_RENTAL_ITEM3 =
-        generateRentalItem(MOCK_ID3, FilmTestHelper.MOCK_NEW_RELEASE_FILM, MOCK_DAYS_RENTED3, BigDecimal.valueOf(80),
-            BigDecimal.valueOf(0), MOCK_START_DATETIME1, null);
-    public static final Rental MOCK_NEW_RENTAL1 =
-        generateRental(MOCK_ID1,
-            CustomerTestHelper.MOCK_CUSTOMER1,
-            MOCK_START_DATETIME1,
-            Arrays.asList(MOCK_NEW_RENTAL_ITEM1, MOCK_NEW_RENTAL_ITEM2, MOCK_NEW_RENTAL_ITEM3));
+//    public static final RentalItem MOCK_NEW_RENTAL_ITEM1 =
+//        generateRentalItem(MOCK_ID1, FilmTestHelper.MOCK_REGULAR_FILM, MOCK_DAYS_RENTED1, BigDecimal.valueOf(90),
+//            BigDecimal.valueOf(0), MOCK_START_DATETIME1, null);
+//    // old film with 3 days for rent
+//    public static final RentalItem MOCK_NEW_RENTAL_ITEM2 =
+//        generateRentalItem(MOCK_ID2, FilmTestHelper.MOCK_OLD_FILM, MOCK_DAYS_RENTED2, BigDecimal.valueOf(30),
+//            BigDecimal.valueOf(0), MOCK_START_DATETIME1, null);
+//    // new release film with 2 days for rent
+//    public static final RentalItem MOCK_NEW_RENTAL_ITEM3 =
+//        generateRentalItem(MOCK_ID3, FilmTestHelper.MOCK_NEW_RELEASE_FILM, MOCK_DAYS_RENTED3, BigDecimal.valueOf(80),
+//            BigDecimal.valueOf(0), MOCK_START_DATETIME1, null);
 
-    public static final RentalItem MOCK_PATCHED_RENTAL_ITEM1 =
-        generateRentalItem(MOCK_ID1, FilmTestHelper.MOCK_REGULAR_FILM, MOCK_DAYS_RENTED1, BigDecimal.valueOf(90),
-            BigDecimal.valueOf(0), MOCK_START_DATETIME1, MOCK_END_DATETIME1);
-    public static final RentalItem MOCK_PATCHED_RENTAL_ITEM3 =
-        generateRentalItem(MOCK_ID3, FilmTestHelper.MOCK_NEW_RELEASE_FILM, MOCK_DAYS_RENTED3, BigDecimal.valueOf(80),
-            BigDecimal.valueOf(40), MOCK_START_DATETIME1, MOCK_END_DATETIME1);
-    public static final Rental MOCK_PATCHED_RENTAL1 = generateRental(MOCK_ID1,
-        CustomerTestHelper.MOCK_CUSTOMER1,
-        MOCK_START_DATETIME1,
-        Arrays.asList(MOCK_PATCHED_RENTAL_ITEM1, MOCK_NEW_RENTAL_ITEM2, MOCK_PATCHED_RENTAL_ITEM3));
+//    public static final Rental MOCK_NEW_RENTAL1 =
+//        getMockRentalWithItems(Arrays.asList(getMockRentalItem1(), getMockRentalItem2(), getMockRentalItem3()));
 
-    public static final RentalItem MOCK_RETURNED_RENTAL_ITEM2 =
-        generateRentalItem(MOCK_ID2, FilmTestHelper.MOCK_OLD_FILM, MOCK_DAYS_RENTED2, BigDecimal.valueOf(30),
-            BigDecimal.valueOf(0), MOCK_START_DATETIME2, MOCK_END_DATETIME2);
-    public static final Rental MOCK_RENTAL_WITH_ITEM_RETURNED =
-        generateRental(MOCK_ID1,
-            CustomerTestHelper.MOCK_CUSTOMER1,
-            MOCK_START_DATETIME1,
-            Arrays.asList(MOCK_NEW_RENTAL_ITEM1, MOCK_RETURNED_RENTAL_ITEM2));
+    //    public static final RentalItem MOCK_PATCHED_RENTAL_ITEM1 =
+//        generateRentalItem(MOCK_ID1, FilmTestHelper.MOCK_REGULAR_FILM, MOCK_DAYS_RENTED1, BigDecimal.valueOf(90),
+//            BigDecimal.valueOf(0), MOCK_START_DATETIME1, MOCK_END_DATETIME1);
+//    public static final RentalItem MOCK_PATCHED_RENTAL_ITEM3 =
+//        generateRentalItem(MOCK_ID3, FilmTestHelper.MOCK_NEW_RELEASE_FILM, MOCK_DAYS_RENTED3, BigDecimal.valueOf(80),
+//            BigDecimal.valueOf(40), MOCK_START_DATETIME1, MOCK_END_DATETIME1);
+//    public static final Rental MOCK_PATCHED_RENTAL1 =
+//        getMockRentalWithItems(Arrays.asList(MOCK_PATCHED_RENTAL_ITEM1, getMockRentalItem2(), MOCK_PATCHED_RENTAL_ITEM3));
+
+    //    public static final RentalItem MOCK_RETURNED_RENTAL_ITEM2 =
+//        generateRentalItem(MOCK_ID2, FilmTestHelper.MOCK_OLD_FILM, MOCK_DAYS_RENTED2, BigDecimal.valueOf(30),
+//            BigDecimal.valueOf(0), MOCK_START_DATETIME2, MOCK_END_DATETIME2);
+//    public static final Rental MOCK_RENTAL_WITH_ITEM_RETURNED =
+//        getMockRentalWithItems(Arrays.asList(getMockRentalItem1(), MOCK_RETURNED_RENTAL_ITEM2));
 
     static
     {
         // domain objects
-        MOCK_RENTAL_ITEM1 =
-            generateRentalItem(MOCK_ID1, FilmTestHelper.MOCK_FILM1, MOCK_DAYS_RENTED1, MOCK_PRICE1, MOCK_SUBCHARGE1, MOCK_START_DATETIME1, null);
-        MOCK_RENTAL_ITEM2 =
-            generateRentalItem(MOCK_ID2, FilmTestHelper.MOCK_FILM2, MOCK_DAYS_RENTED2, MOCK_PRICE2, MOCK_SUBCHARGE2, MOCK_START_DATETIME2, null);
-//        MOCK_RENTAL_ITEM3 =;
-//        MOCK_RENTAL_ITEM4 =;
+//        MOCK_RENTAL_ITEM1 =
+//            generateRentalItem(MOCK_ID1, FilmTestHelper.MOCK_OLD_FILM, MOCK_DAYS_RENTED1, MOCK_PRICE1, MOCK_SUBCHARGE1, MOCK_START_DATETIME1, null);
+//        MOCK_RENTAL_ITEM2 =
+//            generateRentalItem(MOCK_ID2,
+//                FilmTestHelper.MOCK_NEW_RELEASE_FILM,
+//                MOCK_DAYS_RENTED2,
+//                MOCK_PRICE2,
+//                MOCK_SUBCHARGE2,
+//                MOCK_START_DATETIME2,
+//                null);
 
-        MOCK_RENTAL_ITEMS1 = Collections.singletonList(MOCK_RENTAL_ITEM1);
-        MOCK_RENTAL_ITEMS2 = Arrays.asList(MOCK_RENTAL_ITEM1, MOCK_RENTAL_ITEM2);
+//        MOCK_RENTAL_ITEMS1 = Collections.singletonList(MOCK_RENTAL_ITEM1);
+//        MOCK_RENTAL_ITEMS2 = Arrays.asList(MOCK_RENTAL_ITEM1, MOCK_RENTAL_ITEM2);
 
-        MOCK_RENTAL1 = generateRental(MOCK_ID1, CustomerTestHelper.MOCK_CUSTOMER1, MOCK_START_DATETIME1, MOCK_RENTAL_ITEMS1);
-        MOCK_RENTAL2 = generateRental(MOCK_ID2, CustomerTestHelper.MOCK_CUSTOMER2, MOCK_START_DATETIME2, MOCK_RENTAL_ITEMS2);
+//        MOCK_RENTAL1 = generateRental(MOCK_ID1, CustomerTestHelper.MOCK_CUSTOMER1, MOCK_START_DATETIME1, MOCK_RENTAL_ITEMS1);
+//        MOCK_RENTAL2 = generateRental(MOCK_ID2, CustomerTestHelper.MOCK_CUSTOMER2, MOCK_START_DATETIME2, MOCK_RENTAL_ITEMS2);
 
         /*
          * rest objects
          */
 
-        MOCK_RENTAL_ITEM_REST1 = generateRentalItemRest(MOCK_ID1, FilmTestHelper.MOCK_FILM_REST1, MOCK_DAYS_RENTED1, MOCK_PRICE1, MOCK_SUBCHARGE1,
+        MOCK_RENTAL_ITEM_REST1 = generateRentalItemRest(MOCK_ID1, FilmTestHelper.MOCK_OLD_FILM_REST, MOCK_DAYS_RENTED1, MOCK_PRICE1, MOCK_SUBCHARGE1,
             MappingTool.offsetDateTimeOrNull(MOCK_START_DATETIME1), null);
-        MOCK_RENTAL_ITEM_REST2 = generateRentalItemRest(MOCK_ID2, FilmTestHelper.MOCK_FILM_REST2, MOCK_DAYS_RENTED2, MOCK_PRICE2, MOCK_SUBCHARGE2,
-            MappingTool.offsetDateTimeOrNull(MOCK_START_DATETIME2), null);
+        MOCK_RENTAL_ITEM_REST2 =
+            generateRentalItemRest(MOCK_ID2, FilmTestHelper.MOCK_NEW_RELEASE_FILM_REST, MOCK_DAYS_RENTED2, MOCK_PRICE2, MOCK_SUBCHARGE2,
+                MappingTool.offsetDateTimeOrNull(MOCK_START_DATETIME2), null);
 
-//     MOCK_RENTAL_ITEM_REST3 = ;
-//     MOCK_RENTAL_ITEM_REST4 = ;
-
-        MOCK_RENTAL_ITEMS_REST1 = Collections.singletonList(MOCK_RENTAL_ITEM_REST1);
-        MOCK_RENTAL_ITEMS_REST2 = Arrays.asList(MOCK_RENTAL_ITEM_REST1, MOCK_RENTAL_ITEM_REST2);
+//        MOCK_RENTAL_ITEMS_REST1 =
+//        MOCK_RENTAL_ITEMS_REST2 = ;
 
         MOCK_RENTAL_REST1 = generateRentalRest(MOCK_ID1,
             MappingTool.offsetDateTimeOrNull(MOCK_START_DATETIME1),
             MOCK_TOTAL_PRICE1,
             MOCK_TOTAL_SUBCHARGE1,
-            MOCK_RENTAL_ITEMS_REST1);
+            Collections.singletonList(MOCK_RENTAL_ITEM_REST1));
         MOCK_RENTAL_REST2 = generateRentalRest(MOCK_ID2,
             MappingTool.offsetDateTimeOrNull(MOCK_START_DATETIME2),
             MOCK_TOTAL_PRICE2,
             MOCK_TOTAL_SUBCHARGE2,
-            MOCK_RENTAL_ITEMS_REST2);
+            Arrays.asList(MOCK_RENTAL_ITEM_REST1, MOCK_RENTAL_ITEM_REST2));
 
         ///////////////
         MOCK_INSERT_RENTAL_ITEM_REQUEST_BODY1 = generateInsertRentalItemRequestBody(MOCK_ID1, MOCK_DAYS_RENTED1);
@@ -223,7 +216,6 @@ public class RentalTestHelper
         rentalItem.setSurcharge(surcharge);
         rentalItem.setStartdatetime(startdatettime);
         rentalItem.setEnddatetime(enddatettime);
-//        rentalItem.setRental(rental);
         return rentalItem;
     }
 
@@ -239,7 +231,6 @@ public class RentalTestHelper
         rentalItem.setSurcharge(surcharge);
         rentalItem.setStartdatetime(startdatettime);
         rentalItem.setEnddatetime(enddatettime);
-//        rentalItem.setRental(rental);
         return rentalItem;
     }
 
@@ -323,6 +314,60 @@ public class RentalTestHelper
         final PatchRentalRequestBody requestBody = new PatchRentalRequestBody();
         requestBody.setRentalItemsToReturn(rentalItemsToReturn);
         return requestBody;
+    }
+
+    // mocked objects
+
+    // regular film rented by 5 days
+    public static RentalItem getMockRentalItem1()
+    {
+        return RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID1,
+            FilmTestHelper.MOCK_REGULAR_FILM,
+            RentalTestHelper.MOCK_DAYS_RENTED1,
+            BigDecimal.valueOf(90),
+            BigDecimal.valueOf(0),
+            RentalTestHelper.MOCK_START_DATETIME1,
+            null);
+    }
+
+    // old film with 3 days for rent
+    public static RentalItem getMockRentalItem2()
+    {
+        return RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID2,
+            FilmTestHelper.MOCK_OLD_FILM,
+            RentalTestHelper.MOCK_DAYS_RENTED2,
+            BigDecimal.valueOf(30),
+            BigDecimal.valueOf(0),
+            RentalTestHelper.MOCK_START_DATETIME1,
+            null);
+    }
+
+    // new film with 2 days for rent
+    public static RentalItem getMockRentalItem3()
+    {
+        return RentalTestHelper.generateRentalItem(RentalTestHelper.MOCK_ID3,
+            FilmTestHelper.MOCK_NEW_RELEASE_FILM,
+            RentalTestHelper.MOCK_DAYS_RENTED3,
+            BigDecimal.valueOf(80),
+            BigDecimal.valueOf(0),
+            RentalTestHelper.MOCK_START_DATETIME1,
+            null);
+    }
+
+    public static RentalItemRest getMockRentalItemRest(final RentalItem mockRentalItem, final FilmRest mockRegularFilmRest)
+    {
+        return RentalTestHelper.generateRentalItemRest(mockRentalItem.getId(),
+            mockRegularFilmRest,
+            mockRentalItem.getDaysrented(),
+            mockRentalItem.getPrice(),
+            mockRentalItem.getSurcharge(),
+            MappingTool.offsetDateTimeOrNull(mockRentalItem.getStartdatetime()),
+            MappingTool.offsetDateTimeOrNull(mockRentalItem.getEnddatetime()));
+    }
+
+    public static Rental getMockRentalWithItems(final List<RentalItem> rentalItems)
+    {
+        return generateRental(MOCK_ID1, CustomerTestHelper.MOCK_CUSTOMER1, MOCK_START_DATETIME1, rentalItems);
     }
 
 }
