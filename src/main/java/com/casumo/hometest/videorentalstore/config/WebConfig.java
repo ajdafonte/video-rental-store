@@ -12,19 +12,11 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 
 /**
- * Most configurations is done auto-magically through the spring boot auto configuration mechanisms.
- * <p>
- * The placeholder defined in the buildinfo.properties are usually replaced
+ * WebConfig class.
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer
 {
-//    @Override
-//    public void addFormatters(final FormatterRegistry registry)
-//    {
-//        registry.addConverter(new DateIntervalConverter());
-//    }
-
     @Override
     public void extendMessageConverters(final List<HttpMessageConverter<?>> converters)
     {

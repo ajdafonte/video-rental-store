@@ -9,7 +9,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 
 /**
- * DataSourceTestConfig class.
+ * DataSourceConfig class.
  */
 @Configuration
 public class DataSourceConfig

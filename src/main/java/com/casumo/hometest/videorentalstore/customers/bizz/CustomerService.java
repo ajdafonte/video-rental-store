@@ -22,8 +22,8 @@ public interface CustomerService
     Customer findBy(long id);
 
     /**
-     * @param customer
+     * @param parameter
      * @return
      */
-    Customer insert(Customer customer);
+    Customer insert(InsertCustomerParameter parameter);
 }

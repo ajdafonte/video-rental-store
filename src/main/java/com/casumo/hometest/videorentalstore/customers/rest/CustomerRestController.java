@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.casumo.hometest.videorentalstore.common.VideoRentalStoreApiConstants;
 import com.casumo.hometest.videorentalstore.customers.bizz.CustomerService;
 import com.casumo.hometest.videorentalstore.customers.rest.mapper.CustomerRestMapper;
+import com.casumo.hometest.videorentalstore.customers.rest.mapper.InsertCustomerParameterMapper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -70,16 +71,17 @@ public class CustomerRestController
     }
 
     @PostMapping
-    @ApiParam(value = "Insert a new customer in the system.")
+    @ApiOperation(value = "Insert a new customer in the system.")
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "A customer was created with success."),
         @ApiResponse(code = 400, message = "Bad Request."),
+        @ApiResponse(code = 409, message = "Conflict."),
     })
     @ResponseStatus(HttpStatus.CREATED)
     CustomerRest insertCustomer(@RequestBody
                                 @ApiParam(value = "Request body parameter to insert a new customer.", required = true)
                                 @Valid final InsertCustomerRequestBody requestBody)
     {
-        return CustomerRestMapper.map(customerService.insert(CustomerRestMapper.mapToBizz(requestBody)));
+        return CustomerRestMapper.map(customerService.insert(InsertCustomerParameterMapper.map(requestBody)));
     }
 }

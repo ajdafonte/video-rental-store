@@ -40,19 +40,19 @@ public class CustomerServiceImpl implements CustomerService
     }
 
     @Override
-    // TODO - Replace customer for InsertCustomerParameter
-    public Customer insert(final Customer customer)
+    public Customer insert(final InsertCustomerParameter parameter)
     {
-        final Customer insertedCustomer;
         try
         {
-            insertedCustomer = customerRepository.save(customer);
+            final Customer customerToInsert = new Customer();
+            customerToInsert.setUsername(parameter.getUsername());
+            customerToInsert.setEmail(parameter.getEmail());
+            return customerRepository.save(customerToInsert);
         }
         catch (final DataAccessException e)
         {
             throw new VideoRentalStoreApiException(VideoRentalStoreApiError.RESOURCE_ALREADY_EXISTS,
-                "Already exists a customer with name: " + customer.getUsername());
+                "Already exists a customer with name: " + parameter.getUsername());
         }
-        return insertedCustomer;
     }
 }

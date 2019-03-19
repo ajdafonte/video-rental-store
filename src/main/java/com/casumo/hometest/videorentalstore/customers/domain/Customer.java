@@ -29,6 +29,7 @@ public class Customer
     private String username;
 
     private String email;
+
     private long bonuspoints;
 
     public long getId()

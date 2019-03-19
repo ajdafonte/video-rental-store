@@ -130,11 +130,12 @@ class CustomerServiceTest
     void givenValidParameter_whenInsertCustomer_thenReturnCustomerInserted()
     {
         // given
-        final Customer expected = CustomerTestHelper.MOCK_CUSTOMER1;
+        final Customer expected = CustomerTestHelper.generateCustomer(CustomerTestHelper.MOCK_USERNAME1, CustomerTestHelper.MOCK_EMAIL1, 0);
+        final InsertCustomerParameter mockParameter = CustomerTestHelper.generateInsertCustomerParameter(expected.getUsername(), expected.getEmail());
         when(customerRepository.save(any(Customer.class))).thenReturn(expected);
 
         // when
-        final Customer result = customerService.insert(expected);
+        final Customer result = customerService.insert(mockParameter);
 
         // then
         assertNotNull(result);
@@ -152,11 +153,13 @@ class CustomerServiceTest
     void givenParameterWithExistentCustomerName_whenInsertCustomer_thenThrowSpecificException()
     {
         // given
-        final Customer mockCustomer = CustomerTestHelper.MOCK_CUSTOMER2;
+        final Customer mockCustomer = CustomerTestHelper.generateCustomer(CustomerTestHelper.MOCK_USERNAME2, CustomerTestHelper.MOCK_EMAIL2, 0);
+        final InsertCustomerParameter mockParameter =
+            CustomerTestHelper.generateInsertCustomerParameter(mockCustomer.getUsername(), mockCustomer.getEmail());
         when(customerRepository.save(any(Customer.class))).thenThrow(VideoRentalStoreApiException.class);
 
         // when + then
-        assertThrows(VideoRentalStoreApiException.class, () -> customerService.insert(mockCustomer));
+        assertThrows(VideoRentalStoreApiException.class, () -> customerService.insert(mockParameter));
         verify(customerRepository, times(1)).save(mockCustomer);
         verify(customerRepository, times(0)).findById(anyLong());
         verifyNoMoreInteractions(customerRepository);

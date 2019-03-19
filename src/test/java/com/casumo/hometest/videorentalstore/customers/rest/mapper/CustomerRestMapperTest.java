@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import com.casumo.hometest.videorentalstore.customers.CustomerTestHelper;
 import com.casumo.hometest.videorentalstore.customers.domain.Customer;
 import com.casumo.hometest.videorentalstore.customers.rest.CustomerRest;
-import com.casumo.hometest.videorentalstore.customers.rest.InsertCustomerRequestBody;
 
 
 /**
@@ -42,29 +41,5 @@ class CustomerRestMapperTest
     {
         // given + when + then
         assertNull(CustomerRestMapper.map(null));
-    }
-
-    // mapToBizz - ok
-    @Test
-    void givenValidInsertCustomerRequestBody_whenMapToBizz_thenReturnCustomerObject()
-    {
-        // given
-        final InsertCustomerRequestBody mockRequestBody = CustomerTestHelper.MOCK_INSERT_REQ_BODY1;
-
-        // when
-        final Customer result = CustomerRestMapper.mapToBizz(mockRequestBody);
-
-        // then
-        assertNotNull(result);
-        assertThat(result.getUsername(), is(mockRequestBody.getUsername()));
-        assertThat(result.getEmail(), is(mockRequestBody.getEmail()));
-    }
-
-    // mapToBizz - null
-    @Test
-    void givenNullInsertCustomerRequestBody_whenMapToBizz_thenReturnNullValue()
-    {
-        // given + when + then
-        assertNull(CustomerRestMapper.mapToBizz(null));
     }
 }

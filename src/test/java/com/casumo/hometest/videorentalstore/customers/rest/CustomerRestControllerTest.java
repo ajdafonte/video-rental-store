@@ -31,6 +31,7 @@ import com.casumo.hometest.videorentalstore.common.error.VideoRentalStoreApiErro
 import com.casumo.hometest.videorentalstore.common.error.VideoRentalStoreApiException;
 import com.casumo.hometest.videorentalstore.customers.CustomerTestHelper;
 import com.casumo.hometest.videorentalstore.customers.bizz.CustomerService;
+import com.casumo.hometest.videorentalstore.customers.bizz.InsertCustomerParameter;
 import com.casumo.hometest.videorentalstore.customers.domain.Customer;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -164,7 +165,7 @@ class CustomerRestControllerTest
     {
         // given
         final Customer newCustomer = CustomerTestHelper.MOCK_NEW_CUSTOMER;
-        doReturn(newCustomer).when(customerService).insert(any(Customer.class));
+        doReturn(newCustomer).when(customerService).insert(any(InsertCustomerParameter.class));
         final InsertCustomerRequestBody mockRequestBody = CustomerTestHelper.MOCK_INSERT_REQ_BODY1;
         final String requestBody = generateRequestBody(mockRequestBody);
         final CustomerRest expectedResult = CustomerTestHelper.MOCK_NEW_CUSTOMER_REST;
@@ -178,7 +179,7 @@ class CustomerRestControllerTest
         // then
         result.andExpect(MockMvcResultMatchers.status().isCreated());
         result.andExpect(MockMvcResultMatchers.content().string(expectedContent));
-        verify(customerService, times(1)).insert(any(Customer.class));
+        verify(customerService, times(1)).insert(any(InsertCustomerParameter.class));
         verifyNoMoreInteractions(customerService);
     }
 
@@ -248,7 +249,7 @@ class CustomerRestControllerTest
         doThrow(new VideoRentalStoreApiException(VideoRentalStoreApiError.RESOURCE_ALREADY_EXISTS,
             "Violation of primary key or unique constraint."))
             .when(customerService)
-            .insert(any(Customer.class));
+            .insert(any(InsertCustomerParameter.class));
 
         // when
         final ResultActions result = mvc.perform(post(CUSTOMERS_URI)
@@ -258,7 +259,7 @@ class CustomerRestControllerTest
         // then
         result.andExpect(MockMvcResultMatchers.status().isConflict());
         result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(RESOURCE_ALREADY_EXISTS)));
-        verify(customerService, times(1)).insert(any(Customer.class));
+        verify(customerService, times(1)).insert(any(InsertCustomerParameter.class));
         verify(customerService, times(0)).findBy(anyLong());
         verifyNoMoreInteractions(customerService);
     }

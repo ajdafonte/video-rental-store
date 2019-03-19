@@ -1,5 +1,6 @@
 package com.casumo.hometest.videorentalstore.customers;
 
+import com.casumo.hometest.videorentalstore.customers.bizz.InsertCustomerParameter;
 import com.casumo.hometest.videorentalstore.customers.domain.Customer;
 import com.casumo.hometest.videorentalstore.customers.rest.CustomerRest;
 import com.casumo.hometest.videorentalstore.customers.rest.InsertCustomerRequestBody;
@@ -31,6 +32,7 @@ public class CustomerTestHelper
     public static final Customer MOCK_NEW_CUSTOMER;
     public static final CustomerRest MOCK_NEW_CUSTOMER_REST;
     public static final InsertCustomerRequestBody MOCK_INSERT_REQ_BODY1;
+    public static final InsertCustomerParameter MOCK_INSERT_PARAMETER1;
 
     static
     {
@@ -45,6 +47,7 @@ public class CustomerTestHelper
             generateCustomerRest(MOCK_NEW_CUSTOMER_ID, MOCK_NEW_CUSTOMER_USERNAME, MOCK_NEW_CUSTOMER_EMAIL, MOCK_NEW_CUSTOMER_BONUSPOINTS);
 
         MOCK_INSERT_REQ_BODY1 = generateInsertCustomerRequestBody(MOCK_NEW_CUSTOMER_USERNAME, MOCK_NEW_CUSTOMER_EMAIL);
+        MOCK_INSERT_PARAMETER1 = generateInsertCustomerParameter(MOCK_NEW_CUSTOMER_USERNAME, MOCK_NEW_CUSTOMER_EMAIL);
     }
 
     public static Customer generateCustomer(final long id, final String username, final String email, final long bonuspoints)
@@ -89,6 +92,14 @@ public class CustomerTestHelper
         final InsertCustomerRequestBody requestBody = new InsertCustomerRequestBody();
         requestBody.setUsername(username);
         return requestBody;
+    }
+
+    public static InsertCustomerParameter generateInsertCustomerParameter(final String username, final String email)
+    {
+        final InsertCustomerParameter parameter = new InsertCustomerParameter();
+        parameter.setUsername(username);
+        parameter.setEmail(email);
+        return parameter;
     }
 
 }
