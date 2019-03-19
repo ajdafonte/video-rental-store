@@ -58,12 +58,12 @@ class RentalServiceTest
     @Mock
     private FilmRepository filmRepository;
 
-    private RentalService rentalService;
+    private RentalServiceImpl rentalService;
 
     @BeforeEach
     void setUp()
     {
-        this.rentalService = new RentalService(rentalRepository, customerRepository, filmRepository);
+        this.rentalService = new RentalServiceImpl(rentalRepository, customerRepository, filmRepository);
     }
 
     // getRentals - with data

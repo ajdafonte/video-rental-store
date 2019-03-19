@@ -16,21 +16,8 @@ public class FilmTypeRestMapper
             final FilmTypeRest filmTypeRest = new FilmTypeRest();
             filmTypeRest.setId(filmType.getId());
             filmTypeRest.setName(filmType.getName());
-//            filmTypeRest.setPrice(PriceRestMapper.map(filmType.getPrice()));
             return filmTypeRest;
         }
         return null;
     }
-
-//    public static FilmType mapToBizz(final InsertFilmRequestBody parameterRest)
-//    {
-//        if (parameterRest != null)
-//        {
-//            final Film film = new Film();
-//            film.setName(parameterRest.getName());
-//            film.setType(FilmTypeRestMapper.mapToBizz(parameterRest.getFilmTypeId()));
-//            return film;
-//        }
-//        return null;
-//    }
 }

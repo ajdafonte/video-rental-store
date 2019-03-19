@@ -15,7 +15,7 @@ public class InsertRentalItemParameter
     {
     }
 
-    public long getFilmId()
+    long getFilmId()
     {
         return filmId;
     }
@@ -25,7 +25,7 @@ public class InsertRentalItemParameter
         this.filmId = filmId;
     }
 
-    public int getDaysToRent()
+    int getDaysToRent()
     {
         return daysToRent;
     }

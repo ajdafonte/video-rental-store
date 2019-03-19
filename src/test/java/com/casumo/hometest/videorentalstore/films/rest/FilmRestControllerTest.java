@@ -273,7 +273,7 @@ class FilmRestControllerTest
         final InsertFilmRequestBody parameter = FilmTestHelper.MOCK_INSERT_REQ_BODY1;
         final String requestBody = generateRequestBody(parameter);
         doThrow(new VideoRentalStoreApiException(VideoRentalStoreApiError.UNKNOWN_RESOURCE,
-            "Violation of primary key or unique constraint."))
+            "FilmType with id " + parameter.getFilmTypeId() + " was not found."))
             .when(filmService)
             .insert(any(InsertFilmParameter.class));
 
@@ -285,6 +285,8 @@ class FilmRestControllerTest
         // then
         result.andExpect(MockMvcResultMatchers.status().isNotFound());
         result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(UNKNOWN_RESOURCE)));
+        result.andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString(
+            "FilmType with id " + parameter.getFilmTypeId() + " was not found.")));
         verify(filmService, times(1)).insert(any(InsertFilmParameter.class));
         verifyNoMoreInteractions(filmService);
     }

@@ -79,6 +79,7 @@ public class FilmRestController
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "A new film was created with success."),
         @ApiResponse(code = 400, message = "Bad Request."),
+        @ApiResponse(code = 409, message = "Conflict."),
     })
     @ResponseStatus(HttpStatus.CREATED)
     FilmRest insertFilm(@RequestBody

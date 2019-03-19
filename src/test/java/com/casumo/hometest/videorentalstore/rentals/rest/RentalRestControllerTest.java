@@ -37,7 +37,7 @@ import com.casumo.hometest.videorentalstore.films.FilmTestHelper;
 import com.casumo.hometest.videorentalstore.rentals.RentalTestHelper;
 import com.casumo.hometest.videorentalstore.rentals.bizz.InsertRentalParameter;
 import com.casumo.hometest.videorentalstore.rentals.bizz.PatchRentalParameter;
-import com.casumo.hometest.videorentalstore.rentals.bizz.RentalService;
+import com.casumo.hometest.videorentalstore.rentals.bizz.RentalServiceImpl;
 import com.casumo.hometest.videorentalstore.rentals.domain.Rental;
 import com.casumo.hometest.videorentalstore.rentals.domain.RentalItem;
 import com.fatboyindustrial.gsonjavatime.Converters;
@@ -65,7 +65,7 @@ class RentalRestControllerTest
     private MockMvc mvc;
 
     @MockBean
-    private RentalService rentalService;
+    private RentalServiceImpl rentalService;
 
     // get all rentals - ok
     @Test

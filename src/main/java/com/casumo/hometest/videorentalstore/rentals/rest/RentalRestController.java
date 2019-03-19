@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.casumo.hometest.videorentalstore.common.VideoRentalStoreApiConstants;
-import com.casumo.hometest.videorentalstore.rentals.bizz.RentalService;
+import com.casumo.hometest.videorentalstore.rentals.bizz.RentalServiceImpl;
 import com.casumo.hometest.videorentalstore.rentals.rest.mapper.InsertRentalParameterMapper;
 import com.casumo.hometest.videorentalstore.rentals.rest.mapper.PatchRentalParameterMapper;
 import com.casumo.hometest.videorentalstore.rentals.rest.mapper.RentalRestMapper;
@@ -45,10 +45,10 @@ public class RentalRestController
 {
     private static final Logger LOG = LoggerFactory.getLogger(RentalRestController.class);
 
-    private final RentalService rentalService;
+    private final RentalServiceImpl rentalService;
 
     @Autowired
-    public RentalRestController(final RentalService rentalService)
+    public RentalRestController(final RentalServiceImpl rentalService)
     {
         this.rentalService = rentalService;
     }
@@ -69,6 +69,7 @@ public class RentalRestController
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "A new rental was created with success."),
         @ApiResponse(code = 400, message = "Bad Request."),
+        @ApiResponse(code = 404, message = "Resource not found.")
     })
     @ResponseStatus(HttpStatus.CREATED)
     RentalRest insertRental(@RequestBody
@@ -83,6 +84,7 @@ public class RentalRestController
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "The patch of the rental was performed successfully. All rental items were returned from rental."),
         @ApiResponse(code = 400, message = "Bad Request."),
+        @ApiResponse(code = 404, message = "Resource not found."),
         @ApiResponse(code = 409, message = "Conflict.")
     })
     @ResponseStatus(HttpStatus.OK)

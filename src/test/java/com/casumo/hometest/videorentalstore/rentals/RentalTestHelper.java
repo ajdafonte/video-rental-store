@@ -246,14 +246,14 @@ public class RentalTestHelper
     public static RentalRest generateRentalRest(final long id,
                                                 final OffsetDateTime startdatetime,
                                                 final BigDecimal totalPrice,
-                                                final BigDecimal totalSubcharge,
+                                                final BigDecimal totalSurcharge,
                                                 final List<RentalItemRest> rentalItemsRest)
     {
         final RentalRest rentalRest = new RentalRest();
         rentalRest.setId(id);
         rentalRest.setStartDateTime(startdatetime);
         rentalRest.setTotalPrice(totalPrice);
-        rentalRest.setTotalSurcharge(totalSubcharge);
+        rentalRest.setTotalSurcharge(totalSurcharge);
         rentalRest.setRentalItems(rentalItemsRest);
         return rentalRest;
     }

@@ -53,12 +53,13 @@ public class FilmServiceImpl implements FilmService
         {
             throw new VideoRentalStoreApiException(
                 VideoRentalStoreApiError.UNKNOWN_RESOURCE,
-                "FilmType was not found.");
+                "FilmType with id " + parameter.getFilmTypeId() + " was not found.");
         }
 
         final Film toInsert = new Film();
         toInsert.setName(parameter.getName());
         toInsert.setType(filmType.get());
+
         try
         {
             return filmRepository.save(toInsert);

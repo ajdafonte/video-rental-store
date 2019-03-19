@@ -30,13 +30,13 @@ public class RentalRestMapper
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.valueOf(0));
 
-            final BigDecimal totalSubcharge = rentalItems.stream()
+            final BigDecimal totalSurcharge = rentalItems.stream()
                 .map(RentalItem::getSurcharge)
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.valueOf(0));
 
             rentalItemRest.setTotalPrice(totalPrice);
-            rentalItemRest.setTotalSurcharge(totalSubcharge);
+            rentalItemRest.setTotalSurcharge(totalSurcharge);
             rentalItemRest.setRentalItems(
                 rentalItems.stream()
                     .map(RentalItemRestMapper::map).collect(Collectors.toList()));

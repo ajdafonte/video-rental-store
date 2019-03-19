@@ -21,17 +21,4 @@ public class FilmRestMapper
         }
         return null;
     }
-
-//    public static Film mapToBizz(final InsertFilmRequestBody parameterRest)
-//    {
-//        if (parameterRest != null)
-//        {
-//            final Film film = new Film();
-//            film.setName(parameterRest.getName());
-//            film.setType(FilmTypeRestMapper.mapToBizz(parameterRest.getFilmTypeId()));
-//            return film;
-//        }
-//        return null;
-//    }
-
 }
